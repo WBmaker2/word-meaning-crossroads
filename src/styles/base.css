@@ -1,0 +1,139 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: var(--paper);
+}
+
+button,
+a {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.app-shell {
+  min-height: 100vh;
+}
+
+.skip-link {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 1;
+  padding: 0.65rem 0.9rem;
+  color: var(--ink);
+  background: var(--sun);
+  border-radius: 999px;
+  transform: translateY(-180%);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+.site-header,
+.main-content {
+  width: min(100% - 2rem, 56rem);
+  margin-inline: auto;
+}
+
+.site-header {
+  position: relative;
+  padding: 2rem 0 1.25rem;
+  border-bottom: 2px solid var(--line);
+}
+
+.eyebrow,
+.route-marker {
+  margin: 0;
+  color: var(--warm-dark);
+  font-weight: 800;
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 0;
+  font-size: clamp(1.8rem, 5vw, 2.75rem);
+  letter-spacing: -0.04em;
+}
+
+.history-button {
+  position: absolute;
+  right: 0;
+  bottom: 1.25rem;
+  padding: 0.55rem 0.85rem;
+  color: var(--warm-dark);
+  background: var(--card);
+  border: 1px solid var(--warm);
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.history-button:hover,
+.history-button:focus-visible {
+  color: var(--card);
+  background: var(--warm);
+}
+
+.main-content {
+  padding: 3rem 0;
+}
+
+.welcome-card {
+  max-width: 42rem;
+  padding: clamp(1.5rem, 5vw, 3rem);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 1.5rem;
+  box-shadow: 0 0.75rem 0 #f2e7d5;
+}
+
+.route-marker {
+  margin-bottom: 1rem;
+  color: var(--warm);
+  font-size: 2rem;
+}
+
+h2 {
+  margin-bottom: 0.75rem;
+  font-size: clamp(1.45rem, 4vw, 2rem);
+}
+
+.welcome-card p:last-child {
+  margin-bottom: 0;
+  color: var(--muted-ink);
+  line-height: 1.7;
+}
+
+:focus-visible {
+  outline: 3px solid var(--warm);
+  outline-offset: 3px;
+}
+
+@media (max-width: 480px) {
+  .site-header {
+    padding-top: 1.5rem;
+  }
+
+  .history-button {
+    position: static;
+    margin-top: 1rem;
+  }
+
+  .main-content {
+    padding-top: 2rem;
+  }
+}

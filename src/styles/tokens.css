@@ -1,0 +1,14 @@
+:root {
+  font-family: 'Nunito', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  color: #2f2a24;
+  background: #fffaf0;
+  font-synthesis: none;
+  --paper: #fffaf0;
+  --ink: #2f2a24;
+  --muted-ink: #6c6259;
+  --warm: #c95c3d;
+  --warm-dark: #8e3f2c;
+  --sun: #f5c96a;
+  --line: #e7dcca;
+  --card: #fffdf8;
+}
