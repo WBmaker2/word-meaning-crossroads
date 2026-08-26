@@ -1,12 +1,15 @@
 import type {
+  ContextScene,
   CueNecessityDecision,
   MeaningDecisionId,
   RepairSolutionId,
   RouteId,
   SceneId,
   TokenId,
+  WordPack,
   WordId,
 } from './contentTypes'
+import type { Dispatch } from 'react'
 
 export type SessionPhase =
   | 'entrance'
@@ -146,4 +149,13 @@ export interface ExplorationRecord {
   readonly routeLabel: '기본 길 4개' | '확장 길 4개' | '전체 길 8개'
   readonly words: readonly WordExplorationRecord[]
   readonly evidence: CompletedEvidence
+}
+
+export interface UseMissionSessionResult {
+  readonly state: SessionState
+  readonly currentWordPack: WordPack | null
+  readonly currentScene: ContextScene | null
+  readonly record: ExplorationRecord | null
+  readonly feedback: SessionFeedback | null
+  readonly dispatch: Dispatch<SessionAction>
 }
