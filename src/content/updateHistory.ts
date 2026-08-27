@@ -25,4 +25,9 @@ export const UPDATE_HISTORY = [
     category: '개선',
     detail: '스크린 리더 의미 구조와 단일 판정 알림을 자동 검증하고 실제 VoiceOver 검수는 별도로 남김',
   },
+  {
+    date: '2026-08-27',
+    category: '개선',
+    detail: '뜻을 고르기 전 화면의 내부 식별자를 의미 중립적인 순서값으로 바꾸어 뜻이 미리 드러나지 않게 개선',
+  },
 ] as const satisfies readonly UpdateHistoryEntry[]

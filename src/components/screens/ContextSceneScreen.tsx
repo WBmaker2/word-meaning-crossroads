@@ -77,8 +77,8 @@ export function ContextSceneScreen({
         <NeutralCrossroadsIllustration illustrationId={scene.illustrationId} wordId={scene.wordId} />
       </div>
       <div className="context-sentence" data-testid="context-sentence">
-        {scene.sentences.map((sentence) => (
-          <p key={sentence.id} data-sentence-id={sentence.id}>
+        {scene.sentences.map((sentence, sentenceIndex) => (
+          <p key={sentence.id} data-sentence-order={sentenceIndex + 1}>
             {sentence.tokens.map((token) => {
               const tokenContent = token.role === 'target' ? (
                 <mark role="group" aria-label={`${token.text}, 목표 낱말`}>

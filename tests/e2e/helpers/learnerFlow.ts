@@ -33,15 +33,27 @@ function quoteRegExp(value: string): RegExp {
   return new RegExp(value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
 }
 
+export type PreMeaningPhase = 'context' | 'clue'
+export type PreMeaningObserver = (page: Page, phase: PreMeaningPhase) => Promise<void>
+
+function sceneOrder(sceneId: SceneId): 1 | 2 | 3 {
+  const order = Number(sceneId.slice(-2))
+  if (order !== 1 && order !== 2 && order !== 3) throw new Error(`Unsupported scene order in ${sceneId}`)
+  return order
+}
+
 export async function startRoute(page: Page, routeId: RouteId): Promise<void> {
   await page.getByRole('button', { name: ROUTE_LABELS[routeId], exact: true }).click()
 }
 
-export async function completeScene(page: Page, sceneId: SceneId): Promise<void> {
+export async function completeScene(page: Page, sceneId: SceneId, observe?: PreMeaningObserver): Promise<void> {
   const answer = FLOW_ANSWERS.scenes[sceneId]
-  await expect(page.locator(`[data-sentence-id="${sceneId}:s1"]`)).toBeVisible()
+  await expect(page.locator(`[data-context-order="${sceneOrder(sceneId)}"] [data-sentence-order="1"]`)).toBeVisible()
+  await observe?.(page, 'context')
   await page.getByRole('textbox', { name: /처음에는 어떤 뜻/ }).fill(answer.prediction)
   await page.getByRole('button', { name: /단서 찾기/ }).click()
+  await expect(page.locator('section.clue-card')).toBeVisible()
+  await observe?.(page, 'clue')
   if (answer.clue.kind === 'insufficient') {
     await page.getByRole('button', { name: /결정 단서가 없어요/ }).click()
   } else {
@@ -54,15 +66,15 @@ export async function completeScene(page: Page, sceneId: SceneId): Promise<void>
   await page.getByRole('button', { name: '선택한 뜻 결정하기', exact: true }).click()
 }
 
-export async function completeWord(page: Page, wordId: WordId): Promise<void> {
+export async function completeWord(page: Page, wordId: WordId, observe?: PreMeaningObserver): Promise<void> {
   const sceneIds = SCENES_BY_WORD[wordId]
-  await completeScene(page, sceneIds[0])
-  await completeScene(page, sceneIds[1])
+  await completeScene(page, sceneIds[0], observe)
+  await completeScene(page, sceneIds[1], observe)
   await page.getByRole('button', { name: '단서 하나 가리기', exact: true }).click()
   const necessity = FLOW_ANSWERS.words[wordId].necessityDecision
   await page.getByRole('radio', { name: necessity === 'still-clear' ? '여전히 분명해요' : '판단하기 어려워졌어요', exact: true }).check()
   await page.getByRole('button', { name: '판단 확인하기', exact: true }).click()
-  await completeScene(page, sceneIds[2])
+  await completeScene(page, sceneIds[2], observe)
   await page.getByRole('radio', { name: new RegExp(REPAIR_LABELS[FLOW_ANSWERS.words[wordId].repairSolutionId]) }).check()
   await page.getByRole('button', { name: '문장을 분명하게 만들기', exact: true }).click()
 }

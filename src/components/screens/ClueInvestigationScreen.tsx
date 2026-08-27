@@ -93,7 +93,7 @@ export function ClueInvestigationScreen({
   const hasDecision = insufficient || selectedTokenIds.length > 0
 
   return (
-    <section className="clue-card" aria-labelledby="clue-title">
+    <section className="clue-card" aria-labelledby="clue-title" data-context-order={scene.order}>
       <p className="scene-kicker">단서 조사</p>
       <FocusHeading level={2} focusKey={scene.id} focusOnMount id="clue-title">
         문장에서 뜻을 알려 주는 단서를 골라 보아요
@@ -101,12 +101,12 @@ export function ClueInvestigationScreen({
       <p id="clue-help">목표 낱말을 빼고, 뜻을 결정하는 데 도움이 되는 어절을 최대 두 개 골라요.</p>
 
       <div className="clue-sentence" data-testid="clue-sentence" aria-describedby="clue-help">
-        {scene.sentences.map((sentence) => (
-          <p key={sentence.id} data-sentence-id={sentence.id}>
+        {scene.sentences.map((sentence, sentenceIndex) => (
+          <p key={sentence.id} data-sentence-order={sentenceIndex + 1}>
             {sentence.tokens.map((token) => (
               <span data-testid="clue-token" key={token.id}>
                 {token.role === 'target' ? (
-                  <mark role="group" data-testid={`target-token-${token.id}`} aria-label={`${token.text}, 목표 낱말`}>
+                  <mark role="group" data-testid="target-token" aria-label={`${token.text}, 목표 낱말`}>
                     <span className="token-label">낱말</span>{' '}
                     {token.text}
                   </mark>

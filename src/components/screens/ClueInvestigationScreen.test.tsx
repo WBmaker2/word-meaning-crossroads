@@ -34,9 +34,24 @@ describe('ClueInvestigationScreen', () => {
       clearScene.sentences.flatMap((sentence) => sentence.tokens).map((token) => token.text),
     )
     const target = clearScene.sentences[0].tokens.find((token) => token.role === 'target')!
-    expect(screen.getByTestId(`target-token-${target.id}`)).toHaveTextContent(target.text)
-    expect(screen.getByTestId(`target-token-${target.id}`)).toHaveAccessibleName(`${target.text}, 목표 낱말`)
+    expect(screen.getByTestId('target-token')).toHaveTextContent(target.text)
+    expect(screen.getByTestId('target-token')).toHaveAccessibleName(`${target.text}, 목표 낱말`)
+    expect(screen.queryByTestId(`target-token-${target.id}`)).not.toBeInTheDocument()
+    expect(sentence.querySelectorAll('[data-sentence-id]')).toHaveLength(0)
+    expect(sentence.querySelectorAll('[data-sentence-order]')).toHaveLength(clearScene.sentences.length)
+    expect(sentence.closest('section')).toHaveAttribute('data-context-order', String(clearScene.order))
     expect(screen.queryByRole('button', { name: new RegExp(target.text) })).not.toBeInTheDocument()
+  })
+
+  it('uses only meaning-neutral context and target hooks', () => {
+    renderScreen()
+
+    const clue = screen.getByTestId('clue-sentence').closest('section')
+    expect(clue).toHaveAttribute('data-context-order', '1')
+    expect(clue).not.toHaveAttribute('data-scene-id')
+    expect(clue?.querySelector('[data-sentence-id]')).toBeNull()
+    expect(clue?.querySelector('[data-testid^="target-token-"]')).toBeNull()
+    expect(clue?.querySelector('[data-testid="target-token"]')).toBeInTheDocument()
   })
 
   it('toggles a clue with Enter and Space and keeps selected order', async () => {

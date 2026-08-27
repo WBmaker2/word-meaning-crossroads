@@ -126,9 +126,12 @@ describe('ContextSceneScreen', () => {
 
     const sentence = screen.getByTestId('context-sentence')
     expect(sentence).toHaveTextContent(snowScene.sentences[0].plainText.replace('눈이', '낱말 눈이'))
-    expect(sentence.querySelectorAll('[data-sentence-id]')).toHaveLength(1)
-    expect(sentence.querySelectorAll('[data-sentence-id]').length).toBe(snowScene.sentences.length)
-    expect(sentence.querySelectorAll('[data-sentence-id]').length).toBeLessThanOrEqual(3)
+    expect(sentence.querySelectorAll('[data-sentence-id]')).toHaveLength(0)
+    expect(sentence.querySelectorAll('[data-sentence-order]')).toHaveLength(snowScene.sentences.length)
+    expect([...sentence.querySelectorAll('[data-sentence-order]')].map((element) => element.getAttribute('data-sentence-order'))).toEqual(
+      snowScene.sentences.map((_, sentenceIndex) => String(sentenceIndex + 1)),
+    )
+    expect(sentence.closest('section')).toHaveAttribute('data-context-order', String(snowScene.order))
     const renderedTokens = within(sentence).getAllByTestId('sentence-token')
     expect(renderedTokens.map((token) => token.textContent?.replace(/낱말\s*/, '').trim()).join(' ')).toBe(
       snowScene.sentences[0].tokens.map((token) => token.text).join(' '),
@@ -148,6 +151,25 @@ describe('ContextSceneScreen', () => {
     }
     expect(screen.queryByText(/내리는 눈|보는 눈/)).not.toBeInTheDocument()
     expect(document.querySelector('[data-correct-decision]')).not.toBeInTheDocument()
+  })
+
+  it('exposes only meaning-neutral context sentence hooks', () => {
+    render(
+      <ContextSceneScreen
+        wordPack={snowPack}
+        scene={snowScene}
+        initialPrediction=""
+        onSavePrediction={vi.fn()}
+        onFeedback={vi.fn()}
+        onClearFeedback={vi.fn()}
+      />,
+    )
+
+    const context = screen.getByTestId('context-sentence').closest('section')
+    expect(context).toHaveAttribute('data-context-order', '1')
+    expect(context).not.toHaveAttribute('data-scene-id')
+    expect(context?.querySelector('[data-sentence-id]')).toBeNull()
+    expect(context?.querySelector('[data-sentence-order="1"]')).toBeInTheDocument()
   })
 
   it('saves a trimmed prediction, clears old feedback on first input, and enforces 60 characters', async () => {
