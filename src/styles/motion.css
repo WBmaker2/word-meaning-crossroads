@@ -6,6 +6,8 @@
 .gi-pulse {
   outline: 3px solid var(--color-accent);
   outline-offset: 3px;
+  color: var(--card);
+  background: var(--color-primary);
   animation: gi-pulse 1.8s ease-in-out infinite;
 }
 
