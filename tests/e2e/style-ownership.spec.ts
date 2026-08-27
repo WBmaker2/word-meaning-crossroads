@@ -47,6 +47,43 @@ test('fails closed for malformed rules and unsupported at-rules', () => {
   expect(componentOwnershipErrors('/* unclosed comment')).not.toEqual([])
 })
 
+test('fails closed for malformed pseudo selectors and declaration values', () => {
+  const malformedCases = [
+    '.clue-card: { padding: 1rem; }',
+    '.clue-card:not() { padding: 1rem; }',
+    '.clue-card { padding:; }',
+    '.clue-card { padding: 1rem) (x); }',
+    '.clue-card:unknown { padding: 1rem; }',
+    '.clue-card:not(.clue-card { padding: 1rem; }',
+    '.clue-card { padding: 1rem]; }',
+    '.clue-card { padding: calc(1rem; }',
+    '.clue-card { padding: /* only a comment */ ; }',
+  ]
+
+  for (const css of malformedCases) {
+    expect(componentOwnershipErrors(css), css).not.toEqual([])
+  }
+})
+
+test('accepts the current component pseudo selectors and function values', () => {
+  const validCss = `
+    [data-feedback-announcer]:empty { min-height: 0; }
+    button:hover:not(:disabled), button:focus-visible:not(:disabled) {
+      color: var(--card);
+      background: rgb(244 162 97 / 45%);
+    }
+    button:disabled { opacity: 0.55; }
+    .sentence-repair-choice-card:has(input:checked) {
+      box-shadow: inset 0 0 0 3px var(--soft-success);
+    }
+    .clue-card { padding: clamp(1.25rem, 4vw, 2.5rem); }
+    .clue-card { background: url("data:image/svg+xml;utf8,<svg>{}</svg>"); }
+    [data-feedback-announcer="status:ready"] { color: var(--color-success); }
+  `
+
+  expect(componentOwnershipErrors(validCss)).toEqual([])
+})
+
 test('keeps layout selectors limited to shell, grid, width, and fixed update names', () => {
   const approvedSelectors = new Set([
     '.app-shell', '.site-header', '.main-content', '.shared-controls', '.route-list',
