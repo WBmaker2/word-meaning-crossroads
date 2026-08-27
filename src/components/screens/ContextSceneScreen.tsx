@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { RequiredActionButton } from '../common/RequiredActionButton'
 import { NeutralCrossroadsIllustration } from '../common/NeutralCrossroadsIllustration'
+import { FocusHeading } from '../common/FocusHeading'
 import type { ContextScene, WordPack } from '../../domain/contentTypes'
 import type { FeedbackInput } from '../../domain/sessionTypes'
 
@@ -56,7 +57,9 @@ export function ContextSceneScreen({
   return (
     <section className="context-card" aria-labelledby="context-title" data-context-order={scene.order}>
       <p className="scene-kicker">{wordPack.lemma} 낱말 탐험</p>
-      <h2 id="context-title">문장을 읽고 처음 생각을 적어 보아요</h2>
+      <FocusHeading level={2} focusKey={scene.id} focusOnMount id="context-title">
+        문장을 읽고 처음 생각을 적어 보아요
+      </FocusHeading>
       <div className="neutral-illustration-wrap">
         <NeutralCrossroadsIllustration illustrationId={scene.illustrationId} wordId={scene.wordId} />
       </div>

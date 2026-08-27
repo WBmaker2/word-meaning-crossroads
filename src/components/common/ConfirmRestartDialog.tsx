@@ -37,12 +37,12 @@ export function ConfirmRestartDialog({ open, triggerRef, onConfirm, onCancel }: 
     if (open) {
       wasOpen.current = true
       cancelled.current = false
-      cancelRef.current?.focus()
+      cancelRef.current?.focus({ preventScroll: true })
       return
     }
     if (wasOpen.current && cancelled.current) {
       wasOpen.current = false
-      triggerRef.current?.focus()
+      triggerRef.current?.focus({ preventScroll: true })
     }
   }, [open, triggerRef])
 
@@ -66,12 +66,12 @@ export function ConfirmRestartDialog({ open, triggerRef, onConfirm, onCancel }: 
         : (activeIndex < 0 || activeIndex === controls.length - 1 ? 0 : activeIndex + 1)
       if (activeIndex < 0 || controls.length === 1 || nextIndex !== activeIndex) {
         event.preventDefault()
-        controls[nextIndex]?.focus()
+        controls[nextIndex]?.focus({ preventScroll: true })
       }
     }
     const onFocusIn = (event: FocusEvent) => {
       if (!dialogRef.current?.contains(event.target as Node)) {
-        cancelRef.current?.focus()
+        cancelRef.current?.focus({ preventScroll: true })
       }
     }
     document.addEventListener('keydown', onKeyDown)

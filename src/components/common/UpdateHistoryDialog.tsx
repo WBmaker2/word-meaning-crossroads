@@ -1,3 +1,4 @@
+import { createPortal } from 'react-dom'
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { UPDATE_HISTORY, type UpdateHistoryEntry } from '../../content/updateHistory'
 
@@ -14,12 +15,35 @@ export function UpdateHistoryDialog({ entries = UPDATE_HISTORY }: UpdateHistoryD
   useEffect(() => {
     if (isOpen) {
       wasOpenRef.current = true
-      closeRef.current?.focus()
+      closeRef.current?.focus({ preventScroll: true })
       return
     }
     if (wasOpenRef.current) {
       wasOpenRef.current = false
-      triggerRef.current?.focus()
+      triggerRef.current?.focus({ preventScroll: true })
+    }
+  }, [isOpen])
+
+  useEffect(() => {
+    if (!isOpen) return
+    const background = triggerRef.current?.closest<HTMLElement>('.app-shell')
+    if (!background) return
+    const originalInert = background.getAttribute('inert')
+    const printQuery = typeof window.matchMedia === 'function' ? window.matchMedia('print') : null
+    const syncBackground = () => {
+      if (printQuery?.matches) background.removeAttribute('inert')
+      else background.setAttribute('inert', '')
+    }
+    syncBackground()
+    printQuery?.addEventListener('change', syncBackground)
+    window.addEventListener('beforeprint', syncBackground)
+    window.addEventListener('afterprint', syncBackground)
+    return () => {
+      printQuery?.removeEventListener('change', syncBackground)
+      window.removeEventListener('beforeprint', syncBackground)
+      window.removeEventListener('afterprint', syncBackground)
+      if (originalInert === null) background.removeAttribute('inert')
+      else background.setAttribute('inert', originalInert)
     }
   }, [isOpen])
 
@@ -29,10 +53,32 @@ export function UpdateHistoryDialog({ entries = UPDATE_HISTORY }: UpdateHistoryD
       if (event.key === 'Escape') {
         event.preventDefault()
         setIsOpen(false)
+        return
+      }
+      if (event.key !== 'Tab') return
+      const controls = Array.from(document.querySelectorAll<HTMLElement>(
+        '.history-dialog button:not([disabled]), .history-dialog input:not([disabled]), .history-dialog select:not([disabled]), .history-dialog textarea:not([disabled]), .history-dialog a[href], .history-dialog [tabindex]:not([tabindex="-1"])',
+      ))
+      if (controls.length === 0) return
+      const activeIndex = controls.indexOf(document.activeElement as HTMLElement)
+      const nextIndex = event.shiftKey
+        ? (activeIndex <= 0 ? controls.length - 1 : activeIndex - 1)
+        : (activeIndex < 0 || activeIndex === controls.length - 1 ? 0 : activeIndex + 1)
+      event.preventDefault()
+      controls[nextIndex]?.focus({ preventScroll: true })
+    }
+    const handleFocusIn = (event: FocusEvent) => {
+      const dialog = document.querySelector<HTMLElement>('.history-dialog')
+      if (dialog && !dialog.contains(event.target as Node)) {
+        closeRef.current?.focus({ preventScroll: true })
       }
     }
     document.addEventListener('keydown', handleKeyDown)
-    return () => document.removeEventListener('keydown', handleKeyDown)
+    document.addEventListener('focusin', handleFocusIn)
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+      document.removeEventListener('focusin', handleFocusIn)
+    }
   }, [isOpen])
 
   return (
@@ -54,36 +100,28 @@ export function UpdateHistoryDialog({ entries = UPDATE_HISTORY }: UpdateHistoryD
         업데이트 내역
       </button>
       {isOpen ? (
-        <div className="history-backdrop" role="presentation">
-          <div
-            className="history-dialog"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="update-history-title"
-            onKeyDown={(event) => {
-              if (event.key === 'Tab') {
-                event.preventDefault()
-                closeRef.current?.focus()
-              }
-            }}
-          >
-            <h2 id="update-history-title">업데이트 내역</h2>
-            <ul>
-              {entries.map((entry) => (
-                <li key={`${entry.date}-${entry.category}-${entry.detail}`}>
-                  <time dateTime={entry.date}>{entry.date}</time>
-                  <span aria-hidden="true"> · </span>
-                  <span>{entry.category}</span>
-                  <span aria-hidden="true"> · </span>
-                  <span>{entry.detail}</span>
-                </li>
-              ))}
-            </ul>
-            <button ref={closeRef} type="button" onClick={() => setIsOpen(false)}>
-              닫기
-            </button>
-          </div>
-        </div>
+        createPortal(
+          <div className="history-backdrop" role="presentation">
+            <div className="history-dialog" role="dialog" aria-modal="true" aria-labelledby="update-history-title">
+              <h2 id="update-history-title">업데이트 내역</h2>
+              <ul>
+                {entries.map((entry) => (
+                  <li key={`${entry.date}-${entry.category}-${entry.detail}`}>
+                    <time dateTime={entry.date}>{entry.date}</time>
+                    <span aria-hidden="true"> · </span>
+                    <span>{entry.category}</span>
+                    <span aria-hidden="true"> · </span>
+                    <span>{entry.detail}</span>
+                  </li>
+                ))}
+              </ul>
+              <button ref={closeRef} type="button" onClick={() => setIsOpen(false)}>
+                닫기
+              </button>
+            </div>
+          </div>,
+          document.body,
+        )
       ) : null}
     </>
   )

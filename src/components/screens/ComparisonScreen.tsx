@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { FocusHeading } from '../common/FocusHeading'
 import type {
   ContextScene,
   CueNecessityChallenge,
@@ -179,7 +180,9 @@ export function ComparisonScreen({ wordPack, completedScenes, challenge, onConfi
   return (
     <section className="comparison-card" aria-labelledby="comparison-title">
       <p className="scene-kicker">비교 갈림길</p>
-      <h2 id="comparison-title">같은 낱말을 두 문장에서 비교해 보아요</h2>
+      <FocusHeading level={2} focusKey={challenge.id} focusOnMount id="comparison-title">
+        같은 낱말을 두 문장에서 비교해 보아요
+      </FocusHeading>
       <div className="comparison-heading" role="group" aria-label="같은 낱말과 다른 뜻의 관계">
         <strong>글자는 같아요</strong>
         <span className="comparison-connector" aria-hidden="true">↔</span>

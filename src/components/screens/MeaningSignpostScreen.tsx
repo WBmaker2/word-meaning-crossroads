@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { FocusHeading } from '../common/FocusHeading'
 import type { ContextScene, MeaningDefinition, MeaningDecisionId } from '../../domain/contentTypes'
 
 export interface MeaningSignpostScreenProps {
@@ -47,7 +48,9 @@ export function MeaningSignpostScreen({
   return (
     <section className="meaning-signpost-card" aria-labelledby="meaning-signpost-title">
       <p className="scene-kicker">뜻 표지판</p>
-      <h2 id="meaning-signpost-title">문장 속 뜻을 골라 보아요</h2>
+      <FocusHeading level={2} focusKey={scene.id} focusOnMount id="meaning-signpost-title">
+        문장 속 뜻을 골라 보아요
+      </FocusHeading>
       <p id="meaning-choice-help">문장 속 단서를 떠올리며 알맞은 뜻을 하나 골라요.</p>
 
       <fieldset className="meaning-choice-group" role="radiogroup" aria-describedby="meaning-choice-help">

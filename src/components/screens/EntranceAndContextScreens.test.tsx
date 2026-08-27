@@ -267,7 +267,7 @@ describe('App entrance and prediction integration', () => {
     await user.click(screen.getByRole('button', { name: '기본 길 4개' }))
     expect(screen.getByTestId('context-sentence')).toHaveTextContent('아침부터 흰 낱말 눈이 내려 운동장이 하얗게 변했습니다.')
     expect(screen.getByRole('textbox', { name: /처음에는 어떤 뜻/ })).toBeInTheDocument()
-    expect(screen.getByRole('heading', { name: '낱말 뜻 갈림길' })).toHaveFocus()
+    expect(screen.getByRole('heading', { name: '문장을 읽고 처음 생각을 적어 보아요' })).toHaveFocus()
 
     cleanup()
     render(<App />)

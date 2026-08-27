@@ -72,20 +72,23 @@ describe('App shell', () => {
       'calc(12px + env(safe-area-inset-bottom))',
     );
     expect((await axe(dialog)).violations).toHaveLength(0);
-    expect(within(dialog).getAllByRole('listitem')).toHaveLength(2);
+    expect(within(dialog).getAllByRole('listitem')).toHaveLength(3);
     expect(within(dialog).getAllByRole('listitem')[0]).toHaveTextContent('2026-08-26');
     expect(within(dialog).getAllByRole('listitem')[0]).toHaveTextContent('설계');
     expect(within(dialog).getAllByRole('listitem')[0]).toHaveTextContent('최초 설계 문서 작성');
     expect(within(dialog).getByText('2026-08-26')).toBeInTheDocument();
     expect(within(dialog).getByText('설계')).toBeInTheDocument();
     expect(within(dialog).getByText('최초 설계 문서 작성')).toBeInTheDocument();
-    expect(within(dialog).getByText('2026-08-27')).toBeInTheDocument();
+    expect(within(dialog).getAllByText('2026-08-27')).toHaveLength(2);
     expect(within(dialog).getByText(/모바일 화면과 200% 글자 크기/)).toBeInTheDocument();
+    expect(within(dialog).getByText(/키보드만으로 학습 흐름/)).toBeInTheDocument();
     expect(within(dialog).queryByText(/개발 완료|구현 완료/)).not.toBeInTheDocument();
+    expect(document.querySelector('.app-shell')).toHaveAttribute('inert', '');
 
     await user.keyboard('{Escape}');
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     expect(trigger).toHaveFocus();
+    expect(document.querySelector('.app-shell')).not.toHaveAttribute('inert');
 
     await user.click(trigger);
     await user.click(within(screen.getByRole('dialog')).getByRole('button', { name: '닫기' }));
@@ -159,6 +162,15 @@ describe('App shell', () => {
       </FocusHeading>,
     );
     expect(screen.getByRole('heading', { level: 2, name: '다음 단계' })).toHaveFocus();
+  });
+
+  it('focuses an opt-in heading on mount without changing the default contract', () => {
+    render(
+      <FocusHeading level={2} focusKey="first" focusOnMount>
+        새 단계
+      </FocusHeading>,
+    );
+    expect(screen.getByRole('heading', { level: 2, name: '새 단계' })).toHaveFocus();
   });
 
   it('does not focus on StrictMode effect replay, but focuses on an actual key change', () => {

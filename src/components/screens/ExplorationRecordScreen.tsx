@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
 import type { ExplorationRecord, WordExplorationRecord } from '../../domain/sessionTypes'
 import { ConfirmRestartDialog } from '../common/ConfirmRestartDialog'
+import { FocusHeading } from '../common/FocusHeading'
 
 export interface ExplorationRecordScreenProps {
   readonly record: ExplorationRecord
@@ -71,7 +72,9 @@ export function ExplorationRecordScreen({ record, onRestartRoute, onReturnToEntr
   if (!validRecord(record)) {
     return (
       <section className="record-card record-card--placeholder" data-record-root aria-labelledby="record-placeholder-title">
-        <h2 id="record-placeholder-title">탐사 기록을 준비하지 못했어요</h2>
+        <FocusHeading level={2} focusKey="record-placeholder" focusOnMount id="record-placeholder-title">
+          탐사 기록을 준비하지 못했어요
+        </FocusHeading>
         <p>응답 기록이 온전하지 않아 내용을 안전하게 표시할 수 없어요. 입구로 돌아가 다시 시작해 주세요.</p>
         <button type="button" onClick={onReturnToEntrance}>입구로 돌아가기</button>
       </section>
@@ -81,7 +84,9 @@ export function ExplorationRecordScreen({ record, onRestartRoute, onReturnToEntr
   return (
     <section className="record-card" data-record-root aria-labelledby="record-title">
       <p className="scene-kicker">탐험을 돌아보는 시간</p>
-      <h2 id="record-title">탐사 기록</h2>
+      <FocusHeading level={2} focusKey={`record-${record.routeId}-${record.words.length}`} focusOnMount id="record-title">
+        탐사 기록
+      </FocusHeading>
       <p className="record-route-label">경로: <span>{record.routeLabel}</span></p>
       <aside className="privacy-notice record-privacy-notice" aria-label="개인정보 안내">
         응답은 새로고침하거나 탭을 닫으면 사라져요. 이 기록은 이 탭 안에만 머뭅니다.

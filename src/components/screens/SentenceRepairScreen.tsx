@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { FocusHeading } from '../common/FocusHeading'
 import type { RepairChallenge, RepairSolution, RepairSolutionId } from '../../domain/contentTypes'
 import type { FeedbackInput } from '../../domain/sessionTypes'
 
@@ -69,7 +70,9 @@ export function SentenceRepairScreen({
   return (
     <section className="sentence-repair-card" aria-labelledby="sentence-repair-title">
       <p className="scene-kicker">문장 정비소</p>
-      <h2 id="sentence-repair-title">모호한 문장을 분명하게 고쳐 보아요</h2>
+      <FocusHeading level={2} focusKey={challenge.id} focusOnMount id="sentence-repair-title">
+        모호한 문장을 분명하게 고쳐 보아요
+      </FocusHeading>
       <p id="sentence-repair-help">원문을 읽고, 뜻을 더 잘 알 수 있게 해 주는 정비 방법을 골라요.</p>
 
       <div className="sentence-repair-original">
