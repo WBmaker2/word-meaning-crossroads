@@ -6,6 +6,7 @@ import { ProgressHeader } from '../components/common/ProgressHeader';
 import { TextScaleControls } from '../components/common/TextScaleControls';
 import { UpdateHistoryDialog } from '../components/common/UpdateHistoryDialog';
 import { ContextSceneScreen } from '../components/screens/ContextSceneScreen';
+import { ClueInvestigationScreen } from '../components/screens/ClueInvestigationScreen';
 import { EntranceScreen } from '../components/screens/EntranceScreen';
 import { ROUTES } from '../content/routes';
 import { useLineSpacing } from '../hooks/useLineSpacing';
@@ -57,6 +58,13 @@ export default function App(): ReactElement {
             scene={currentScene}
             initialPrediction={state.draftPrediction}
             onSavePrediction={(prediction) => dispatch({ type: 'SAVE_PREDICTION', prediction })}
+            onFeedback={(nextFeedback) => dispatch({ type: 'ANNOUNCE_FEEDBACK', feedback: nextFeedback })}
+            onClearFeedback={() => dispatch({ type: 'CLEAR_FEEDBACK' })}
+          />
+        ) : state.phase === 'clue-investigation' && currentScene ? (
+          <ClueInvestigationScreen
+            scene={currentScene}
+            onSubmitClueDecision={(decision) => dispatch({ type: 'SAVE_CLUE_DECISION', decision })}
             onFeedback={(nextFeedback) => dispatch({ type: 'ANNOUNCE_FEEDBACK', feedback: nextFeedback })}
             onClearFeedback={() => dispatch({ type: 'CLEAR_FEEDBACK' })}
           />
