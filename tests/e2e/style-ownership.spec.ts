@@ -6,6 +6,21 @@ const componentsCss = readFileSync(resolve(process.cwd(), 'src/styles/components
 const layoutCss = readFileSync(resolve(process.cwd(), 'src/styles/layout.css'), 'utf8')
 const motionCss = readFileSync(resolve(process.cwd(), 'src/styles/motion.css'), 'utf8')
 
+const COMPONENT_FORBIDDEN_MARKERS = [
+  '.app-shell', '.site-header', '.main-content', '.shared-controls', '.route-list',
+  '.comparison-scene-grid', '.history-backdrop', '.progress-header', '.eyebrow',
+  '.scene-kicker', '.route-marker', '.neutral-illustration-wrap',
+  '.neutral-crossroads-illustration', '.context-sentence', '.clue-sentence',
+  '.comparison-sentence', '.token-label', '.accessibility-control', '.privacy-notice',
+  'textarea', '#prediction-count', '#prediction-judgement', '.meaning-choice-group',
+  '.sentence-repair-choice-group', '.necessity-choice-group', '.record-scenes dl',
+  '.gi-pulse', '@keyframes', 'animation', 'transition', 'scroll-behavior',
+]
+
+function componentOwnershipErrors(css: string): string[] {
+  return COMPONENT_FORBIDDEN_MARKERS.filter((marker) => css.includes(marker))
+}
+
 function selectors(css: string): string[] {
   return [...css.replaceAll(/\/\*[\s\S]*?\*\//g, '').matchAll(/([^{}]+)\{/g)]
     .flatMap((match) => match[1]!.split(',').map((selector) => selector.trim()))
@@ -13,19 +28,18 @@ function selectors(css: string): string[] {
 }
 
 test('keeps shell, layout, illustration, typography, and generic form rules out of components.css', () => {
-  const forbiddenSelectors = [
-    '.app-shell', '.site-header', '.main-content', '.shared-controls', '.route-list',
-    '.comparison-scene-grid', '.history-backdrop', '.progress-header', '.eyebrow',
-    '.scene-kicker', '.route-marker', '.neutral-illustration-wrap',
-    '.neutral-crossroads-illustration', '.context-sentence', '.clue-sentence',
-    '.comparison-sentence', '.token-label', '.accessibility-control', '.privacy-notice',
-    'textarea', '#prediction-count', '#prediction-judgement', '.meaning-choice-group',
-    '.sentence-repair-choice-group', '.necessity-choice-group', '.record-scenes dl',
-    '.gi-pulse', '@keyframes', '@media', 'animation', 'transition', 'scroll-behavior',
-  ]
-  for (const selector of forbiddenSelectors) {
-    expect(componentsCss).not.toContain(selector)
-  }
+  expect(componentOwnershipErrors(componentsCss)).toEqual([])
+})
+
+test('allows owned responsive component rules but rejects forbidden nested rules', () => {
+  const allowedResponsiveComponentCss = '@media (max-width: 48rem) { .clue-choice-card { padding: 1rem; border-radius: 20px; } }'
+  expect(componentOwnershipErrors(allowedResponsiveComponentCss)).toEqual([])
+
+  const nestedLayoutCss = '@media (max-width: 48rem) { .main-content { width: 100%; } }'
+  expect(componentOwnershipErrors(nestedLayoutCss)).not.toEqual([])
+
+  const nestedMotionCss = '@media (max-width: 48rem) { .clue-choice-card { animation: none; } }'
+  expect(componentOwnershipErrors(nestedMotionCss)).not.toEqual([])
 })
 
 test('keeps layout selectors limited to shell, grid, width, and fixed update names', () => {
