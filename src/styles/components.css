@@ -41,7 +41,11 @@ button {
   background: var(--card);
   border: 2px solid var(--color-primary);
   font-weight: 800;
-  transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease;
+}
+
+.required-action-button {
+  color: var(--card);
+  background: var(--color-primary);
 }
 
 button:hover:not(:disabled),

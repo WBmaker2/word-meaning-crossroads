@@ -14,6 +14,7 @@ describe('RequiredActionButton', () => {
 
     for (const label of ['단서 찾기', '뜻 확인']) {
       const button = screen.getByRole('button', { name: new RegExp(label) })
+      expect(button).toHaveClass('required-action-button')
       expect(button).toHaveClass('gi-pulse')
       expect(button).toHaveAttribute('data-emphasis', 'gi-pulse')
       expect(button).toHaveTextContent('필수')

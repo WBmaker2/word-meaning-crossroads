@@ -18,7 +18,7 @@ export function RequiredActionButton({ label, ...props }: RequiredActionButtonPr
     <button
       {...props}
       type="button"
-      className={['gi-pulse', props.className].filter(Boolean).join(' ')}
+      className={['required-action-button', 'gi-pulse', props.className].filter(Boolean).join(' ')}
       data-emphasis="gi-pulse"
     >
       <span aria-hidden="true">✦</span> {label} <span className="required-badge">필수</span>

@@ -24,6 +24,14 @@ function contrastRatio(foreground: string, background: string): number {
   return (lighter + 0.05) / (darker + 0.05)
 }
 
+function parseStaticShadow(value: string): { offsets: number[]; rgb: number[]; alpha: number } {
+  const color = value.match(/rgba?\(([^)]+)\)/i)
+  if (!color) throw new Error(`Expected a colored box-shadow, received: ${value}`)
+  const colorParts = color[1]!.split(/[,/ ]+/).filter(Boolean).map(Number)
+  const offsets = [...value.matchAll(/(-?\d+(?:\.\d+)?)px/g)].map((match) => Number(match[1]))
+  return { offsets, rgb: colorParts.slice(0, 3), alpha: colorParts[3] ?? 1 }
+}
+
 test('animates only the two required learner actions', async ({ page }) => {
   await openPrediction(page)
 
@@ -50,9 +58,12 @@ test('replaces gi-pulse with a static required-action outline', async ({ page })
   await expect(required).toHaveCSS('outline-width', '3px')
   await expect(required).toContainText('필수')
   await expect.poll(() => page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior)).toBe('auto')
-  await expect.poll(() => required.evaluate((element) => getComputedStyle(element).boxShadow)).toMatch(/244,\s*162,\s*97/)
+  const shadow = parseStaticShadow(await required.evaluate((element) => getComputedStyle(element).boxShadow))
+  expect(shadow.offsets).toEqual([0, 0, 0, 3])
+  expect(shadow.rgb).toEqual([244, 162, 97])
+  expect(shadow.alpha).toBeCloseTo(0.35, 2)
 
-  const motionValues = await page.locator('body *').evaluateAll((elements) =>
+  const motionValues = await page.locator('body, body *').evaluateAll((elements) =>
     elements.map((element) => {
       const styles = getComputedStyle(element)
       return { animationName: styles.animationName, transitionDuration: styles.transitionDuration }
