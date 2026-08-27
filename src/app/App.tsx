@@ -5,12 +5,15 @@ import { LiveRegion } from '../components/common/LiveRegion';
 import { ProgressHeader } from '../components/common/ProgressHeader';
 import { TextScaleControls } from '../components/common/TextScaleControls';
 import { UpdateHistoryDialog } from '../components/common/UpdateHistoryDialog';
+import { ContextSceneScreen } from '../components/screens/ContextSceneScreen';
+import { EntranceScreen } from '../components/screens/EntranceScreen';
+import { ROUTES } from '../content/routes';
 import { useLineSpacing } from '../hooks/useLineSpacing';
 import { useMissionSession } from '../hooks/useMissionSession';
 import { useTextScale } from '../hooks/useTextScale';
 
 export default function App(): ReactElement {
-  const { state, feedback } = useMissionSession();
+  const { state, currentWordPack, currentScene, feedback, dispatch } = useMissionSession();
   const textScale = useTextScale();
   const lineSpacing = useLineSpacing();
 
@@ -43,13 +46,27 @@ export default function App(): ReactElement {
           message={feedback?.message ?? ''}
           feedbackSequence={state.feedbackSequence}
         />
-        <section className="welcome-card" aria-labelledby="welcome-title">
-          <p className="route-marker" aria-hidden="true">
-            ✦
-          </p>
-          <h2 id="welcome-title">낱말의 뜻을 찾아 떠나요</h2>
-          <p>곧 단어의 여러 뜻을 비교하고 알맞은 길을 골라 볼 수 있어요.</p>
-        </section>
+        {state.phase === 'entrance' ? (
+          <EntranceScreen
+            routes={ROUTES}
+            onStartRoute={(routeId) => dispatch({ type: 'START_ROUTE', routeId })}
+          />
+        ) : state.phase === 'prediction' && currentWordPack && currentScene ? (
+          <ContextSceneScreen
+            wordPack={currentWordPack}
+            scene={currentScene}
+            initialPrediction={state.draftPrediction}
+            onSavePrediction={(prediction) => dispatch({ type: 'SAVE_PREDICTION', prediction })}
+            onFeedback={(nextFeedback) => dispatch({ type: 'ANNOUNCE_FEEDBACK', feedback: nextFeedback })}
+            onClearFeedback={() => dispatch({ type: 'CLEAR_FEEDBACK' })}
+          />
+        ) : (
+          <section className="welcome-card" aria-labelledby="welcome-title">
+            <p className="route-marker" aria-hidden="true">✦</p>
+            <h2 id="welcome-title">다음 탐험을 준비하고 있어요</h2>
+            <p>현재 단계의 화면을 곧 보여 드릴게요.</p>
+          </section>
+        )}
       </main>
     </div>
   );
