@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test'
-import { FLOW_ANSWERS, TEST_ROUTE_WORDS } from './fixtures/answers'
+import { TEST_ROUTE_WORDS } from './fixtures/answers'
 import { completeWord, startRoute } from './helpers/learnerFlow'
 
 async function expectCurrentIllustration(page: Parameters<typeof startRoute>[0], wordId: string): Promise<void> {
@@ -17,10 +17,10 @@ test('completes the core route with every context illustration hidden', async ({
   await page.evaluate(() => {
     const seen = new Set<string>()
     const collect = () => {
-      document.querySelectorAll<HTMLElement>('[data-scene-id]').forEach((scene) => {
-        const illustrations = scene.querySelectorAll<HTMLElement>('[data-illustration-id]')
+      document.querySelectorAll<HTMLElement>('[data-context-order]').forEach((context) => {
+        const illustrations = context.querySelectorAll<HTMLElement>('[data-illustration-id]')
         const illustrationId = illustrations[0]?.dataset.illustrationId ?? ''
-        seen.add(`${scene.dataset.sceneId}|${illustrations.length}|${illustrationId}`)
+        seen.add(`${illustrationId}|${context.dataset.contextOrder}|${illustrations.length}`)
       })
       document.documentElement.dataset.seenContextIllustrations = JSON.stringify([...seen])
     }
@@ -33,12 +33,11 @@ test('completes the core route with every context illustration hidden', async ({
     await completeWord(page, wordId)
   }
 
-  const expectedPairs = TEST_ROUTE_WORDS.core.flatMap((wordId) => Object.keys(FLOW_ANSWERS.scenes)
-    .filter((sceneId) => sceneId.startsWith(`${wordId}-`))
-    .map((sceneId) => `${sceneId}|1|crossroads-${wordId}`))
-  const seenPairs = await page.evaluate(() => JSON.parse(document.documentElement.dataset.seenContextIllustrations ?? '[]') as string[])
-  expect(seenPairs).toHaveLength(12)
-  expect(new Set(seenPairs)).toEqual(new Set(expectedPairs))
+  const expectedTriples = TEST_ROUTE_WORDS.core.flatMap((wordId) => ([1, 2, 3] as const)
+    .map((order) => `crossroads-${wordId}|${order}|1`))
+  const seenTriples = await page.evaluate(() => JSON.parse(document.documentElement.dataset.seenContextIllustrations ?? '[]') as string[])
+  expect(seenTriples).toHaveLength(12)
+  expect(new Set(seenTriples)).toEqual(new Set(expectedTriples))
 
   await expect(page.getByRole('heading', { name: '탐사 기록' })).toBeVisible()
 })
