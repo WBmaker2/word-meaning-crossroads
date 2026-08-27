@@ -54,7 +54,7 @@ export function ContextSceneScreen({
   }
 
   return (
-    <section className="context-card" aria-labelledby="context-title">
+    <section className="context-card" aria-labelledby="context-title" data-scene-id={scene.id}>
       <p className="scene-kicker">{wordPack.lemma} 낱말 탐험</p>
       <h2 id="context-title">문장을 읽고 처음 생각을 적어 보아요</h2>
       <div className="neutral-illustration-wrap">

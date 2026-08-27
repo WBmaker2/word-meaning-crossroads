@@ -50,33 +50,44 @@ describe('ContextSceneScreen', () => {
   const snowPack = WORD_PACKS.find((pack) => pack.id === 'nun')!
   const snowScene = snowPack.scenes[0]
 
-  it('renders one answer-neutral decorative illustration for all three scenes of a word', () => {
-    const { container } = render(
-      <>
-        {snowPack.scenes.map((scene) => (
-          <NeutralCrossroadsIllustration
-            key={scene.id}
-            illustrationId={scene.illustrationId}
-            wordId={scene.wordId}
-          />
-        ))}
-      </>,
-    )
+  it('renders answer-neutral illustration variants for all eight word packs', () => {
+    for (const wordPack of WORD_PACKS) {
+      const { container } = render(
+        <>
+          {wordPack.scenes.map((scene) => (
+            <NeutralCrossroadsIllustration
+              key={scene.id}
+              illustrationId={scene.illustrationId}
+              wordId={scene.wordId}
+            />
+          ))}
+        </>,
+      )
 
-    const illustrations = [...container.querySelectorAll('[data-illustration-id]')]
-    expect(illustrations).toHaveLength(3)
-    expect(illustrations.map((illustration) => illustration.getAttribute('data-illustration-id'))).toEqual([
-      'crossroads-nun',
-      'crossroads-nun',
-      'crossroads-nun',
-    ])
-    expect(illustrations.every((illustration) => illustration.tagName.toLowerCase() === 'svg')).toBe(true)
-    expect(illustrations.every((illustration) => illustration.getAttribute('aria-hidden') === 'true')).toBe(true)
-    expect(illustrations.every((illustration) => illustration.getAttribute('focusable') === 'false')).toBe(true)
-    expect(new Set(illustrations.map((illustration) => illustration.innerHTML)).size).toBe(1)
-    expect(illustrations.map((illustration) => illustration.textContent ?? '').join('')).not.toMatch(
-      /눈|내리|보|정답|nun|snow/i,
-    )
+      const illustrations = [...container.querySelectorAll('[data-illustration-id]')]
+      expect(illustrations, wordPack.id).toHaveLength(3)
+      expect(illustrations.map((illustration) => illustration.getAttribute('data-illustration-id')), wordPack.id).toEqual([
+        `crossroads-${wordPack.id}`,
+        `crossroads-${wordPack.id}`,
+        `crossroads-${wordPack.id}`,
+      ])
+      expect(illustrations.every((illustration) => illustration.tagName.toLowerCase() === 'svg'), wordPack.id).toBe(true)
+      expect(illustrations.every((illustration) => illustration.getAttribute('aria-hidden') === 'true'), wordPack.id).toBe(true)
+      expect(illustrations.every((illustration) => illustration.getAttribute('focusable') === 'false'), wordPack.id).toBe(true)
+      expect(new Set(illustrations.map((illustration) => illustration.innerHTML)).size, wordPack.id).toBe(1)
+      for (const illustration of illustrations) {
+        expect(illustration.querySelector('title, text'), wordPack.id).not.toBeInTheDocument()
+        expect(illustration.innerHTML, wordPack.id).not.toMatch(/data-(correct|meaning|answer)|answer|meaning/i)
+        for (const forbiddenText of [
+          wordPack.lemma,
+          ...wordPack.meanings.flatMap((meaning) => [meaning.id, meaning.childFriendlyLabel, meaning.childFriendlyDescription, meaning.contrastExample]),
+          ...wordPack.scenes.map((scene) => scene.id),
+        ]) {
+          expect(illustration.innerHTML, `${wordPack.id}: ${forbiddenText}`).not.toContain(forbiddenText)
+        }
+      }
+      cleanup()
+    }
   })
 
   it('keeps the sentence, prediction prompt, and clue action visible when the illustration is hidden', () => {
