@@ -8,15 +8,33 @@ import { UpdateHistoryDialog } from '../components/common/UpdateHistoryDialog';
 import { ContextSceneScreen } from '../components/screens/ContextSceneScreen';
 import { ClueInvestigationScreen } from '../components/screens/ClueInvestigationScreen';
 import { EntranceScreen } from '../components/screens/EntranceScreen';
+import { MeaningSignpostScreen } from '../components/screens/MeaningSignpostScreen';
 import { ROUTES } from '../content/routes';
+import type { ContextScene, MeaningDefinition, WordPack } from '../domain/contentTypes';
 import { useLineSpacing } from '../hooks/useLineSpacing';
 import { useMissionSession } from '../hooks/useMissionSession';
 import { useTextScale } from '../hooks/useTextScale';
+
+function findCandidateMeanings(
+  wordPack: WordPack,
+  scene: ContextScene,
+): readonly [MeaningDefinition, MeaningDefinition] | null {
+  if (scene.candidateMeaningIds.length !== 2) return null;
+  const [firstId, secondId] = scene.candidateMeaningIds;
+  if (!firstId || !secondId || firstId === secondId) return null;
+  const first = wordPack.meanings.find((meaning) => meaning.id === firstId);
+  const second = wordPack.meanings.find((meaning) => meaning.id === secondId);
+  if (!first || !second) return null;
+  return [first, second];
+}
 
 export default function App(): ReactElement {
   const { state, currentWordPack, currentScene, feedback, dispatch } = useMissionSession();
   const textScale = useTextScale();
   const lineSpacing = useLineSpacing();
+  const candidateMeanings = currentWordPack && currentScene
+    ? findCandidateMeanings(currentWordPack, currentScene)
+    : null;
 
   return (
     <div
@@ -66,6 +84,13 @@ export default function App(): ReactElement {
             scene={currentScene}
             onSubmitClueDecision={(decision) => dispatch({ type: 'SAVE_CLUE_DECISION', decision })}
             onFeedback={(nextFeedback) => dispatch({ type: 'ANNOUNCE_FEEDBACK', feedback: nextFeedback })}
+            onClearFeedback={() => dispatch({ type: 'CLEAR_FEEDBACK' })}
+          />
+        ) : state.phase === 'meaning-signpost' && currentScene && candidateMeanings ? (
+          <MeaningSignpostScreen
+            scene={currentScene}
+            candidateMeanings={candidateMeanings}
+            onConfirmMeaning={(decision) => dispatch({ type: 'CONFIRM_MEANING', decision })}
             onClearFeedback={() => dispatch({ type: 'CLEAR_FEEDBACK' })}
           />
         ) : (
