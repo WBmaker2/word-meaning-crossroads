@@ -41,16 +41,33 @@
   z-index: 10;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 48rem) {
+  .site-header,
+  .main-content {
+    width: calc(100% - 24px);
+  }
+
   .site-header {
     padding-bottom: 1rem;
   }
 
   .main-content {
     padding-top: 1.5rem;
+    padding-bottom: calc(4rem + 60px);
   }
 
   .shared-controls {
     display: grid;
+    gap: 12px;
+  }
+
+  .route-list,
+  .comparison-scene-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .update-history-trigger {
+    right: calc(12px + env(safe-area-inset-right));
+    bottom: calc(12px + env(safe-area-inset-bottom));
   }
 }

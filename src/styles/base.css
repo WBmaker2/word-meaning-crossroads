@@ -12,7 +12,7 @@ body {
   min-height: 100vh;
   color: var(--color-ink);
   background: var(--color-canvas);
-  font-size: 18px;
+  font-size: 1.125rem;
   line-height: 1.65;
 }
 
@@ -116,7 +116,7 @@ mark {
 }
 
 .app-shell {
-  font-size: calc(18px * var(--text-scale, 1));
+  font-size: calc(1.125rem * var(--text-scale, 1));
   line-height: var(--line-spacing, 1.65);
 }
 
@@ -293,8 +293,10 @@ textarea {
 .meaning-choice-card input,
 .sentence-repair-choice-card input {
   flex: 0 0 auto;
-  width: 1.25rem;
-  height: 1.25rem;
+  width: 44px;
+  min-width: 44px;
+  height: 44px;
+  min-height: 44px;
   margin-top: 0.2rem;
   accent-color: var(--color-primary);
 }
@@ -362,6 +364,20 @@ textarea {
 
 .record-scenes dd {
   margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.record-word,
+.record-scenes > li,
+.record-necessity,
+.record-repair,
+.meaning-choice-copy,
+.sentence-repair-choice-copy,
+.comparison-scene-card,
+.comparison-sentence,
+.sentence-repair-preview {
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .record-actions,
@@ -372,15 +388,44 @@ textarea {
   margin-top: 1.5rem;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 48rem) {
+  .context-sentence,
+  .clue-sentence,
+  .comparison-sentence,
+  .sentence-repair-original,
+  .sentence-repair-preview {
+    margin-block: 12px;
+    padding: 12px;
+  }
+
+  .clue-sentence p,
+  .comparison-sentence {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    align-items: center;
+  }
+
+  .record-evidence ul {
+    grid-template-columns: 1fr;
+  }
+
   .record-scenes dl > div {
     grid-template-columns: 1fr;
     gap: 0;
   }
-}
 
-@media (max-width: 480px) {
-  .site-header {
-    padding-top: 1.5rem;
+  .record-actions,
+  .restart-dialog-actions {
+    gap: 12px;
+  }
+
+  .record-actions button,
+  .restart-dialog-actions button {
+    width: 100%;
+  }
+
+  .record-actions {
+    padding-bottom: 72px;
   }
 }

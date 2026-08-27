@@ -46,8 +46,8 @@ export function UpdateHistoryDialog({ entries = UPDATE_HISTORY }: UpdateHistoryD
           right: 'var(--update-history-right)',
           bottom: 'var(--update-history-bottom)',
           zIndex: 10,
-          '--update-history-right': 'max(1rem, env(safe-area-inset-right))',
-          '--update-history-bottom': 'max(1rem, env(safe-area-inset-bottom))',
+          '--update-history-right': 'calc(12px + env(safe-area-inset-right))',
+          '--update-history-bottom': 'calc(12px + env(safe-area-inset-bottom))',
         } as CSSProperties}
         onClick={() => setIsOpen(true)}
       >

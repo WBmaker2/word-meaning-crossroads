@@ -93,6 +93,8 @@ button:disabled {
 }
 
 .token-choice {
+  min-width: 44px;
+  min-height: 48px;
   padding: 0.2rem 0.35rem;
   color: var(--color-ink);
   background: transparent;
@@ -133,6 +135,7 @@ button:disabled {
 .meaning-choice-card,
 .sentence-repair-choice-card {
   display: flex;
+  min-height: 48px;
   gap: 0.75rem;
   align-items: flex-start;
   cursor: pointer;
@@ -203,4 +206,24 @@ button:disabled {
   border: 1px solid var(--color-primary);
   border-radius: 999px;
   font-size: 0.78em;
+}
+
+@media (max-width: 48rem) {
+  .welcome-card,
+  .entrance-card,
+  .context-card,
+  .clue-card,
+  .meaning-signpost-card,
+  .comparison-card,
+  .sentence-repair-card,
+  .record-card {
+    padding: 12px;
+  }
+
+  .required-action-button,
+  .meaning-signpost-card > button,
+  .necessity-challenge > button,
+  .sentence-repair-card > button {
+    margin-bottom: 72px;
+  }
 }

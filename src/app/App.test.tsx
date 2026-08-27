@@ -66,19 +66,21 @@ describe('App shell', () => {
       'z-index': '10',
     });
     expect(trigger.style.getPropertyValue('--update-history-right')).toBe(
-      'max(1rem, env(safe-area-inset-right))',
+      'calc(12px + env(safe-area-inset-right))',
     );
     expect(trigger.style.getPropertyValue('--update-history-bottom')).toBe(
-      'max(1rem, env(safe-area-inset-bottom))',
+      'calc(12px + env(safe-area-inset-bottom))',
     );
     expect((await axe(dialog)).violations).toHaveLength(0);
-    expect(within(dialog).getAllByRole('listitem')).toHaveLength(1);
+    expect(within(dialog).getAllByRole('listitem')).toHaveLength(2);
     expect(within(dialog).getAllByRole('listitem')[0]).toHaveTextContent('2026-08-26');
     expect(within(dialog).getAllByRole('listitem')[0]).toHaveTextContent('설계');
     expect(within(dialog).getAllByRole('listitem')[0]).toHaveTextContent('최초 설계 문서 작성');
     expect(within(dialog).getByText('2026-08-26')).toBeInTheDocument();
     expect(within(dialog).getByText('설계')).toBeInTheDocument();
     expect(within(dialog).getByText('최초 설계 문서 작성')).toBeInTheDocument();
+    expect(within(dialog).getByText('2026-08-27')).toBeInTheDocument();
+    expect(within(dialog).getByText(/모바일 화면과 200% 글자 크기/)).toBeInTheDocument();
     expect(within(dialog).queryByText(/개발 완료|구현 완료/)).not.toBeInTheDocument();
 
     await user.keyboard('{Escape}');
