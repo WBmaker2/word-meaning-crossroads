@@ -9,6 +9,7 @@ import { ContextSceneScreen } from '../components/screens/ContextSceneScreen';
 import { ClueInvestigationScreen } from '../components/screens/ClueInvestigationScreen';
 import { ComparisonScreen } from '../components/screens/ComparisonScreen';
 import { EntranceScreen } from '../components/screens/EntranceScreen';
+import { ExplorationRecordScreen } from '../components/screens/ExplorationRecordScreen';
 import { MeaningSignpostScreen } from '../components/screens/MeaningSignpostScreen';
 import { SentenceRepairScreen } from '../components/screens/SentenceRepairScreen';
 import { ROUTES } from '../content/routes';
@@ -117,7 +118,7 @@ function findCompletedComparisonScenes(
 }
 
 export default function App(): ReactElement {
-  const { state, currentWordPack, currentScene, feedback, dispatch } = useMissionSession();
+  const { state, currentWordPack, currentScene, record, feedback, dispatch } = useMissionSession();
   const textScale = useTextScale();
   const lineSpacing = useLineSpacing();
   const candidateMeanings = currentWordPack && currentScene
@@ -199,6 +200,19 @@ export default function App(): ReactElement {
             onFeedback={(nextFeedback) => dispatch({ type: 'ANNOUNCE_FEEDBACK', feedback: nextFeedback })}
             onClearFeedback={() => dispatch({ type: 'CLEAR_FEEDBACK' })}
           />
+        ) : state.phase === 'record' && record ? (
+          <ExplorationRecordScreen
+            record={record}
+            onRestartRoute={() => dispatch({ type: 'RESTART_ROUTE' })}
+            onReturnToEntrance={() => dispatch({ type: 'RETURN_TO_ENTRANCE' })}
+            onPrint={() => window.print()}
+          />
+        ) : state.phase === 'record' ? (
+          <section className="record-card record-card--placeholder" data-record-root aria-labelledby="record-placeholder-title">
+            <h2 id="record-placeholder-title">탐사 기록을 준비하지 못했어요</h2>
+            <p>응답 기록이 온전하지 않아 내용을 안전하게 표시할 수 없어요. 입구로 돌아가 다시 시작해 주세요.</p>
+            <button type="button" onClick={() => dispatch({ type: 'RETURN_TO_ENTRANCE' })}>입구로 돌아가기</button>
+          </section>
         ) : (
           <section className="welcome-card" aria-labelledby="welcome-title">
             <p className="route-marker" aria-hidden="true">✦</p>

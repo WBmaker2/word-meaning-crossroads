@@ -1,0 +1,63 @@
+@media print {
+  :root {
+    color: #000;
+    background: #fff;
+  }
+
+  body {
+    min-width: 0;
+    color: #000;
+    background: #fff;
+  }
+
+  .skip-link,
+  .site-header,
+  .shared-controls,
+  .progress-header,
+  [data-feedback-announcer],
+  .update-history-trigger,
+  .history-backdrop,
+  .history-dialog,
+  .record-actions,
+  .restart-dialog-backdrop,
+  .restart-dialog {
+    display: none !important;
+  }
+
+  .main-content {
+    width: auto;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  [data-record-root] {
+    display: block !important;
+    max-width: none;
+    color: #000;
+    background: #fff;
+    border: 0;
+    box-shadow: none;
+  }
+
+  [data-record-root] h2,
+  [data-record-root] h3,
+  [data-record-root] h4,
+  [data-record-root] h5,
+  [data-record-root] p,
+  [data-record-root] dt,
+  [data-record-root] dd,
+  [data-record-root] li,
+  [data-record-root] strong,
+  [data-record-root] span {
+    color: #000;
+  }
+
+  .record-evidence,
+  .record-word,
+  .record-necessity,
+  .record-repair {
+    border-color: #000;
+    break-inside: avoid;
+  }
+}
