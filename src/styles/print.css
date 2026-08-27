@@ -19,6 +19,7 @@
   .history-backdrop,
   .history-dialog,
   .record-actions,
+  [data-illustration-id],
   .restart-dialog-backdrop,
   .restart-dialog {
     display: none !important;

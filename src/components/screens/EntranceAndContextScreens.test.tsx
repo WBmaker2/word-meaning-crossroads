@@ -2,6 +2,7 @@ import { cleanup, render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { ContextSceneScreen } from './ContextSceneScreen'
+import { NeutralCrossroadsIllustration } from '../common/NeutralCrossroadsIllustration'
 import { EntranceScreen } from './EntranceScreen'
 import App from '../../app/App'
 import { ROUTES } from '../../content/routes'
@@ -49,6 +50,57 @@ describe('ContextSceneScreen', () => {
   const snowPack = WORD_PACKS.find((pack) => pack.id === 'nun')!
   const snowScene = snowPack.scenes[0]
 
+  it('renders one answer-neutral decorative illustration for all three scenes of a word', () => {
+    const { container } = render(
+      <>
+        {snowPack.scenes.map((scene) => (
+          <NeutralCrossroadsIllustration
+            key={scene.id}
+            illustrationId={scene.illustrationId}
+            wordId={scene.wordId}
+          />
+        ))}
+      </>,
+    )
+
+    const illustrations = [...container.querySelectorAll('[data-illustration-id]')]
+    expect(illustrations).toHaveLength(3)
+    expect(illustrations.map((illustration) => illustration.getAttribute('data-illustration-id'))).toEqual([
+      'crossroads-nun',
+      'crossroads-nun',
+      'crossroads-nun',
+    ])
+    expect(illustrations.every((illustration) => illustration.tagName.toLowerCase() === 'svg')).toBe(true)
+    expect(illustrations.every((illustration) => illustration.getAttribute('aria-hidden') === 'true')).toBe(true)
+    expect(illustrations.every((illustration) => illustration.getAttribute('focusable') === 'false')).toBe(true)
+    expect(new Set(illustrations.map((illustration) => illustration.innerHTML)).size).toBe(1)
+    expect(illustrations.map((illustration) => illustration.textContent ?? '').join('')).not.toMatch(
+      /눈|내리|보|정답|nun|snow/i,
+    )
+  })
+
+  it('keeps the sentence, prediction prompt, and clue action visible when the illustration is hidden', () => {
+    render(
+      <>
+        <style>{'[data-illustration-id] { display: none !important; }'}</style>
+        <ContextSceneScreen
+          wordPack={snowPack}
+          scene={snowScene}
+          initialPrediction=""
+          onSavePrediction={vi.fn()}
+          onFeedback={vi.fn()}
+          onClearFeedback={vi.fn()}
+        />
+      </>,
+    )
+
+    const illustration = screen.getByTestId('neutral-illustration')
+    expect(illustration).not.toBeVisible()
+    expect(screen.getByTestId('context-sentence')).toBeVisible()
+    expect(screen.getByText('처음에는 어떤 뜻을 가리키는지 짧게 적어 보아요.')).toBeVisible()
+    expect(screen.getByRole('button', { name: /단서 찾기/ })).toBeVisible()
+  })
+
   it('shows the current sentence, reading-order tokens, and neutral local placeholders only', () => {
     render(
       <ContextSceneScreen
@@ -73,10 +125,8 @@ describe('ContextSceneScreen', () => {
     const target = within(sentence).getByText('눈이')
     expect(target.closest('mark')).toBeInTheDocument()
     expect(target.closest('mark')).toHaveTextContent('낱말 눈이')
-    expect(screen.getByTestId('neutral-illustration-placeholder')).toHaveAttribute(
-      'aria-label',
-      '정답을 알려 주지 않는 갈림길 그림 자리',
-    )
+    expect(screen.getByTestId('neutral-illustration')).toHaveAttribute('data-illustration-id', 'crossroads-nun')
+    expect(screen.getByTestId('neutral-illustration')).toHaveAttribute('aria-hidden', 'true')
     expect(screen.getByTestId('local-audio-placeholder').tagName).toBe('P')
     expect(screen.getByTestId('local-audio-placeholder')).toHaveTextContent('문장 듣기 준비 중')
     expect(screen.getByTestId('local-audio-placeholder')).not.toHaveAttribute('aria-live')

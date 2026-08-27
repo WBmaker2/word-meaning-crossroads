@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { RequiredActionButton } from '../common/RequiredActionButton'
+import { NeutralCrossroadsIllustration } from '../common/NeutralCrossroadsIllustration'
 import type { ContextScene, WordPack } from '../../domain/contentTypes'
 import type { FeedbackInput } from '../../domain/sessionTypes'
 
@@ -56,6 +57,9 @@ export function ContextSceneScreen({
     <section className="context-card" aria-labelledby="context-title">
       <p className="scene-kicker">{wordPack.lemma} 낱말 탐험</p>
       <h2 id="context-title">문장을 읽고 처음 생각을 적어 보아요</h2>
+      <div className="neutral-illustration-wrap">
+        <NeutralCrossroadsIllustration illustrationId={scene.illustrationId} wordId={scene.wordId} />
+      </div>
       <div className="context-sentence" data-testid="context-sentence">
         {scene.sentences.map((sentence) => (
           <p key={sentence.id} data-sentence-id={sentence.id}>
@@ -76,13 +80,6 @@ export function ContextSceneScreen({
             })}
           </p>
         ))}
-      </div>
-      <div
-        aria-label="정답을 알려 주지 않는 갈림길 그림 자리"
-        data-testid="neutral-illustration-placeholder"
-        role="img"
-      >
-        갈림길 그림 자리
       </div>
       <p data-testid="local-audio-placeholder">
         문장 듣기 준비 중

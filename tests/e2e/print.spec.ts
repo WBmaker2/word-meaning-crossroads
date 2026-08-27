@@ -1,5 +1,15 @@
 import { expect, test } from '@playwright/test'
-import { completeRoute } from './helpers/learnerFlow'
+import { completeRoute, startRoute } from './helpers/learnerFlow'
+
+test('hides the neutral illustration in print media', async ({ page }) => {
+  await page.goto('./')
+  await startRoute(page, 'core')
+  const illustration = page.locator('[data-illustration-id]')
+  await expect(illustration).toHaveCount(1)
+  await expect(illustration).toBeVisible()
+  await page.emulateMedia({ media: 'print' })
+  await expect(illustration).toBeHidden()
+})
 
 test('prints only the learning evidence record', async ({ page }) => {
   await page.addInitScript(() => {
@@ -30,5 +40,6 @@ test('prints only the learning evidence record', async ({ page }) => {
   await expect(page.getByRole('button', { name: '인쇄하기', exact: true })).toBeHidden()
   await expect(page.getByRole('button', { name: '업데이트 내역', exact: true })).toBeHidden()
   await expect(page.getByRole('dialog', { name: '업데이트 내역' })).toBeHidden()
+  await expect(page.locator('[data-illustration-id]')).toBeHidden()
   await expect(page.getByText(/점수|정답률|등급|순위|소요 시간|학생 이름/)).toHaveCount(0)
 })
