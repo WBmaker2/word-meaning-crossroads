@@ -68,6 +68,20 @@ describe('MeaningSignpostScreen', () => {
     expect(submit).toBeEnabled()
   })
 
+  it('shows a check icon, underline, and visible selected label without relying on color', async () => {
+    const user = userEvent.setup()
+    renderScreen()
+    const selected = screen.getByRole('radio', { name: /내리는 눈/ })
+
+    await user.click(selected)
+
+    const card = selected.closest('label')!
+    expect(card).toHaveClass('meaning-choice-card--selected')
+    expect(within(card).getByText('✓')).toBeVisible()
+    expect(within(card).getByText('선택됨')).toBeVisible()
+    expect(within(card).getByText('내리는 눈')).toHaveStyle({ textDecoration: 'underline' })
+  })
+
   it('submits the exact uncertainty payload once and returns focus to the selected radio', async () => {
     const user = userEvent.setup()
     const { onConfirmMeaning, onClearFeedback } = renderScreen(unclearScene)

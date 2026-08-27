@@ -72,7 +72,7 @@ describe('ClueInvestigationScreen', () => {
     expect(onClearFeedback).toHaveBeenCalledTimes(3)
   })
 
-  it('duplicates selected state with aria, check, underline class, and hidden text', async () => {
+  it('duplicates selected state with aria, check, underline, and a visible text label', async () => {
     const user = userEvent.setup()
     renderScreen()
     const choice = screen.getAllByRole('button', { name: /선택 안 됨/ })[0]
@@ -81,7 +81,7 @@ describe('ClueInvestigationScreen', () => {
     expect(choice).toHaveClass('token-underline')
     expect(choice).toHaveStyle({ textDecoration: 'underline' })
     expect(within(choice).getByText('✓')).toBeInTheDocument()
-    expect(within(choice).getByText('선택됨')).toHaveClass('visually-hidden')
+    expect(within(choice).getByText('선택됨')).toBeVisible()
     expect(choice).toHaveAccessibleName(/선택됨/)
   })
 

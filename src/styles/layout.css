@@ -1,0 +1,56 @@
+.app-shell {
+  min-height: 100vh;
+}
+
+.site-header,
+.main-content {
+  width: min(100% - 2rem, 60rem);
+  margin-inline: auto;
+}
+
+.site-header {
+  position: relative;
+  padding: 2rem 0 1.25rem;
+  border-bottom: 2px solid var(--line);
+}
+
+.main-content {
+  padding: 2rem 0 4rem;
+}
+
+.shared-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.route-list,
+.comparison-scene-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+
+.update-history-trigger {
+  position: fixed;
+  right: max(1rem, env(safe-area-inset-right));
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  z-index: 10;
+}
+
+@media (max-width: 480px) {
+  .site-header {
+    padding-bottom: 1rem;
+  }
+
+  .main-content {
+    padding-top: 1.5rem;
+  }
+
+  .shared-controls {
+    display: grid;
+  }
+}

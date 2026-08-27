@@ -176,7 +176,7 @@ const TokenButton = forwardRef<HTMLButtonElement, TokenButtonProps>(function Tok
     >
       {selected ? <span aria-hidden="true">✓ </span> : null}
       {token.text}
-      <span className="visually-hidden" style={visuallyHiddenStyle}>
+      <span className={selected ? 'selection-status' : 'visually-hidden'} style={selected ? undefined : visuallyHiddenStyle}>
         {stateLabel}
       </span>
     </button>

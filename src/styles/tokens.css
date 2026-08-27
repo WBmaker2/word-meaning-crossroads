@@ -1,14 +1,28 @@
 :root {
   font-family: 'Nunito', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
-  color: #2f2a24;
-  background: #fffaf0;
+  color: var(--color-ink);
+  background: var(--color-canvas);
   font-synthesis: none;
-  --paper: #fffaf0;
-  --ink: #2f2a24;
-  --muted-ink: #6c6259;
-  --warm: #c95c3d;
-  --warm-dark: #8e3f2c;
-  --sun: #f5c96a;
-  --line: #e7dcca;
-  --card: #fffdf8;
+
+  --color-canvas: #FFF9ED;
+  --color-ink: #243447;
+  --color-primary: #2D6A66;
+  --color-accent: #F4A261;
+  --color-success: #2F7D4A;
+  --color-warning: #8A4B08;
+  --focus-ring: #1D4ED8;
+
+  /* Names retained for the illustration and print contracts from earlier tasks. */
+  --paper: var(--color-canvas);
+  --ink: var(--color-ink);
+  --muted-ink: #465568;
+  --warm: var(--color-primary);
+  --warm-dark: #20504D;
+  --sun: var(--color-accent);
+  --line: #D6DED8;
+  --card: #FFFFFF;
+  --soft-primary: #E6F1EF;
+  --soft-accent: #FFF0DE;
+  --soft-success: #E5F2E9;
+  --soft-warning: #FFF1D6;
 }

@@ -1,0 +1,24 @@
+@keyframes gi-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgb(244 162 97 / 45%); }
+  50% { box-shadow: 0 0 0 8px rgb(244 162 97 / 0%); }
+}
+
+.gi-pulse {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 3px;
+  animation: gi-pulse 1.8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0s !important;
+  }
+
+  .gi-pulse {
+    box-shadow: 0 0 0 3px rgb(244 162 97 / 35%);
+  }
+}

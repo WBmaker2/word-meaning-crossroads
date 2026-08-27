@@ -53,7 +53,7 @@ export function MeaningSignpostScreen({
       <fieldset className="meaning-choice-group" role="radiogroup" aria-describedby="meaning-choice-help">
         <legend>뜻 선택</legend>
         {candidateMeanings.map((meaning, index) => (
-          <label className="meaning-choice-card" key={meaning.id}>
+          <label className={['meaning-choice-card', selectedDecision === meaning.id ? 'meaning-choice-card--selected' : ''].filter(Boolean).join(' ')} key={meaning.id}>
             <input
               ref={(element) => {
                 if (selectedDecision === meaning.id) selectedRadioRef.current = element
@@ -66,13 +66,19 @@ export function MeaningSignpostScreen({
             />
             <span className="meaning-choice-icon" aria-hidden="true">{index === 0 ? '가' : '나'}</span>
             <span className="meaning-choice-copy">
-              <strong>{meaning.childFriendlyLabel}</strong>
+              <strong
+                className="meaning-choice-label"
+                style={selectedDecision === meaning.id ? { textDecoration: 'underline', textUnderlineOffset: '0.2em' } : undefined}
+              >
+                {meaning.childFriendlyLabel}
+                {selectedDecision === meaning.id ? <span className="selection-status"><span aria-hidden="true">✓</span> 선택됨</span> : null}
+              </strong>
               <span>{meaning.childFriendlyDescription}</span>
               <span>비교해 읽기: {meaning.contrastExample}</span>
             </span>
           </label>
         ))}
-        <label className="meaning-choice-card meaning-choice-card--uncertain">
+        <label className={['meaning-choice-card meaning-choice-card--uncertain', selectedDecision === uncertaintyDecision ? 'meaning-choice-card--selected' : ''].filter(Boolean).join(' ')}>
           <input
             ref={(element) => {
               if (selectedDecision === uncertaintyDecision) selectedRadioRef.current = element
@@ -85,7 +91,13 @@ export function MeaningSignpostScreen({
           />
           <span className="meaning-choice-icon" aria-hidden="true">?</span>
           <span className="meaning-choice-copy">
-            <strong>판단하기 어려움</strong>
+            <strong
+              className="meaning-choice-label"
+              style={selectedDecision === uncertaintyDecision ? { textDecoration: 'underline', textUnderlineOffset: '0.2em' } : undefined}
+            >
+              판단하기 어려움
+              {selectedDecision === uncertaintyDecision ? <span className="selection-status"><span aria-hidden="true">✓</span> 선택됨</span> : null}
+            </strong>
             <span>문장 속 단서만으로 한 뜻을 정하기 어려워요.</span>
             <span>더 알 수 있는 주변 말이 필요해요.</span>
           </span>
