@@ -55,10 +55,15 @@ describe('LiveRegion', () => {
       rerender(<LiveRegion tone="status" message="최신 안내" feedbackSequence={3} />);
       const currentFrameId = nextFrameId;
       expect(canceledFrameIds).toContain(staleFrameId);
-      expect(screen.getByRole('status')).toHaveTextContent('');
+      expect(screen.getByRole('status')).toBeEmptyDOMElement();
 
       act(() => {
         callbacks.get(staleFrameId)?.(0);
+      });
+      expect(screen.getByRole('status')).toBeEmptyDOMElement();
+      expect(screen.getByRole('status')).not.toHaveTextContent('두 번째 안내');
+
+      act(() => {
         callbacks.get(currentFrameId)?.(0);
       });
       expect(screen.getByRole('status')).toHaveTextContent('최신 안내');
