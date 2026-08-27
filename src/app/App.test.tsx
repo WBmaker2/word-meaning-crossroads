@@ -140,6 +140,26 @@ describe('App shell', () => {
     expect(closeButton).toHaveFocus();
   });
 
+  it('restores the update-history background attributes exactly', async () => {
+    const user = userEvent.setup();
+    const { container } = render(
+      <div className="app-shell">
+        <UpdateHistoryDialog />
+      </div>,
+    );
+    const background = container.firstElementChild as HTMLElement;
+    background.setAttribute('aria-hidden', 'false');
+    background.setAttribute('inert', 'until-found');
+
+    await user.click(screen.getByRole('button', { name: '업데이트 내역' }));
+    expect(background).toHaveAttribute('aria-hidden', 'true');
+    expect(background).toHaveAttribute('inert', '');
+
+    await user.keyboard('{Escape}');
+    expect(background).toHaveAttribute('aria-hidden', 'false');
+    expect(background).toHaveAttribute('inert', 'until-found');
+  });
+
   it('focuses a changed heading key, but not a rerender with the same key', () => {
     const { rerender } = render(
       <FocusHeading level={2} focusKey="first">

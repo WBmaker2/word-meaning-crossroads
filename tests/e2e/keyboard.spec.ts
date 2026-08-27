@@ -169,6 +169,7 @@ test('opens and closes update history with a keyboard modal boundary', async ({ 
   await expect(dialog).toBeVisible()
   await expect(close).toBeFocused()
   await expect(page.locator('.app-shell')).toHaveAttribute('inert', '')
+  await expect(page.locator('.app-shell')).toHaveAttribute('aria-hidden', 'true')
   await page.keyboard.press('Tab')
   await expect(close).toBeFocused()
   await page.keyboard.press('Shift+Tab')
@@ -177,12 +178,15 @@ test('opens and closes update history with a keyboard modal boundary', async ({ 
   await expect(dialog).toBeHidden()
   await expect(trigger).toBeFocused()
   await expect(page.locator('.app-shell')).not.toHaveAttribute('inert')
+  await expect(page.locator('.app-shell')).not.toHaveAttribute('aria-hidden')
 
   await page.keyboard.press('Enter')
   await expect(close).toBeFocused()
+  await expect(page.locator('.app-shell')).toHaveAttribute('aria-hidden', 'true')
   await page.keyboard.press('Escape')
   await expect(dialog).toBeHidden()
   await expect(trigger).toBeFocused()
+  await expect(page.locator('.app-shell')).not.toHaveAttribute('aria-hidden')
 })
 
 test('opens and cancels the restart dialog from the record with keyboard actions', async ({ page }) => {

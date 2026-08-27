@@ -29,21 +29,44 @@ export function UpdateHistoryDialog({ entries = UPDATE_HISTORY }: UpdateHistoryD
     const background = triggerRef.current?.closest<HTMLElement>('.app-shell')
     if (!background) return
     const originalInert = background.getAttribute('inert')
+    const originalAriaHidden = background.getAttribute('aria-hidden')
     const printQuery = typeof window.matchMedia === 'function' ? window.matchMedia('print') : null
-    const syncBackground = () => {
-      if (printQuery?.matches) background.removeAttribute('inert')
-      else background.setAttribute('inert', '')
-    }
-    syncBackground()
-    printQuery?.addEventListener('change', syncBackground)
-    window.addEventListener('beforeprint', syncBackground)
-    window.addEventListener('afterprint', syncBackground)
-    return () => {
-      printQuery?.removeEventListener('change', syncBackground)
-      window.removeEventListener('beforeprint', syncBackground)
-      window.removeEventListener('afterprint', syncBackground)
+    let isPrinting = printQuery?.matches ?? false
+    const restoreOriginalBackground = () => {
       if (originalInert === null) background.removeAttribute('inert')
       else background.setAttribute('inert', originalInert)
+      if (originalAriaHidden === null) background.removeAttribute('aria-hidden')
+      else background.setAttribute('aria-hidden', originalAriaHidden)
+    }
+    const syncBackground = () => {
+      if (isPrinting) {
+        restoreOriginalBackground()
+        return
+      }
+      background.setAttribute('inert', '')
+      background.setAttribute('aria-hidden', 'true')
+    }
+    const onPrintMediaChange = (event: MediaQueryListEvent) => {
+      isPrinting = event.matches
+      syncBackground()
+    }
+    const onBeforePrint = () => {
+      isPrinting = true
+      syncBackground()
+    }
+    const onAfterPrint = () => {
+      isPrinting = false
+      syncBackground()
+    }
+    syncBackground()
+    printQuery?.addEventListener('change', onPrintMediaChange)
+    window.addEventListener('beforeprint', onBeforePrint)
+    window.addEventListener('afterprint', onAfterPrint)
+    return () => {
+      printQuery?.removeEventListener('change', onPrintMediaChange)
+      window.removeEventListener('beforeprint', onBeforePrint)
+      window.removeEventListener('afterprint', onAfterPrint)
+      restoreOriginalBackground()
     }
   }, [isOpen])
 
