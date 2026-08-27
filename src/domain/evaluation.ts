@@ -121,7 +121,7 @@ export function evaluateCueNecessity(
   }
   return {
     isCorrect: false,
-    message: `${challenge.explanation} 가린 뒤 문장을 다시 읽어 보세요.`,
+    message: '가린 뒤 남은 말만으로 뜻을 정할 수 있는지 다시 비교해 보세요.',
     canContinue: false,
   }
 }

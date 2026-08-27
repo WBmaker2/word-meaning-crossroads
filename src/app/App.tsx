@@ -7,10 +7,13 @@ import { TextScaleControls } from '../components/common/TextScaleControls';
 import { UpdateHistoryDialog } from '../components/common/UpdateHistoryDialog';
 import { ContextSceneScreen } from '../components/screens/ContextSceneScreen';
 import { ClueInvestigationScreen } from '../components/screens/ClueInvestigationScreen';
+import { ComparisonScreen } from '../components/screens/ComparisonScreen';
 import { EntranceScreen } from '../components/screens/EntranceScreen';
 import { MeaningSignpostScreen } from '../components/screens/MeaningSignpostScreen';
 import { ROUTES } from '../content/routes';
-import type { ContextScene, MeaningDefinition, WordPack } from '../domain/contentTypes';
+import type { ContextScene, MeaningDefinition, MeaningDecisionId, WordPack } from '../domain/contentTypes';
+import { evaluateClueDecision, evaluateMeaningDecision } from '../domain/evaluation';
+import type { ClueDecision, SceneAttempt } from '../domain/sessionTypes';
 import { useLineSpacing } from '../hooks/useLineSpacing';
 import { useMissionSession } from '../hooks/useMissionSession';
 import { useTextScale } from '../hooks/useTextScale';
@@ -28,12 +31,99 @@ function findCandidateMeanings(
   return [first, second];
 }
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null;
+}
+
+function sceneTokens(scene: ContextScene): readonly { readonly id: string; readonly role: string }[] | null {
+  if (!Array.isArray(scene.sentences)) return null;
+  const tokens: { readonly id: string; readonly role: string }[] = [];
+  for (const sentence of scene.sentences) {
+    if (!isRecord(sentence) || !Array.isArray(sentence.tokens)) return null;
+    for (const token of sentence.tokens) {
+      if (!isRecord(token) || typeof token.id !== 'string' || typeof token.role !== 'string') return null;
+      tokens.push({ id: token.id, role: token.role });
+    }
+  }
+  return tokens;
+}
+
+function validCompletedSceneAttempt(
+  wordPack: WordPack,
+  scene: ContextScene,
+  value: unknown,
+): SceneAttempt | null {
+  if (!isRecord(value) || value.sceneId !== scene.id) return null;
+  const meaningEvaluation = value.meaningEvaluation;
+  const clueEvaluation = value.clueEvaluation;
+  if (
+    !isRecord(meaningEvaluation) ||
+    meaningEvaluation.isCorrect !== true ||
+    meaningEvaluation.canContinue !== true ||
+    !['specific-meaning', 'insufficient-context'].includes(String(meaningEvaluation.decisionKind)) ||
+    typeof meaningEvaluation.message !== 'string'
+  ) return null;
+  if (
+    !isRecord(clueEvaluation) ||
+    clueEvaluation.isCorrect !== true ||
+    clueEvaluation.canContinue !== true ||
+    !['decisive', 'supportive-only', 'insufficient-correct', 'insufficient-wrong', 'too-many'].includes(String(clueEvaluation.evidenceKind)) ||
+    typeof clueEvaluation.message !== 'string'
+  ) return null;
+  if (typeof value.initialPrediction !== 'string') return null;
+  if (typeof value.meaningDecision !== 'string' || value.meaningDecision === 'insufficient-context') return null;
+  if (!Array.isArray(wordPack.meanings) || !wordPack.meanings.some((meaning) => meaning.id === value.meaningDecision)) return null;
+
+  const clueDecision = value.clueDecision;
+  if (!isRecord(clueDecision) || clueDecision.kind !== 'tokens' || !Array.isArray(clueDecision.tokenIds)) return null;
+  if (clueDecision.tokenIds.length < 1 || clueDecision.tokenIds.length > 2) return null;
+  if (!clueDecision.tokenIds.every((tokenId): tokenId is string => typeof tokenId === 'string')) return null;
+  if (new Set(clueDecision.tokenIds).size !== clueDecision.tokenIds.length) return null;
+  const tokens = sceneTokens(scene);
+  if (!tokens) return null;
+  const available = new Map(tokens.map((token) => [token.id, token]));
+  if (!clueDecision.tokenIds.every((tokenId) => available.has(tokenId) && available.get(tokenId)?.role !== 'target')) return null;
+  const canonicalClue = evaluateClueDecision(scene, clueDecision as unknown as ClueDecision);
+  const canonicalMeaning = evaluateMeaningDecision(scene, value.meaningDecision as MeaningDecisionId);
+  if (!canonicalClue.isCorrect || !canonicalClue.canContinue || !canonicalMeaning.isCorrect || !canonicalMeaning.canContinue) return null;
+  if (
+    meaningEvaluation.isCorrect !== canonicalMeaning.isCorrect ||
+    meaningEvaluation.canContinue !== canonicalMeaning.canContinue ||
+    meaningEvaluation.decisionKind !== canonicalMeaning.decisionKind ||
+    clueEvaluation.isCorrect !== canonicalClue.isCorrect ||
+    clueEvaluation.canContinue !== canonicalClue.canContinue ||
+    clueEvaluation.evidenceKind !== canonicalClue.evidenceKind
+  ) return null;
+  return value as unknown as SceneAttempt;
+}
+
+function findCompletedComparisonScenes(
+  wordPack: WordPack,
+  attempts: unknown,
+): readonly [SceneAttempt, SceneAttempt] | null {
+  if (!Array.isArray(attempts) || !Array.isArray(wordPack.scenes)) return null;
+  const wordAttempt = attempts.find((attempt) => isRecord(attempt) && attempt.wordId === wordPack.id);
+  if (!isRecord(wordAttempt) || !Array.isArray(wordAttempt.scenes)) return null;
+  const firstScene = wordPack.scenes.find((scene) => isRecord(scene) && scene.order === 1);
+  const secondScene = wordPack.scenes.find((scene) => isRecord(scene) && scene.order === 2);
+  if (!firstScene || !secondScene) return null;
+  const firstValue = wordAttempt.scenes.find((attempt) => isRecord(attempt) && attempt.sceneId === firstScene.id);
+  const secondValue = wordAttempt.scenes.find((attempt) => isRecord(attempt) && attempt.sceneId === secondScene.id);
+  const firstAttempt = validCompletedSceneAttempt(wordPack, firstScene, firstValue);
+  const secondAttempt = validCompletedSceneAttempt(wordPack, secondScene, secondValue);
+  if (!firstAttempt || !secondAttempt) return null;
+  return [firstAttempt, secondAttempt];
+}
+
 export default function App(): ReactElement {
   const { state, currentWordPack, currentScene, feedback, dispatch } = useMissionSession();
   const textScale = useTextScale();
   const lineSpacing = useLineSpacing();
   const candidateMeanings = currentWordPack && currentScene
     ? findCandidateMeanings(currentWordPack, currentScene)
+    : null;
+  const completedComparisonScenes = currentWordPack
+    ? findCompletedComparisonScenes(currentWordPack, state.attempts)
     : null;
 
   return (
@@ -91,6 +181,14 @@ export default function App(): ReactElement {
             scene={currentScene}
             candidateMeanings={candidateMeanings}
             onConfirmMeaning={(decision) => dispatch({ type: 'CONFIRM_MEANING', decision })}
+            onClearFeedback={() => dispatch({ type: 'CLEAR_FEEDBACK' })}
+          />
+        ) : state.phase === 'comparison' && currentWordPack && completedComparisonScenes ? (
+          <ComparisonScreen
+            wordPack={currentWordPack}
+            completedScenes={completedComparisonScenes}
+            challenge={currentWordPack.necessityChallenge}
+            onConfirmCueNecessity={(decision) => dispatch({ type: 'CONFIRM_CUE_NECESSITY', decision })}
             onClearFeedback={() => dispatch({ type: 'CLEAR_FEEDBACK' })}
           />
         ) : (

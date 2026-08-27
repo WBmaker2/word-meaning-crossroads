@@ -3,6 +3,7 @@ import { WORD_PACKS } from '../content/wordPacks'
 import type {
   ContextScene,
   CueNecessityChallenge,
+  CueNecessityDecision,
   RepairChallenge,
 } from './contentTypes'
 import type { ClueDecision } from './sessionTypes'
@@ -183,13 +184,25 @@ describe('evaluateMeaningDecision', () => {
 })
 
 describe('evaluateCueNecessity', () => {
+  const expectedClarityById: Record<CueNecessityChallenge['id'], CueNecessityDecision> = {
+    'necessity-nun': 'still-clear',
+    'necessity-bae': 'now-unclear',
+    'necessity-bam': 'now-unclear',
+    'necessity-mal': 'now-unclear',
+    'necessity-chada': 'still-clear',
+    'necessity-dari': 'still-clear',
+    'necessity-sseuda': 'still-clear',
+    'necessity-gamda': 'still-clear',
+  }
+  const neutralWrongMessage = '가린 뒤 남은 말만으로 뜻을 정할 수 있는지 다시 비교해 보세요.'
+
   it('accepts only now-unclear for necessity-bae and explains removed 타고', () => {
     const target = necessity('necessity-bae')
     const correct = evaluateCueNecessity(target, 'now-unclear')
     expect(correct).toEqual({ isCorrect: true, message: target.explanation, canContinue: true })
     expect(evaluateCueNecessity(target, 'still-clear')).toEqual({
       isCorrect: false,
-      message: `${target.explanation} 가린 뒤 문장을 다시 읽어 보세요.`,
+      message: neutralWrongMessage,
       canContinue: false,
     })
   })
@@ -200,9 +213,19 @@ describe('evaluateCueNecessity', () => {
     expect(correct).toEqual({ isCorrect: true, message: target.explanation, canContinue: true })
     expect(evaluateCueNecessity(target, 'now-unclear')).toEqual({
       isCorrect: false,
-      message: `${target.explanation} 가린 뒤 문장을 다시 읽어 보세요.`,
+      message: neutralWrongMessage,
       canContinue: false,
     })
+  })
+
+  it.each(Object.entries(expectedClarityById))('uses the reviewed expected clarity for %s and never leaks it on wrong choice', (challengeId, expected) => {
+    const target = necessity(challengeId as CueNecessityChallenge['id'])
+    expect(target.expectedClarity).toBe(expected)
+    expect(evaluateCueNecessity(target, expected)).toEqual({ isCorrect: true, message: target.explanation, canContinue: true })
+    const wrong: CueNecessityDecision = expected === 'still-clear' ? 'now-unclear' : 'still-clear'
+    expect(evaluateCueNecessity(target, wrong)).toEqual({ isCorrect: false, message: neutralWrongMessage, canContinue: false })
+    expect(neutralWrongMessage).not.toContain(target.explanation)
+    expect(neutralWrongMessage).not.toContain(expected === 'still-clear' ? '분명' : '어려워')
   })
 })
 
