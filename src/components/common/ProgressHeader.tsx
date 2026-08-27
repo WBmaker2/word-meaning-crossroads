@@ -7,7 +7,11 @@ export function ProgressHeader({ currentWordIndex, totalWords }: ProgressHeaderP
   if (totalWords < 1) return null
 
   return (
-    <p className="progress-header" aria-label={`현재 낱말 ${currentWordIndex}/${totalWords}`}>
+    <p
+      className="progress-header"
+      role="group"
+      aria-label={`현재 낱말 ${currentWordIndex}번째, 전체 ${totalWords}개`}
+    >
       현재 낱말 {currentWordIndex}/{totalWords}
     </p>
   )

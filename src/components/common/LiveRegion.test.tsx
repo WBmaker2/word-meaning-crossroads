@@ -1,9 +1,12 @@
-import { act, render, screen } from '@testing-library/react';
+import { act, cleanup, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { LiveRegion } from './LiveRegion';
 
 describe('LiveRegion', () => {
-  afterEach(() => vi.useRealTimers());
+  afterEach(() => {
+    cleanup();
+    vi.useRealTimers();
+  });
 
   it('renders one visible error announcer', () => {
     const { container } = render(
@@ -26,6 +29,22 @@ describe('LiveRegion', () => {
     expect(screen.getByRole('status')).toHaveTextContent('');
     act(() => vi.runOnlyPendingTimers());
     expect(screen.getByRole('status')).toHaveTextContent('잘 찾았어요');
+    vi.useRealTimers();
+  });
+
+  it('does not let an older animation frame restore stale feedback', () => {
+    vi.useFakeTimers();
+    const { rerender } = render(
+      <LiveRegion tone="status" message="첫 번째 안내" feedbackSequence={1} />,
+    );
+
+    rerender(<LiveRegion tone="status" message="두 번째 안내" feedbackSequence={2} />);
+    rerender(<LiveRegion tone="status" message="최신 안내" feedbackSequence={3} />);
+    expect(screen.getByRole('status')).toHaveTextContent('');
+
+    act(() => vi.runOnlyPendingTimers());
+    expect(screen.getByRole('status')).toHaveTextContent('최신 안내');
+    expect(screen.getByRole('status')).not.toHaveTextContent('두 번째 안내');
     vi.useRealTimers();
   });
 });

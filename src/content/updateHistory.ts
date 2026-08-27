@@ -20,4 +20,9 @@ export const UPDATE_HISTORY = [
     category: '개선',
     detail: '키보드만으로 학습 흐름을 이어가고 단계 제목으로 초점을 안내하도록 개선',
   },
+  {
+    date: '2026-08-27',
+    category: '개선',
+    detail: '스크린 리더 의미 구조와 단일 판정 알림을 자동 검증하고 실제 VoiceOver 검수는 별도로 남김',
+  },
 ] as const satisfies readonly UpdateHistoryEntry[]

@@ -80,8 +80,12 @@ export function SentenceRepairScreen({
         <p>{isRecord(challenge) && typeof challenge.ambiguousSentence === 'string' ? challenge.ambiguousSentence : '문장을 확인할 수 없어요.'}</p>
       </div>
 
-      <fieldset className="sentence-repair-choice-group" aria-describedby="sentence-repair-help repair-preview">
-        <legend>문장 정비 방법</legend>
+      <fieldset
+        className="sentence-repair-choice-group"
+        aria-label="문장 정비 방법"
+        aria-describedby="sentence-repair-help repair-preview"
+      >
+        <legend>문장 정비 방법은 무엇일까요?</legend>
         {solutions.map((solution) => (
           <label className="sentence-repair-choice-card" key={solution.id}>
             <input

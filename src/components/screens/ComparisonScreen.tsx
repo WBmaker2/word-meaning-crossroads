@@ -76,6 +76,19 @@ function OriginalSentence({ sentence, hiddenTokenText }: { readonly sentence: st
   )
 }
 
+function HiddenCueSentence({ sentence }: { readonly sentence: string }) {
+  const hiddenCueMarker = '______'
+  const hiddenStart = sentence.indexOf(hiddenCueMarker)
+  if (hiddenStart < 0) return <>{sentence}</>
+  return (
+    <>
+      {sentence.slice(0, hiddenStart)}
+      <span role="img" aria-label="가린 단서">{hiddenCueMarker}</span>
+      {sentence.slice(hiddenStart + hiddenCueMarker.length)}
+    </>
+  )
+}
+
 function ComparisonCard({ wordPack, attempt, scene }: { readonly wordPack: WordPack; readonly attempt: SceneAttempt; readonly scene: ContextScene }) {
   const clue = clueDisplay(attempt, scene)
   const clueIds = clue.kind === 'tokens' ? clue.tokenIds : []
@@ -212,7 +225,9 @@ export function ComparisonScreen({ wordPack, completedScenes, challenge, onConfi
           </>
         ) : (
           <>
-            <p data-testid="necessity-hidden-sentence">{challenge.sentenceAfterHide}</p>
+            <p data-testid="necessity-hidden-sentence">
+              <HiddenCueSentence sentence={challenge.sentenceAfterHide} />
+            </p>
             <fieldset className="necessity-choice-group">
               <legend>가린 뒤 문장의 뜻은 어떠한가요?</legend>
               {CLARITY_CHOICES.map(({ value, label }) => (

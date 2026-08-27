@@ -10,8 +10,11 @@ export interface LiveRegionProps {
 export function LiveRegion({ tone, message, feedbackSequence }: LiveRegionProps) {
   const [spokenMessage, setSpokenMessage] = useState(message)
   const previousSequence = useRef(feedbackSequence)
+  const pendingAnnouncement = useRef(0)
 
   useEffect(() => {
+    const announcementId = pendingAnnouncement.current + 1
+    pendingAnnouncement.current = announcementId
     if (previousSequence.current === feedbackSequence) {
       setSpokenMessage(message)
       return
@@ -19,8 +22,13 @@ export function LiveRegion({ tone, message, feedbackSequence }: LiveRegionProps)
 
     previousSequence.current = feedbackSequence
     setSpokenMessage('')
-    const frame = requestAnimationFrame(() => setSpokenMessage(message))
-    return () => cancelAnimationFrame(frame)
+    const frame = requestAnimationFrame(() => {
+      if (pendingAnnouncement.current === announcementId) setSpokenMessage(message)
+    })
+    return () => {
+      cancelAnimationFrame(frame)
+      if (pendingAnnouncement.current === announcementId) pendingAnnouncement.current += 1
+    }
   }, [feedbackSequence, message])
 
   const isError = tone === 'error'

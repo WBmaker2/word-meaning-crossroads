@@ -106,7 +106,7 @@ export function ClueInvestigationScreen({
             {sentence.tokens.map((token) => (
               <span data-testid="clue-token" key={token.id}>
                 {token.role === 'target' ? (
-                  <mark data-testid={`target-token-${token.id}`} aria-label={`${token.text}, 목표 낱말`}>
+                  <mark role="group" data-testid={`target-token-${token.id}`} aria-label={`${token.text}, 목표 낱말`}>
                     <span className="token-label">낱말</span>{' '}
                     {token.text}
                   </mark>
@@ -179,7 +179,10 @@ const TokenButton = forwardRef<HTMLButtonElement, TokenButtonProps>(function Tok
     >
       {selected ? <span aria-hidden="true">✓ </span> : null}
       {token.text}
-      <span className={selected ? 'selection-status' : 'visually-hidden'} style={selected ? undefined : visuallyHiddenStyle}>
+      <span
+        className={selected ? 'selection-status' : 'visually-hidden'}
+        style={selected ? { color: 'var(--color-primary)' } : visuallyHiddenStyle}
+      >
         {stateLabel}
       </span>
     </button>

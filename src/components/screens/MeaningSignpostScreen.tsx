@@ -53,8 +53,8 @@ export function MeaningSignpostScreen({
       </FocusHeading>
       <p id="meaning-choice-help">문장 속 단서를 떠올리며 알맞은 뜻을 하나 골라요.</p>
 
-      <fieldset className="meaning-choice-group" role="radiogroup" aria-describedby="meaning-choice-help">
-        <legend>뜻 선택</legend>
+      <fieldset className="meaning-choice-group" role="radiogroup" aria-label="뜻 선택" aria-describedby="meaning-choice-help">
+        <legend>문장 속 뜻은 무엇일까요?</legend>
         {candidateMeanings.map((meaning, index) => (
           <label className={['meaning-choice-card', selectedDecision === meaning.id ? 'meaning-choice-card--selected' : ''].filter(Boolean).join(' ')} key={meaning.id}>
             <input
@@ -74,7 +74,7 @@ export function MeaningSignpostScreen({
                 style={selectedDecision === meaning.id ? { textDecoration: 'underline', textUnderlineOffset: '0.2em' } : undefined}
               >
                 {meaning.childFriendlyLabel}
-                {selectedDecision === meaning.id ? <span className="selection-status"><span aria-hidden="true">✓</span> 선택됨</span> : null}
+                {selectedDecision === meaning.id ? <span className="selection-status" style={{ color: 'var(--color-primary)' }}><span aria-hidden="true">✓</span> 선택됨</span> : null}
               </strong>
               <span>{meaning.childFriendlyDescription}</span>
               <span>비교해 읽기: {meaning.contrastExample}</span>
@@ -99,7 +99,7 @@ export function MeaningSignpostScreen({
               style={selectedDecision === uncertaintyDecision ? { textDecoration: 'underline', textUnderlineOffset: '0.2em' } : undefined}
             >
               판단하기 어려움
-              {selectedDecision === uncertaintyDecision ? <span className="selection-status"><span aria-hidden="true">✓</span> 선택됨</span> : null}
+              {selectedDecision === uncertaintyDecision ? <span className="selection-status" style={{ color: 'var(--color-primary)' }}><span aria-hidden="true">✓</span> 선택됨</span> : null}
             </strong>
             <span>문장 속 단서만으로 한 뜻을 정하기 어려워요.</span>
             <span>더 알 수 있는 주변 말이 필요해요.</span>

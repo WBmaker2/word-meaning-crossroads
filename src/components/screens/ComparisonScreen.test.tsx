@@ -101,7 +101,9 @@ describe('ComparisonScreen', () => {
     expect(screen.queryAllByRole('radio')).toHaveLength(0)
 
     await user.click(screen.getByRole('button', { name: '단서 하나 가리기' }))
-    expect(screen.getByText(pack.necessityChallenge.sentenceAfterHide)).toBeInTheDocument()
+    const hiddenSentence = screen.getByTestId('necessity-hidden-sentence')
+    expect(hiddenSentence).toHaveTextContent(pack.necessityChallenge.sentenceAfterHide)
+    expect(within(hiddenSentence).getByRole('img', { name: '가린 단서' })).toBeInTheDocument()
     const radios = screen.getAllByRole('radio')
     expect(radios).toHaveLength(2)
     expect(radios[0]).toHaveFocus()

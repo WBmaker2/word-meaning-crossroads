@@ -55,11 +55,24 @@ export function ContextSceneScreen({
   }
 
   return (
-    <section className="context-card" aria-labelledby="context-title" data-context-order={scene.order}>
+    <section
+      className="context-card"
+      aria-labelledby="context-title context-target-word"
+      data-context-order={scene.order}
+    >
       <p className="scene-kicker">{wordPack.lemma} 낱말 탐험</p>
-      <FocusHeading level={2} focusKey={scene.id} focusOnMount id="context-title">
+      <FocusHeading
+        level={2}
+        focusKey={scene.id}
+        focusOnMount
+        id="context-title"
+        aria-describedby="context-target-word"
+      >
         문장을 읽고 처음 생각을 적어 보아요
       </FocusHeading>
+      <span id="context-target-word" className="visually-hidden">
+        목표 낱말: {wordPack.lemma}
+      </span>
       <div className="neutral-illustration-wrap">
         <NeutralCrossroadsIllustration illustrationId={scene.illustrationId} wordId={scene.wordId} />
       </div>
@@ -68,7 +81,7 @@ export function ContextSceneScreen({
           <p key={sentence.id} data-sentence-id={sentence.id}>
             {sentence.tokens.map((token) => {
               const tokenContent = token.role === 'target' ? (
-                <mark>
+                <mark role="group" aria-label={`${token.text}, 목표 낱말`}>
                   <span className="token-label">낱말</span>{' '}
                   {token.text}
                 </mark>

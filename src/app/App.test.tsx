@@ -72,16 +72,17 @@ describe('App shell', () => {
       'calc(12px + env(safe-area-inset-bottom))',
     );
     expect((await axe(dialog)).violations).toHaveLength(0);
-    expect(within(dialog).getAllByRole('listitem')).toHaveLength(3);
+    expect(within(dialog).getAllByRole('listitem')).toHaveLength(4);
     expect(within(dialog).getAllByRole('listitem')[0]).toHaveTextContent('2026-08-26');
     expect(within(dialog).getAllByRole('listitem')[0]).toHaveTextContent('설계');
     expect(within(dialog).getAllByRole('listitem')[0]).toHaveTextContent('최초 설계 문서 작성');
     expect(within(dialog).getByText('2026-08-26')).toBeInTheDocument();
     expect(within(dialog).getByText('설계')).toBeInTheDocument();
     expect(within(dialog).getByText('최초 설계 문서 작성')).toBeInTheDocument();
-    expect(within(dialog).getAllByText('2026-08-27')).toHaveLength(2);
+    expect(within(dialog).getAllByText('2026-08-27')).toHaveLength(3);
     expect(within(dialog).getByText(/모바일 화면과 200% 글자 크기/)).toBeInTheDocument();
     expect(within(dialog).getByText(/키보드만으로 학습 흐름/)).toBeInTheDocument();
+    expect(within(dialog).getByText(/스크린 리더 의미 구조와 단일 판정 알림/)).toBeInTheDocument();
     expect(within(dialog).queryByText(/개발 완료|구현 완료/)).not.toBeInTheDocument();
     expect(document.querySelector('.app-shell')).toHaveAttribute('inert', '');
 
