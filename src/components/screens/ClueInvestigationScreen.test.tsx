@@ -180,7 +180,7 @@ describe('App clue-investigation integration', () => {
     await user.click(screen.getByRole('button', { name: new RegExp(decisive.text) }))
     await user.click(screen.getByRole('button', { name: /뜻 확인/ }))
     expect(screen.queryByRole('heading', { name: '문장에서 뜻을 알려 주는 단서를 골라 보아요' })).not.toBeInTheDocument()
-    expect(screen.getByRole('radiogroup', { name: '뜻 선택' })).toBeInTheDocument()
+    expect(screen.getByRole('radiogroup', { name: '문장 속 뜻은 무엇일까요?' })).toBeInTheDocument()
     expect(document.querySelectorAll('[data-feedback-announcer]')).toHaveLength(1)
   })
 })

@@ -82,10 +82,10 @@ export function SentenceRepairScreen({
 
       <fieldset
         className="sentence-repair-choice-group"
-        aria-label="문장 정비 방법"
+        aria-labelledby="sentence-repair-legend"
         aria-describedby="sentence-repair-help repair-preview"
       >
-        <legend>문장 정비 방법은 무엇일까요?</legend>
+        <legend id="sentence-repair-legend">문장 정비 방법은 무엇일까요?</legend>
         {solutions.map((solution) => (
           <label className="sentence-repair-choice-card" key={solution.id}>
             <input

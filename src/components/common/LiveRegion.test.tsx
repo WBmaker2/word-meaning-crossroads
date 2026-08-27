@@ -32,19 +32,40 @@ describe('LiveRegion', () => {
     vi.useRealTimers();
   });
 
-  it('does not let an older animation frame restore stale feedback', () => {
-    vi.useFakeTimers();
-    const { rerender } = render(
-      <LiveRegion tone="status" message="첫 번째 안내" feedbackSequence={1} />,
-    );
+  it('ignores a canceled stale frame while accepting the newest frame', () => {
+    let nextFrameId = 0;
+    const callbacks = new Map<number, FrameRequestCallback>();
+    const canceledFrameIds: number[] = [];
+    const requestFrame = vi.spyOn(window, 'requestAnimationFrame').mockImplementation((callback) => {
+      const frameId = ++nextFrameId;
+      callbacks.set(frameId, callback);
+      return frameId;
+    });
+    const cancelFrame = vi.spyOn(window, 'cancelAnimationFrame').mockImplementation((frameId) => {
+      canceledFrameIds.push(frameId);
+    });
 
-    rerender(<LiveRegion tone="status" message="두 번째 안내" feedbackSequence={2} />);
-    rerender(<LiveRegion tone="status" message="최신 안내" feedbackSequence={3} />);
-    expect(screen.getByRole('status')).toHaveTextContent('');
+    try {
+      const { rerender } = render(
+        <LiveRegion tone="status" message="첫 번째 안내" feedbackSequence={1} />,
+      );
 
-    act(() => vi.runOnlyPendingTimers());
-    expect(screen.getByRole('status')).toHaveTextContent('최신 안내');
-    expect(screen.getByRole('status')).not.toHaveTextContent('두 번째 안내');
-    vi.useRealTimers();
+      rerender(<LiveRegion tone="status" message="두 번째 안내" feedbackSequence={2} />);
+      const staleFrameId = nextFrameId;
+      rerender(<LiveRegion tone="status" message="최신 안내" feedbackSequence={3} />);
+      const currentFrameId = nextFrameId;
+      expect(canceledFrameIds).toContain(staleFrameId);
+      expect(screen.getByRole('status')).toHaveTextContent('');
+
+      act(() => {
+        callbacks.get(staleFrameId)?.(0);
+        callbacks.get(currentFrameId)?.(0);
+      });
+      expect(screen.getByRole('status')).toHaveTextContent('최신 안내');
+      expect(screen.getByRole('status')).not.toHaveTextContent('두 번째 안내');
+    } finally {
+      requestFrame.mockRestore();
+      cancelFrame.mockRestore();
+    }
   });
 });

@@ -235,7 +235,7 @@ describe('ComparisonScreen', () => {
     await user.click(screen.getByRole('button', { name: '판단 확인하기' }))
 
     await finishScene(/결정 단서가 없어요/, /판단하기 어려움/)
-    expect(screen.queryByRole('radiogroup', { name: '뜻 선택' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('radiogroup', { name: '문장 속 뜻은 무엇일까요?' })).not.toBeInTheDocument()
     await waitFor(() => expect(screen.getByRole('status')).toHaveTextContent('단서가 부족하다는 판단도 근거 있는 선택이에요.'))
     expect(screen.queryByText('모르겠다')).not.toBeInTheDocument()
   })

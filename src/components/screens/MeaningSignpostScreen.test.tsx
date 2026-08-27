@@ -36,7 +36,8 @@ describe('MeaningSignpostScreen', () => {
   it('shows exactly two ordered meaning cards and a third uncertainty choice', () => {
     renderScreen()
 
-    const group = screen.getByRole('radiogroup', { name: '뜻 선택' })
+    const group = screen.getByRole('radiogroup', { name: '문장 속 뜻은 무엇일까요?' })
+    expect(group).toHaveAccessibleName('문장 속 뜻은 무엇일까요?')
     const radios = within(group).getAllByRole('radio')
     expect(radios).toHaveLength(3)
     expect(radios.map((radio) => radio.getAttribute('value'))).toEqual([
@@ -54,7 +55,7 @@ describe('MeaningSignpostScreen', () => {
   it('uses native radio keyboard behavior and enables submit only after selection', async () => {
     const user = userEvent.setup()
     renderScreen()
-    const group = screen.getByRole('radiogroup', { name: '뜻 선택' })
+    const group = screen.getByRole('radiogroup', { name: '문장 속 뜻은 무엇일까요?' })
     const radios = within(group).getAllByRole('radio')
     const submit = screen.getByRole('button', { name: '선택한 뜻 결정하기' })
 
@@ -157,7 +158,7 @@ describe('MeaningSignpostScreen', () => {
 
   it('has no forbidden taxonomy terms in UI names and passes axe', async () => {
     renderScreen()
-    const group = screen.getByRole('radiogroup', { name: '뜻 선택' })
+    const group = screen.getByRole('radiogroup', { name: '문장 속 뜻은 무엇일까요?' })
     const restrictedTerms = [
       ['동', '음', '이', '의', '어'].join(''),
       ['다', '의', '어'].join(''),
@@ -183,13 +184,13 @@ describe('meaning signpost integration', () => {
     const decisiveText = firstScene.sentences[0].tokens.find((token) => token.id === decisiveToken)!.text
     await user.click(screen.getByRole('button', { name: new RegExp(decisiveText) }))
     await user.click(screen.getByRole('button', { name: /뜻 확인/ }))
-    expect(screen.getByRole('radiogroup', { name: '뜻 선택' })).toBeInTheDocument()
+    expect(screen.getByRole('radiogroup', { name: '문장 속 뜻은 무엇일까요?' })).toBeInTheDocument()
     expect(document.querySelectorAll('[data-feedback-announcer]')).toHaveLength(1)
 
     await user.click(screen.getByRole('radio', { name: /보는 눈/ }))
     await user.click(screen.getByRole('button', { name: '선택한 뜻 결정하기' }))
     await waitFor(() => expect(screen.getByRole('alert')).toHaveTextContent(/내려/))
-    expect(screen.getByRole('radiogroup', { name: '뜻 선택' })).toBeInTheDocument()
+    expect(screen.getByRole('radiogroup', { name: '문장 속 뜻은 무엇일까요?' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: '선택한 뜻 결정하기' })).toBeDisabled()
     expect(screen.queryByRole('alert', { name: /그 뜻이 되려면/ })).not.toBeInTheDocument()
     expect(screen.getByText('그 뜻이 되려면 주변에 어떤 말이 필요할까요?')).toBeInTheDocument()

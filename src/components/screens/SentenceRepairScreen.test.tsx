@@ -28,7 +28,8 @@ describe('SentenceRepairScreen', () => {
     )
 
     expect(screen.getByText(target.ambiguousSentence)).toBeInTheDocument()
-    const group = screen.getByRole('group', { name: '문장 정비 방법' })
+    const group = screen.getByRole('group', { name: '문장 정비 방법은 무엇일까요?' })
+    expect(group).toHaveAccessibleName('문장 정비 방법은 무엇일까요?')
     const radios = within(group).getAllByRole('radio')
     expect(radios).toHaveLength(target.solutions.length)
     expect(radios.map((radio) => radio.getAttribute('value'))).toEqual(target.solutions.map((solution) => solution.id))
@@ -60,7 +61,7 @@ describe('SentenceRepairScreen', () => {
       />,
     )
 
-    const group = screen.getByRole('group', { name: '문장 정비 방법' })
+    const group = screen.getByRole('group', { name: '문장 정비 방법은 무엇일까요?' })
     const radios = within(group).getAllByRole('radio')
     radios[0]!.focus()
     await user.keyboard('{ArrowDown}')
@@ -206,7 +207,7 @@ describe('SentenceRepairScreen', () => {
     await finishScene(/결정 단서가 없어요/, /판단하기 어려움/)
 
     expect(screen.getByText(target.ambiguousSentence)).toBeInTheDocument()
-    const repairGroup = screen.getByRole('group', { name: '문장 정비 방법' })
+    const repairGroup = screen.getByRole('group', { name: '문장 정비 방법은 무엇일까요?' })
     expect(within(repairGroup).getAllByRole('radio')).toHaveLength(target.solutions.length)
     await user.click(within(repairGroup).getByRole('radio', { name: /창밖에 내리는/ }))
     expect(document.getElementById('repair-preview')).toHaveTextContent(target.solutions[0].completedSentence)

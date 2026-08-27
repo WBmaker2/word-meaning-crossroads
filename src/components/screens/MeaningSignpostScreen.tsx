@@ -53,8 +53,13 @@ export function MeaningSignpostScreen({
       </FocusHeading>
       <p id="meaning-choice-help">문장 속 단서를 떠올리며 알맞은 뜻을 하나 골라요.</p>
 
-      <fieldset className="meaning-choice-group" role="radiogroup" aria-label="뜻 선택" aria-describedby="meaning-choice-help">
-        <legend>문장 속 뜻은 무엇일까요?</legend>
+      <fieldset
+        className="meaning-choice-group"
+        role="radiogroup"
+        aria-labelledby="meaning-choice-legend"
+        aria-describedby="meaning-choice-help"
+      >
+        <legend id="meaning-choice-legend">문장 속 뜻은 무엇일까요?</legend>
         {candidateMeanings.map((meaning, index) => (
           <label className={['meaning-choice-card', selectedDecision === meaning.id ? 'meaning-choice-card--selected' : ''].filter(Boolean).join(' ')} key={meaning.id}>
             <input

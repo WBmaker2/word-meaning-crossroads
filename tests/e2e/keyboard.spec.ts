@@ -81,7 +81,7 @@ test('completes the first core word with keyboard-only learner actions', async (
   await page.keyboard.press('Enter')
   await expectFocusedHeading(page, '문장 속 뜻을 골라 보아요')
 
-  const meaningRadios = page.getByRole('radiogroup', { name: '뜻 선택' }).getByRole('radio')
+  const meaningRadios = page.getByRole('radiogroup', { name: '문장 속 뜻은 무엇일까요?' }).getByRole('radio')
   await page.keyboard.press('Tab')
   await expect(meaningRadios.nth(0)).toBeFocused()
   await page.keyboard.press('ArrowDown')
