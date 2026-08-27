@@ -10,6 +10,7 @@ import { ClueInvestigationScreen } from '../components/screens/ClueInvestigation
 import { ComparisonScreen } from '../components/screens/ComparisonScreen';
 import { EntranceScreen } from '../components/screens/EntranceScreen';
 import { MeaningSignpostScreen } from '../components/screens/MeaningSignpostScreen';
+import { SentenceRepairScreen } from '../components/screens/SentenceRepairScreen';
 import { ROUTES } from '../content/routes';
 import type { ContextScene, MeaningDefinition, MeaningDecisionId, WordPack } from '../domain/contentTypes';
 import { evaluateClueDecision, evaluateMeaningDecision } from '../domain/evaluation';
@@ -189,6 +190,13 @@ export default function App(): ReactElement {
             completedScenes={completedComparisonScenes}
             challenge={currentWordPack.necessityChallenge}
             onConfirmCueNecessity={(decision) => dispatch({ type: 'CONFIRM_CUE_NECESSITY', decision })}
+            onClearFeedback={() => dispatch({ type: 'CLEAR_FEEDBACK' })}
+          />
+        ) : state.phase === 'sentence-repair' && currentWordPack ? (
+          <SentenceRepairScreen
+            challenge={currentWordPack.repair}
+            onConfirmRepair={(solutionId) => dispatch({ type: 'CONFIRM_REPAIR', solutionId })}
+            onFeedback={(nextFeedback) => dispatch({ type: 'ANNOUNCE_FEEDBACK', feedback: nextFeedback })}
             onClearFeedback={() => dispatch({ type: 'CLEAR_FEEDBACK' })}
           />
         ) : (
