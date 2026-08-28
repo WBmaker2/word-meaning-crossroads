@@ -36,7 +36,7 @@ export const nun = {
       audioSrc: '/audio/scenes/nun-uncertain-03.mp3', illustrationId: 'crossroads-nun',
     },
   ],
-  necessityChallenge: { id: 'necessity-nun', wordId: 'nun', originalSentence: '민서는 눈으로 칠판 글씨를 보았습니다.', hiddenTokenText: '보았습니다', sentenceAfterHide: '민서는 눈으로 칠판 글씨를 ______.', expectedClarity: 'still-clear', explanation: '‘눈으로’와 ‘칠판 글씨를’이 남아 보는 눈이라는 뜻을 알 수 있어요.' },
+  necessityChallenge: { id: 'necessity-nun', wordId: 'nun', originalSentence: '민서는 눈으로 칠판 글씨를 보았습니다.', hiddenTokenText: '보았습니다', sentenceAfterHide: '민서는 눈으로 칠판 글씨를 ______.', expectedClarity: 'still-clear', explanation: '‘눈으로’와 ‘칠판 글씨를’이라는 말이 남아 보는 눈이라는 뜻을 알 수 있어요.' },
   repair: { id: 'repair-nun', wordId: 'nun', ambiguousSentence: '나는 눈을 보았다.', solutions: [
     { id: 'nun-snow', meaningId: 'nun:snow', blockLabel: '내리는 눈 단서', completedSentence: '나는 창밖에 내리는 눈을 보았다.', reviewNote: '내리는 장소와 모습을 덧붙였어요.' },
     { id: 'nun-eye', meaningId: 'nun:eye', blockLabel: '보는 눈 단서', completedSentence: '나는 거울 속 내 눈을 보았다.', reviewNote: '거울 속 대상을 덧붙였어요.' },

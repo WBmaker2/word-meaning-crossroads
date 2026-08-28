@@ -278,11 +278,13 @@ button:disabled {
     align-items: stretch;
     column-gap: 0.75rem;
     row-gap: 0;
+    scroll-margin-block: 4rem;
   }
 
   .meaning-feedback {
     flex-basis: 0;
     min-width: 6ch;
+    padding-block: calc(1rem - 1px);
   }
 
   .meaning-feedback-row > button {

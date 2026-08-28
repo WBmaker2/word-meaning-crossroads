@@ -232,6 +232,21 @@ test.describe('mobile meaning feedback recovery', () => {
     const retry = page.getByRole('button', { name: '다시 뜻 고르기', exact: true })
     await expect(feedback).toBeVisible()
     await expect(retry).toBeVisible()
+    await expect.poll(async () => page.evaluate(() => {
+      const elements = [
+        document.querySelector<HTMLElement>('[data-testid="meaning-feedback"]'),
+        [...document.querySelectorAll('button')].find((node) => node.textContent?.trim() === '다시 뜻 고르기'),
+      ]
+      if (elements.some((element) => !element)) return false
+      const rectangles = elements.map((element) => element!.getBoundingClientRect())
+      const viewportWidth = document.documentElement.clientWidth
+      const viewportHeight = window.innerHeight
+      return document.documentElement.scrollWidth <= viewportWidth && rectangles.every((rect) => (
+        rect.left >= 0 && rect.right <= viewportWidth && rect.top >= 0 && rect.bottom <= viewportHeight
+      ))
+    }), { timeout: 5_000, message: 'feedback and retry must settle fully inside the viewport' }).toBe(true)
+    await expect(feedback).toBeInViewport()
+    await expect(retry).toBeInViewport()
     await expectNoHorizontalOverflow(page)
 
     const geometry = await Promise.all([feedback.boundingBox(), retry.boundingBox()])
@@ -239,8 +254,8 @@ test.describe('mobile meaning feedback recovery', () => {
       expect(box, `${name} must have a positive bounding box`).not.toBeNull()
       expect(box!.x, `${name} left containment`).toBeGreaterThanOrEqual(0)
       expect(box!.x + box!.width, `${name} right containment`).toBeLessThanOrEqual(375)
-      expect(box!.y, `${name} bottom containment`).toBeLessThan(812)
-      expect(box!.y + box!.height, `${name} top containment`).toBeGreaterThan(0)
+      expect(box!.y, `${name} top containment`).toBeGreaterThanOrEqual(0)
+      expect(box!.y + box!.height, `${name} bottom containment`).toBeLessThanOrEqual(812)
     }
 
     await retry.click()

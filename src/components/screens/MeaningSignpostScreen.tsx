@@ -20,7 +20,7 @@ export function MeaningSignpostScreen({
   const [selectedDecision, setSelectedDecision] = useState<MeaningDecisionId | null>(null)
   const [hasSubmitted, setHasSubmitted] = useState(false)
   const selectedRadioRef = useRef<HTMLInputElement | null>(null)
-  const feedbackRef = useRef<HTMLElement | null>(null)
+  const feedbackRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     // A new scene starts with a fresh choice and no local comparison panel.
@@ -135,9 +135,8 @@ export function MeaningSignpostScreen({
       </button>
 
       {isWrongSubmission ? (
-        <div className="meaning-feedback-row">
+        <div ref={feedbackRef} className="meaning-feedback-row">
           <aside
-            ref={feedbackRef}
             className="meaning-feedback"
             data-testid="meaning-feedback"
             aria-hidden="true"

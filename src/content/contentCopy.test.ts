@@ -52,6 +52,8 @@ describe('learner-facing content copy', () => {
       .toBe('‘손목에’와 ‘시계를’이라는 말이 남아 있어 몸에 차기인지 살펴볼 수 있어요.')
     expect(nun?.scenes[1]?.wrongChoiceFeedback['insufficient-context'])
       .toBe('‘보았습니다’와 ‘칠판의 글씨를’이라는 말이 남아 있어 보는 눈인지 살펴볼 수 있어요.')
+    expect(nun?.necessityChallenge.explanation)
+      .toBe('‘눈으로’와 ‘칠판 글씨를’이라는 말이 남아 보는 눈이라는 뜻을 알 수 있어요.')
     expect(sseuda?.necessityChallenge.explanation)
       .toBe('‘일기를’이라는 말이 남아 글을 적은 뜻임을 알 수 있어요.')
   })

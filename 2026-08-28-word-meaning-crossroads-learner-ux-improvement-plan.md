@@ -249,3 +249,10 @@ TDD 증거:
 - Quality gates: `npm run test:run` — 14 files, 148 tests passed; `npm run lint`; `npm run build`; `git diff --check`; 500줄 이상인 소스·테스트·스타일 파일 없음.
 
 Playwright Chromium은 macOS `MachPortRendezvousServer` 권한 오류로 몇 차례 프로세스 시작이 불안정했으나 재시도 후 위 focused Chromium 검증은 통과했다. VoiceOver 검증은 범위에서 제외한다.
+
+### Second review round
+
+- 200% student-flow geometry 검사는 단발 `boundingBox()` 측정을 제거하고, 실제 피드백 행과 재시도 버튼이 모두 가로·세로 viewport 안에 들어오고 문서 overflow가 없는 상태를 `expect.poll`로 기다린 뒤 `toBeInViewport()`와 고정 viewport containment를 확인하도록 보강했다. 임의 sleep과 기하 mock은 사용하지 않았다.
+- `MeaningSignpostScreen`은 기존 `scrollIntoView({ block: 'nearest' })` 옵션을 유지하면서 모바일 피드백 행 전체를 scroll ref로 삼고, constrained row의 scroll margin을 적용해 피드백과 재시도 버튼을 함께 보이게 했다.
+- `nun` necessity explanation의 `‘눈으로’와 ‘칠판 글씨를’이 남아`를 `‘눈으로’와 ‘칠판 글씨를’이라는 말이 남아`로 고쳤고, `contentCopy.test.ts`에 exact assertion을 추가했다.
+- 추가 확인: contentCopy·MeaningSignpostScreen Vitest 16 tests passed, focused 200% Chromium student-flow 1 passed, build/lint/diff-check 재확인. Chromium 시작 시 간헐적인 macOS MachPort 권한 오류가 있었으나 재시도 후 통과했다.
