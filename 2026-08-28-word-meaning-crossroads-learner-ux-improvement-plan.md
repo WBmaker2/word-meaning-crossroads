@@ -193,6 +193,9 @@ flowchart LR
 - Test: `/Volumes/ External Drive 256G/Dev2/codex/word-meaning-crossroads/.worktrees/implementation/tests/e2e/keyboard.spec.ts`
 - Test: `/Volumes/ External Drive 256G/Dev2/codex/word-meaning-crossroads/.worktrees/implementation/tests/e2e/helpers/learnerFlow.ts`
 - Test: `/Volumes/ External Drive 256G/Dev2/codex/word-meaning-crossroads/.worktrees/implementation/src/app/App.test.tsx`
+- Test: `/Volumes/ External Drive 256G/Dev2/codex/word-meaning-crossroads/.worktrees/implementation/tests/e2e/helpers/cssOwnership.ts`
+- Test: `/Volumes/ External Drive 256G/Dev2/codex/word-meaning-crossroads/.worktrees/implementation/tests/e2e/style-ownership.spec.ts`
+- Test: `/Volumes/ External Drive 256G/Dev2/codex/word-meaning-crossroads/.worktrees/implementation/tests/e2e/screen-reader.spec.ts`
 
 **Interfaces:**
 - Preserve `UpdateHistoryEntry { date: string; category: string; detail: string }` and the `entries` injection prop.
@@ -214,7 +217,7 @@ flowchart LR
   find src tests -type f \( -name '*.ts' -o -name '*.tsx' -o -name '*.css' \) -print0 | xargs -0 wc -l
   ```
   Expected: lint, 13+ test files, all unit tests, build, all Chromium tests, and diff check exit 0; no source/test/style file is 500 lines or longer; the browser console has no favicon 404. Stop the preview process after verification.
-- [ ] **Step 5: Commit.** Run `git add src/content/updateHistory.ts src/components/common/UpdateHistoryDialog.tsx index.html public/favicon.svg src/components/common/LiveRegion.test.tsx tests/e2e/responsive.spec.ts tests/e2e/keyboard.spec.ts tests/e2e/helpers/learnerFlow.ts src/app/App.test.tsx && git commit -m "chore: finish learner UX release gates"`. Expected: one commit containing only Task 6 files and the consumer assertions needed for the final update-history and learner-copy contracts.
+- [ ] **Step 5: Commit.** Run `git add src/content/updateHistory.ts src/components/common/UpdateHistoryDialog.tsx index.html public/favicon.svg src/components/common/LiveRegion.test.tsx tests/e2e/responsive.spec.ts tests/e2e/keyboard.spec.ts tests/e2e/helpers/learnerFlow.ts src/app/App.test.tsx tests/e2e/helpers/cssOwnership.ts tests/e2e/style-ownership.spec.ts tests/e2e/screen-reader.spec.ts && git commit -m "chore: finish learner UX release gates"`. Expected: one commit containing only Task 6 files and the consumer assertions needed for the final update-history, learner-copy, CSS ownership, and progress accessibility contracts.
 
 ## Future execution summary
 
