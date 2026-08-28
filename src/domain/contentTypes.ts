@@ -134,7 +134,6 @@ export interface ContextScene {
   readonly decisiveCueTokenIds: readonly TokenId[]
   readonly supportiveCueTokenIds: readonly TokenId[]
   readonly wrongChoiceFeedback: Readonly<Partial<Record<MeaningDecisionId, string>>>
-  readonly audioSrc: `/audio/scenes/${SceneId}.mp3`
   readonly illustrationId: `crossroads-${WordId}`
 }
 

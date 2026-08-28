@@ -15,7 +15,7 @@ export const nun = {
       ] }],
       candidateMeaningIds: ['nun:snow', 'nun:eye'], expectedDecision: 'nun:snow', decisiveCueTokenIds: ['nun-snow-01:t4'], supportiveCueTokenIds: ['nun-snow-01:t2', 'nun-snow-01:t6'],
       wrongChoiceFeedback: { 'nun:snow': '‘내려’와 ‘하얗게’라는 단서가 하늘에서 내리는 눈을 가리켜요.', 'nun:eye': '이 문장에서는 눈이 내려 운동장을 하얗게 만들었어요. ‘보는 눈’이 아니라 ‘내리는 눈’이에요. 주변 단서를 비교해 보세요.', 'insufficient-context': '‘내려’와 ‘하얗게’가 남아 있어 내리는 눈인지 살펴볼 수 있어요.' },
-      audioSrc: '/audio/scenes/nun-snow-01.mp3', illustrationId: 'crossroads-nun',
+      illustrationId: 'crossroads-nun',
     },
     {
       id: 'nun-eye-02', wordId: 'nun', order: 2,
@@ -24,7 +24,7 @@ export const nun = {
       ] }],
       candidateMeaningIds: ['nun:eye', 'nun:snow'], expectedDecision: 'nun:eye', decisiveCueTokenIds: ['nun-eye-02:t6'], supportiveCueTokenIds: ['nun-eye-02:t3', 'nun-eye-02:t5'],
       wrongChoiceFeedback: { 'nun:eye': '‘보았습니다’와 ‘칠판의 글씨를’이라는 단서가 보는 눈을 가리켜요.', 'nun:snow': '눈이 내리거나 길이 하얘진 장면이 아니라 ‘보았습니다’라는 행동인지 비교해 보아요.', 'insufficient-context': '‘보았습니다’와 ‘칠판의 글씨를’이라는 말이 남아 있어 보는 눈인지 살펴볼 수 있어요.' },
-      audioSrc: '/audio/scenes/nun-eye-02.mp3', illustrationId: 'crossroads-nun',
+      illustrationId: 'crossroads-nun',
     },
     {
       id: 'nun-uncertain-03', wordId: 'nun', order: 3,
@@ -33,7 +33,7 @@ export const nun = {
       ] }],
       candidateMeaningIds: ['nun:snow', 'nun:eye'], expectedDecision: 'insufficient-context', decisiveCueTokenIds: [], supportiveCueTokenIds: ['nun-uncertain-03:t2', 'nun-uncertain-03:t5'],
       wrongChoiceFeedback: { 'nun:snow': '‘보았습니다’만으로는 내리는 장면인지 보는 몸의 부분인지 결정되지 않아요.', 'nun:eye': '‘한참 동안’과 ‘보았습니다’만으로는 칠판 같은 대상이 없어 보는 눈이라고 정할 수 없어요.', 'insufficient-context': '내리는 장면이나 보는 대상이 없어서 ‘눈’의 뜻을 하나로 정하기 어려워요.' },
-      audioSrc: '/audio/scenes/nun-uncertain-03.mp3', illustrationId: 'crossroads-nun',
+      illustrationId: 'crossroads-nun',
     },
   ],
   necessityChallenge: { id: 'necessity-nun', wordId: 'nun', originalSentence: '민서는 눈으로 칠판 글씨를 보았습니다.', hiddenTokenText: '보았습니다', sentenceAfterHide: '민서는 눈으로 칠판 글씨를 ______.', expectedClarity: 'still-clear', explanation: '‘눈으로’와 ‘칠판 글씨를’이라는 말이 남아 보는 눈이라는 뜻을 알 수 있어요.' },

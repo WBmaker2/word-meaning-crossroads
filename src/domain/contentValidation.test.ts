@@ -13,10 +13,10 @@ describe('reviewed word content contract', () => {
     expect(scenes).toHaveLength(24)
   })
 
-  it('has three one-sentence scenes with shared asset paths', () => {
+  it('has three one-sentence scenes with shared illustration paths and no audio metadata', () => {
     WORD_PACKS.forEach((pack) => pack.scenes.forEach((scene) => {
       expect(scene.sentences).toHaveLength(1)
-      expect(scene.audioSrc).toBe(`/audio/scenes/${scene.id}.mp3`)
+      expect('audioSrc' in scene).toBe(false)
       expect(scene.illustrationId).toBe(`crossroads-${pack.id}`)
       expect(scene.candidateMeaningIds).toHaveLength(2)
       expect(scene.candidateMeaningIds[0]).not.toBe(scene.candidateMeaningIds[1])
@@ -120,7 +120,6 @@ describe('reviewed word content contract', () => {
       change(copy)
       expect(() => validateWordPacks(copy, ROUTES)).toThrow(pattern)
     }
-    mutate((copy) => { copy[0].scenes[0].audioSrc = '/audio/wrong.mp3' }, /nun-snow-01.*audio path/)
     mutate((copy) => { copy[0].scenes[0].illustrationId = 'crossroads-bae' }, /nun-snow-01.*illustration path/)
     mutate((copy) => { copy[0].scenes[0].sentences[0].tokens[0].id = 'foreign:t1' }, /nun-snow-01.*exact TokenId/)
     mutate((copy) => { copy[0].scenes[0].wrongChoiceFeedback.extra = 'extra' }, /nun-snow-01.*exact feedback keys/)

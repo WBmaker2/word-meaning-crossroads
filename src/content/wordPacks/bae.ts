@@ -26,7 +26,7 @@ export const bae = {
         'bae:belly': '배가 부르거나 먹은 장면이 아니라 ‘타고 강을 건너’는 행동인지 비교해 보아요.',
         'insufficient-context': '‘타고’와 ‘강 건너’가 남아 있어 물 위의 배인지 살펴볼 수 있어요.',
       },
-      audioSrc: '/audio/scenes/bae-boat-01.mp3', illustrationId: 'crossroads-bae',
+      illustrationId: 'crossroads-bae',
     },
     {
       id: 'bae-belly-02', wordId: 'bae', order: 2,
@@ -40,7 +40,7 @@ export const bae = {
         'bae:belly': '‘불렀습니다’와 ‘점심을 먹어’라는 단서가 몸의 배를 가리켜요.',
         'bae:pear': '아삭한 과일을 먹은 장면이 아니라 ‘배가 불렀습니다’라는 몸의 상태인지 비교해 보아요.',
         'insufficient-context': '‘불렀습니다’와 ‘점심을 먹어’가 남아 있어 몸의 배인지 살펴볼 수 있어요.',
-      }, audioSrc: '/audio/scenes/bae-belly-02.mp3', illustrationId: 'crossroads-bae',
+      }, illustrationId: 'crossroads-bae',
     },
     {
       id: 'bae-pear-03', wordId: 'bae', order: 3,
@@ -54,7 +54,7 @@ export const bae = {
         'bae:pear': '‘먹었습니다’와 ‘아삭하고 달콤한’이라는 단서가 먹는 배를 가리켜요.',
         'bae:boat': '강을 건너는 탈것 장면이 아니라 ‘한 조각 먹었습니다’라는 행동인지 비교해 보아요.',
         'insufficient-context': '‘먹었습니다’와 ‘아삭하고 달콤한’이 남아 있어 과일 배인지 살펴볼 수 있어요.',
-      }, audioSrc: '/audio/scenes/bae-pear-03.mp3', illustrationId: 'crossroads-bae',
+      }, illustrationId: 'crossroads-bae',
     },
   ],
   necessityChallenge: { id: 'necessity-bae', wordId: 'bae', originalSentence: '우리는 배를 타고 갔습니다.', hiddenTokenText: '타고', sentenceAfterHide: '우리는 배를 ______ 갔습니다.', expectedClarity: 'now-unclear', explanation: '‘타고’가 없으면 배를 먹고 갔는지 배를 타고 갔는지 정하기 어려워요.' },

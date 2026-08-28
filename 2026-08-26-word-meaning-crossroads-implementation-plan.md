@@ -6,7 +6,7 @@
 
 **Architecture:** Vite + React + TypeScript 단일 페이지 앱에서 검수된 정적 콘텐츠와 순수 판정 함수를 분리하고, `useReducer` 기반 세션 상태가 입구→예상→단서→뜻→비교→문장 수정→기록 흐름을 통제한다. 응답은 현재 탭의 메모리에만 두며 서버·로그인·외부 AI·실시간 사전 호출·분석 도구를 사용하지 않는다. 화면 컴포넌트는 접근성 있는 공통 조작 요소를 조합하고, Vitest 단위/컴포넌트 테스트와 Playwright 실제 학습 흐름 검증으로 완료 조건을 증명한다.
 
-**Tech Stack:** Vite, React, TypeScript, CSS, Vitest, React Testing Library, `@testing-library/user-event`, `vitest-axe`, Playwright, `@axe-core/playwright`, ESLint, 검수된 로컬 MP3 음원, React 컴포넌트 안의 정적 inline SVG/CSS 일러스트레이션
+**Tech Stack:** Vite, React, TypeScript, CSS, Vitest, React Testing Library, `@testing-library/user-event`, `vitest-axe`, Playwright, `@axe-core/playwright`, ESLint, React 컴포넌트 안의 정적 inline SVG/CSS 일러스트레이션
 
 **Visual Thesis:** 밝은 종이와 중립적인 갈림길 지도를 바탕으로, 둥글고 또렷한 한글 활자와 따뜻한 교실 색상을 사용한다. 한 화면에는 한 가지 학습 판단만 전면에 두며, 그림은 정답을 암시하지 않고 문장과 선택지가 언제나 시각적 중심이 된다.
 
@@ -64,7 +64,7 @@ flowchart LR
 
 ### 4. 콘텐츠 사양
 
-모든 문맥은 1문장으로 작성하므로 화면당 본문 3문장 이하 조건을 만족한다. 아래 24개 장면 ID는 코드, 음원 파일명, 테스트 이름에서 동일하게 사용한다. `후보 뜻`은 한 장면에서 두 개만 보여 주며 UI가 모든 장면에 `판단하기 어려움`을 세 번째 선택지로 붙인다. 따라서 `배`처럼 뜻이 세 개인 낱말도 세 뜻을 한꺼번에 제시하지 않는다.
+모든 문맥은 1문장으로 작성하므로 화면당 본문 3문장 이하 조건을 만족한다. 아래 24개 장면 ID는 코드와 테스트 이름에서 동일하게 사용한다. `후보 뜻`은 한 장면에서 두 개만 보여 주며 UI가 모든 장면에 `판단하기 어려움`을 세 번째 선택지로 붙인다. 따라서 `배`처럼 뜻이 세 개인 낱말도 세 뜻을 한꺼번에 제시하지 않는다. 학습 정보는 화면 텍스트로만 제공하며 음성 파일명·음원 메타데이터를 콘텐츠 계약에 넣지 않는다.
 
 | 장면 ID | 문장 | 후보 뜻 | 정답 | 결정 단서 | 보조 단서 |
 |---|---|---|---|---|---|
@@ -169,12 +169,12 @@ flowchart LR
 - 8개 표제어의 의미와 활용형은 표준국어대사전에서 확인하고, 전문 검수자가 장면별 의미·단서·모호성·수정안을 승인한 기록이 있어야 콘텐츠 게이트를 통과한다.
 - 사전 분류를 어린이 언어 사용 전체를 설명하는 절대 규칙으로 표현하지 않는다.
 - 문화·지역에 따라 달라지는 표현, 장애·외모·가정환경을 웃음이나 오답 소재로 삼는 문장, 성별 고정관념을 강화하는 문장을 사용하지 않는다.
-- 모든 예문·SVG·음원은 직접 제작하거나 사용 권한을 문서화한다. 외부 이미지 검색 결과와 교과서 문장을 복제하지 않는다.
+- 모든 예문·SVG는 직접 제작하거나 사용 권한을 문서화한다. 외부 이미지 검색 결과와 교과서 문장을 복제하지 않는다. 음성 자산은 만들지 않는다.
 - 그림은 같은 낱말의 세 장면에서 동일한 중립적 갈림길 배경을 사용하고 뜻을 나타내는 사물·행동을 그리지 않는다. 그림을 숨겨도 문장·버튼·피드백이 완전해야 한다.
 
 ### 7. MVP 포함·제외
 
-**포함:** 목표 낱말 8개, 낱말별 문맥 3개, 뜻 판별, 단서 표시, 단서 하나 가리기, 불확실성 판단, 문장 수정, 검수된 로컬 선택 음성, 교사용 읽어주기 표시, 최초 예상·근거·수정 결과 기록, 다시 하기, 인쇄, 업데이트 내역.
+**포함:** 목표 낱말 8개, 낱말별 문맥 3개, 뜻 판별, 단서 표시, 단서 하나 가리기, 불확실성 판단, 문장 수정, 텍스트 전용 읽기 안내, 최초 예상·근거·수정 결과 기록, 다시 하기, 인쇄, 업데이트 내역.
 
 **제외:** 온라인 사전 전체 검색, 자유 글 AI 채점, 학생 예문 온라인 공유, 서버, 로그인, 외부 AI, 실시간 사전 API, 분석 SDK, 어원·품사·동음이의어 분류 이론, 리더보드, 타이머, 학생 이름 수집, 브라우저 영구 저장, 배포와 서비스 등록.
 
@@ -188,8 +188,8 @@ flowchart LR
 6. 각 정비 문제에 검수된 유효 수정안이 2개 이상 있다.
 7. 중립 그림을 CSS로 숨겨도 전체 학습 흐름을 완료한다.
 8. 키보드만으로 모든 단계, 대화상자, 다시 하기, 인쇄 직전까지 진행한다.
-9. 375×812 CSS 픽셀, 본문 글자 200%, `넓게` 줄 간격, 음원 요청 실패, `prefers-reduced-motion: reduce`에서 가로 스크롤·정보 손실·진행 차단이 없다.
-10. 자동 접근성 검사에 serious/critical 위반이 없고 VoiceOver가 제목, 목표 낱말, 어절 버튼의 선택 상태, 뜻 카드, 피드백 상태를 읽는다.
+9. 375×812 CSS 픽셀, 본문 글자 200%, `넓게` 줄 간격, 텍스트 전용 읽기, `prefers-reduced-motion: reduce`에서 가로 스크롤·정보 손실·진행 차단이 없다.
+10. 자동 접근성 검사에 serious/critical 위반이 없고 접근성 트리가 제목, 목표 낱말, 어절 버튼의 선택 상태, 뜻 카드, 피드백 상태를 제공한다. VoiceOver 실제 검증은 범위에서 제외한다.
 11. 브라우저 저장소, 쿠키, 외부 출처 네트워크 요청, 이름 입력 필드가 없다.
 12. `단서 찾기`, `뜻 확인`에만 `gi-pulse`가 적용되고 모션 감소 환경에서는 정적 테두리·아이콘 강조로 대체된다.
 13. 화면 오른쪽 아래의 작은 `업데이트 내역` 버튼에서 `2026-08-26` 설계·개발 기록과 접근성·내용 검수 내역을 확인한다.
@@ -200,17 +200,17 @@ flowchart LR
 1. 모든 명령은 `/Volumes/ External Drive 256G/Dev2/codex/word-meaning-crossroads`에서 실행한다.
 2. 구현 단계에서도 설계 원문과 이 계획 문서를 삭제하거나 의미를 바꾸지 않는다.
 3. 단일 소스·테스트·스타일 파일은 500줄 미만으로 유지한다. 최종 게이트에서 `find src tests -type f \( -name '*.ts' -o -name '*.tsx' -o -name '*.css' \) -print0 | xargs -0 wc -l`로 확인하며 500 이상인 파일이 하나라도 있으면 실패다.
-4. 한 파일은 하나의 책임만 가진다. 화면, 콘텐츠, 판정, 세션 상태, 오디오, 접근성 공통 요소, 스타일을 서로 분리한다.
+4. 한 파일은 하나의 책임만 가진다. 화면, 콘텐츠, 판정, 세션 상태, 접근성 공통 요소, 스타일을 서로 분리한다.
 5. 런타임 데이터는 `readonly` 타입과 개발 시점 검증을 사용한다. 컴포넌트에서 정답을 직접 비교하지 않고 `src/domain/evaluation.ts`의 순수 함수만 호출한다.
 6. React 상태만 사용하며 `localStorage`, `sessionStorage`, IndexedDB, 쿠키, 서비스 워커를 사용하지 않는다. 새로고침 시 응답이 사라진다는 안내를 입구와 기록 화면에 표시한다.
 7. 최초 예상 텍스트는 60자로 제한하고 자동 판정하지 않는다. 입력값은 현재 `SessionState` 외부로 복사하지 않으며 다시 하기에서 제거한다. 글자 크기와 줄 간격 설정도 React 상태에만 두고 브라우저 저장소에 기록하지 않는다.
 8. 모든 학생용 본문은 화면당 3문장 이하, 버튼 라벨은 행동 중심의 쉬운 한국어, 언어학 전문 용어는 교사용 검수 문서에만 둔다.
 9. 색만으로 상태를 구별하지 않는다. 선택 상태는 밑줄, 체크 아이콘, `선택됨` 문자, `aria-pressed`를 함께 사용한다.
-10. 로컬 음원이 재생되지 않아도 동일한 문장과 피드백이 화면에 있으며 자동 재생하지 않는다.
+10. 외부 음성·TTS·음원 재생 없이 동일한 문장과 피드백을 화면 텍스트로 제공한다.
 11. `gi-pulse`는 필수 다음 행동인 `단서 찾기`, `뜻 확인` 두 버튼에만 허용한다. 장식·정답·점수에는 사용하지 않는다.
 12. `prefers-reduced-motion: reduce`에서는 모든 이동·맥박 애니메이션을 제거하고 3px 고대비 고정 외곽선과 `필수` 문자 배지를 유지한다.
 13. 업데이트 내역 첫 릴리스에는 `2026-08-26` 날짜를 사용한다. 이후 수정은 실제 수정 날짜의 새 항목을 앞에 추가하고 기존 기록을 덮어쓰지 않는다.
-14. 외부 요청은 금지한다. 앱 셸, SVG, MP3를 포함한 모든 런타임 자산은 같은 출처에서 제공한다.
+14. 외부 요청은 금지한다. 앱 셸과 SVG를 포함한 모든 런타임 자산은 같은 출처에서 제공하며 음성 자산은 제공하지 않는다.
 15. 커밋은 과제 단위로 정확한 파일만 스테이징한다. 푸시·배포·서비스 등록은 이 계획의 범위가 아니다.
 16. `gpt-5.6-sol` 또는 `gpt-5.6-terra`가 실행을 오케스트레이션하면 구현 담당 하위 에이전트는 `gpt-5.6-luna`를 사용한다. 해당 모델을 호출할 수 없을 때만 `5.3 Codex Spark`를 사용한다.
 17. 저장소 준비인 Task 0과 사람 검수 문서 게이트인 Task 2는 코드 동작을 만들지 않는다. 그 밖의 모든 동작 과제는 실패하는 테스트 작성→의도한 실패 확인→최소 구현→통과 확인→과제 단위 커밋 순서를 지킨다.
@@ -229,7 +229,6 @@ flowchart TB
     Reducer --> State[SessionState<br/>현재 탭 메모리]
     State --> UI
     UI --> Eval[evaluateClueDecision<br/>evaluateMeaningDecision<br/>evaluateCueNecessity<br/>evaluateRepairSelection]
-    Audio[동일 출처 MP3 24개] --> UI
     State --> Record[ExplorationRecord<br/>인쇄 전용 보기]
 ```
 
@@ -312,7 +311,6 @@ export interface ContextScene {
   readonly decisiveCueTokenIds: readonly TokenId[];
   readonly supportiveCueTokenIds: readonly TokenId[];
   readonly wrongChoiceFeedback: Readonly<Partial<Record<MeaningDecisionId, string>>>;
-  readonly audioSrc: `/audio/scenes/${SceneId}.mp3`;
   readonly illustrationId: `crossroads-${WordId}`;
 }
 
@@ -613,11 +611,6 @@ export interface ExplorationRecordScreenProps {
   readonly onPrint: () => void;
 }
 
-export interface AudioReaderProps {
-  readonly src: ContextScene['audioSrc'];
-  readonly sentence: string;
-  readonly onFeedback: (feedback: FeedbackInput) => void;
-}
 ```
 
 E2E fixture와 helper는 앱의 콘텐츠 모듈을 import하지 않는 다음 계약을 `tests/e2e/fixtures/answers.ts`와 `tests/e2e/helpers/learnerFlow.ts`에 둔다.
@@ -652,7 +645,7 @@ export function completeRoute(page: Page, routeId: RouteId): Promise<void>;
 실제 파일에서는 `Dispatch`를 `react`에서, `Page`를 `@playwright/test`에서 type-only import한다. E2E 파일은 앱 콘텐츠 상수나 평가 함수를 runtime import하지 않고 `FLOW_ANSWERS`의 독립 입력만 사용한다.
 `TEST_ROUTE_WORDS`는 `core: ['nun','bae','bam','mal']`, `extension: ['chada','dari','sseuda','gamda']`, `all: ['nun','bae','bam','mal','chada','dari','sseuda','gamda']`를 앱과 독립적으로 고정한다. `startRoute`는 입구에서 경로 버튼만 누르고 첫 문맥에 멈춘다. `completeScene`은 현재 장면의 예상→단서→뜻만 완료한다. `completeWord`는 현재 낱말의 세 장면, 둘째 뒤 비교·가리기, 셋째 뒤 정비를 완료하고 다음 낱말 또는 기록에 멈춘다. `completeRoute`는 `startRoute`를 먼저 호출한 뒤 `TEST_ROUTE_WORDS[routeId]` 순서로 `completeWord`를 반복한다.
 
-`src/domain/sessionReducer.ts`는 위 10개 액션만 처리한다. `CONFIRM_MEANING`은 첫째 장면에서 둘째 장면으로, 둘째 장면에서 비교로, 셋째 장면에서 문장 정비소로 이동한다. 올바른 `CONFIRM_CUE_NECESSITY`만 비교에서 셋째 장면으로 이동한다. 네 평가 제출의 오답은 `tone: 'error'`, 정답과 오디오·선택 안내는 `tone: 'status'`인 `SessionFeedback`을 만들고 `feedbackSequence`를 1 늘린다. `ANNOUNCE_FEEDBACK`은 어절 최대 개수·오디오 오류처럼 reducer 밖 UI 사건을 같은 단일 채널에 넣고, `CLEAR_FEEDBACK`은 다음 입력 전에 메시지를 비운다.
+`src/domain/sessionReducer.ts`는 위 10개 액션만 처리한다. `CONFIRM_MEANING`은 첫째 장면에서 둘째 장면으로, 둘째 장면에서 비교로, 셋째 장면에서 문장 정비소로 이동한다. 올바른 `CONFIRM_CUE_NECESSITY`만 비교에서 셋째 장면으로 이동한다. 네 평가 제출의 오답은 `tone: 'error'`, 정답과 선택 안내는 `tone: 'status'`인 `SessionFeedback`을 만들고 `feedbackSequence`를 1 늘린다. `ANNOUNCE_FEEDBACK`은 어절 최대 개수처럼 reducer 밖 UI 사건을 같은 단일 채널에 넣고, `CLEAR_FEEDBACK`은 다음 입력 전에 메시지를 비운다.
 
 ## Expected File Structure and Responsibilities
 
@@ -674,10 +667,7 @@ playwright.config.ts                                       Chromium·접근성 E
 docs/content/curriculum-alignment.md                       성취기준 원문·용어 결정·열람 근거
 docs/content/dictionary-review.md                          8개 표제어 의미·활용형 검수 기록
 docs/content/inclusive-language-review.md                  문화·장애·외모·가정환경 검수 기록
-docs/content/asset-rights.md                               inline SVG·음성 원본·MP3 제작/권리·검수 기록
-docs/content/audio-recording-protocol.md                   성인 음성 녹음·변환·검수 재현 절차
-assets/audio-source/scenes/*.m4a                           장면 ID와 일치하는 보존용 음성 원본 24개
-public/audio/scenes/*.mp3                                  장면 ID와 일치하는 로컬 음원 24개
+docs/content/asset-rights.md                               inline SVG 제작·권리·검수 기록
 src/main.tsx                                               React 마운트와 tokens→base→layout→components→motion→print CSS 순서 (40)
 src/app/App.tsx                                            화면 선택과 최상위 오류 경계 (130)
 src/app/App.test.tsx                                       셸·흐름 진입 컴포넌트 테스트 (180)
@@ -693,7 +683,6 @@ src/domain/selectors.ts                                    현재 낱말·장면
 src/domain/selectors.test.ts                               경로·기록 선택자 테스트 (200)
 src/content/routes.ts                                      core·extension·all 낱말 순서 (80)
 src/content/updateHistory.ts                               날짜별 업데이트 내역 (80)
-src/content/audioAssets.test.ts                            장면-로컬 MP3 일대일 검증 (180)
 src/content/wordPacks/nun.ts                               눈 3문맥·단서 가리기·뜻·정비 (210)
 src/content/wordPacks/bae.ts                               배 3문맥·단서 가리기·뜻·정비 (210)
 src/content/wordPacks/bam.ts                               밤 3문맥·단서 가리기·뜻·정비 (200)
@@ -704,19 +693,16 @@ src/content/wordPacks/sseuda.ts                            쓰다 3문맥·단�
 src/content/wordPacks/gamda.ts                             감다 3문맥·단서 가리기·뜻·정비 (220)
 src/content/wordPacks/index.ts                             8개 WordPack 집계·검증 호출 (80)
 src/hooks/useMissionSession.ts                             reducer와 콘텐츠 선택자 결합 (180)
-src/hooks/useLocalAudio.ts                                 로컬 재생·정지·실패 상태 (150)
-src/hooks/useLocalAudio.test.tsx                           음원 생명주기·오류 대체 테스트 (220)
 src/hooks/useTextScale.ts                                  normal·large·xlarge 글자 설정 (100)
 src/hooks/useLineSpacing.ts                                comfortable·wide 줄 간격 설정 (80)
 src/components/common/FocusHeading.tsx                    단계 변경 초점 제목 (70)
-src/components/common/LiveRegion.tsx                      판정·오디오 상태 알림 (60)
+src/components/common/LiveRegion.tsx                      판정 상태 알림 (60)
 src/components/common/LiveRegion.test.tsx                 단일 tone·sequence 알림 테스트 (120)
 src/components/common/ProgressHeader.tsx                  개인 진행 위치와 학습 목표 (130)
 src/components/common/RequiredActionButton.tsx            두 필수 버튼의 gi-pulse 계약 (100)
 src/components/common/RequiredActionButton.test.tsx       강조 사용 범위 정적·동작 테스트 (180)
 src/components/common/TextScaleControls.tsx               글자 크기 조절 (100)
 src/components/common/LineSpacingControls.tsx             줄 간격 조절 (100)
-src/components/common/AudioReader.tsx                     선택 재생·텍스트 대체 (130)
 src/components/common/UpdateHistoryDialog.tsx             작은 고정 버튼과 날짜 대화상자 (180)
 src/components/common/ConfirmRestartDialog.tsx            다시 하기 확인 대화상자 (130)
 src/components/common/NeutralCrossroadsIllustration.tsx   문맥 답을 드러내지 않는 SVG (160)
@@ -750,11 +736,10 @@ tests/e2e/responsive.spec.ts                               375px·200%·가로 �
 tests/e2e/privacy.spec.ts                                  외부 요청·저장소·쿠키 부재 (220)
 tests/e2e/print.spec.ts                                    기록 인쇄 레이아웃 (160)
 tests/e2e/image-independent-flow.spec.ts                   중립 그림 동일성·그림 숨김 흐름 (220)
-tests/manual/voiceover-checklist.md                        macOS VoiceOver 합격 문구와 결과
-tests/manual/content-and-audio-checklist.md                24문맥·24원본/출력 음원 사람 검수 결과
+tests/manual/voiceover-checklist.md                        실제 VoiceOver 검증은 범위에서 제외한다는 기록
 ```
 
-음성 원본과 MP3 파일은 콘텐츠 표의 장면 ID에 따라 각각 `assets/audio-source/scenes/nun-snow-01.m4a`부터 `assets/audio-source/scenes/gamda-wash-03.m4a`, `public/audio/scenes/nun-snow-01.mp3`부터 `public/audio/scenes/gamda-wash-03.mp3`까지 정확히 24개다. 와일드카드는 책임 설명을 간결하게 표시한 것이며 실제 원본·출력 파일명 stem은 콘텐츠 표의 24개 ID와 일대일로 대응한다.
+텍스트 전용 MVP에서는 음성 원본·출력 파일, 음성 재생 훅·컴포넌트, 녹음·청취 검수 절차를 만들지 않는다. 문맥·피드백·기록은 화면 텍스트와 접근성 트리로 완결되어야 한다.
 
 ## Requirements Traceability
 
@@ -767,13 +752,13 @@ tests/manual/content-and-audio-checklist.md                24문맥·24원본/�
 | 필수·보조 단서와 불확실성 | Tasks 3, 4, 8, 9 | 분명/모호 장면 양쪽 판정 경계 테스트 통과 |
 | 필요 단서 찾기 | Tasks 3, 4, 5, 10 | 단서 하나 가리기 8문제, clear/unclear 판정과 상태 전이 통과 |
 | 복수 문장 수정안 | Tasks 3, 11 | 각 문제 유효 해법 2개 이상과 서로 다른 의미 ID 검증 |
-| 선택 음성·음성 없이 완료 | Tasks 13, 19 | 성인 제공자 동의가 기록된 원본 24개와 변환 MP3 24개, 오디오 차단 E2E 흐름 통과 |
+| 텍스트 전용 읽기·그림 없이 완료 | Tasks 3, 13, 19 | 음성 요소·음원 요청 없이 화면 텍스트와 그림 숨김 E2E 흐름 통과 |
 | gi-pulse와 모션 감소 | Tasks 6, 15, 19 | 두 라벨만 애니메이션, reduce에서 `animation-name: none` |
 | 색 이외 상태 구분 | Tasks 6, 8~12, 15 | 아이콘·밑줄·문자 라벨 검증 통과 |
 | 키보드 | Tasks 6, 8~12, 17 | 마우스 없는 실제 첫 낱말 여정과 대화상자 초점 검증 통과 |
-| 스크린 리더 | Tasks 6, 8~12, 18 | 접근성 이름·live region·axe·VoiceOver 검증 통과 |
+| 스크린 리더 자동 구조 | Tasks 6, 8~12, 18 | 접근성 이름·live region·axe·접근성 트리 검증 통과; VoiceOver는 범위 제외 |
 | 서버 없음·탭 메모리·개인정보 | Tasks 5, 7, 12, 19 | 저장소/쿠키/외부 요청 0, 이름 입력 없음, 재시작 후 메모 제거 |
-| 안전·포용성·권리 | Tasks 2, 3, 13, 14, 19 | 네 검수 문서 승인 상태와 자산 권리 목록 완성 |
+| 안전·포용성·권리 | Tasks 2, 3, 13, 14, 19 | 세 콘텐츠 검수 문서와 SVG 자산 권리 목록 완성 |
 | 글자 크기·줄 간격·모바일·인쇄 | Tasks 6, 12, 15, 16, 19 | 크기·간격 컨트롤, 375px·200%·인쇄 E2E 통과 |
 | 업데이트 내역 날짜 | Tasks 6, 19 | 고정 버튼과 `2026-08-26` 설계·개발 기록 테스트 통과 |
 | 단일 파일 500줄 미만 | 모든 구현 과제, Task 19 | 줄 수 게이트에서 500 이상 0개 |
@@ -905,7 +890,7 @@ tests/manual/content-and-audio-checklist.md                24문맥·24원본/�
 
 - [ ] **Step 4: Define the rights ledger before producing assets**
 
-  `docs/content/asset-rights.md`에 `crossroads-nun`부터 `crossroads-gamda`까지 8개 inline SVG 변형의 자산 ID와 구현 위치 `src/components/common/NeutralCrossroadsIllustration.tsx`, 직접 제작 방식, 제작일 `2026-08-26`, 제작·검수 역할, 재사용 범위를 기록한다. 문서 최상위 `승인 상태`는 직접 제작·권리 확인 절차 자체의 승인만 뜻한다. 음성 섹션은 `음성 자산 상태: 제작 전`으로 두고, Task 13에서 성인 제공자 ID, 서면 동의 범위·날짜, 24개 원본·출력 경로와 SHA-256, 녹음·변환 도구, 검수자를 모두 채운 뒤에만 별도의 `음성 자산 승인 상태: 승인`으로 바꾼다. 외부 이미지, 교과서 삽화, 학생 음성을 자산 목록에 넣지 않는다.
+  `docs/content/asset-rights.md`에 `crossroads-nun`부터 `crossroads-gamda`까지 8개 inline SVG 변형의 자산 ID와 구현 위치 `src/components/common/NeutralCrossroadsIllustration.tsx`, 직접 제작 방식, 제작일 `2026-08-26`, 제작·검수 역할, 재사용 범위를 기록한다. 문서 최상위 `승인 상태`는 직접 제작·권리 확인 절차 자체의 승인만 뜻한다. 텍스트 전용 범위이므로 음성 원본·출력 파일과 녹음 제공자 정보는 자산 목록에서 제외한다. 외부 이미지, 교과서 삽화, 학생 음성을 자산 목록에 넣지 않는다.
 
 - [ ] **Step 5: Verify that all four gates contain genuine approval records**
 
@@ -947,7 +932,7 @@ tests/manual/content-and-audio-checklist.md                24문맥·24원본/�
 
   - `WORD_PACKS`는 정확히 8개이며 ID 순서는 `nun, bae, bam, mal, chada, dari, sseuda, gamda`다.
   - 각 낱말에는 장면이 정확히 3개이고 전체 장면 ID는 중복 없이 24개다.
-  - 각 장면은 이 MVP에서 정확히 1문장이고, 후보 의미가 정확히 2개이며, 동일 낱말의 공통 `illustrationId`, `/audio/scenes/{sceneId}.mp3`를 가진다.
+  - 각 장면은 이 MVP에서 정확히 1문장이고, 후보 의미가 정확히 2개이며, 동일 낱말의 공통 `illustrationId`를 가진다.
   - 모든 `TokenId`는 24개 장면 전체에서 고유하고 `{sceneId}:t{양의 정수}` 형식이며, `decisiveCueTokenIds`와 `supportiveCueTokenIds`의 모든 참조는 같은 장면 안에 실제로 존재한다. 참조 토큰의 `role`은 각각 `decisive`, `supportive`와 일치하고 두 목록은 겹치지 않으며 목표 토큰을 가리키지 않는다.
   - 장면마다 `role: 'target'` 토큰이 정확히 1개다. 그 토큰만 비어 있지 않은 `targetSurface`를 가지며 `targetSurface`는 해당 토큰 `text`에 포함되고, 다른 역할의 토큰에는 `targetSurface`가 없다.
   - `candidateMeaningIds` 두 값은 서로 다르고 현재 `WordPack.meanings`에 존재한다. `expectedDecision`이 `insufficient-context`가 아니면 두 후보 중 하나이고, `wrongChoiceFeedback`은 후보 두 개와 `insufficient-context` 각각에 대해 비어 있지 않은 문구를 정확히 한 개씩 가진다.
@@ -998,7 +983,7 @@ tests/manual/content-and-audio-checklist.md                24문맥·24원본/�
 
   Run: `npm run test:run -- src/domain/contentValidation.test.ts && npm run build`
 
-  Expected: 모든 불변식 테스트가 통과하고 TypeScript가 잘못된 의미 ID·장면 ID·오디오 경로를 허용하지 않는다.
+  Expected: 모든 불변식 테스트가 통과하고 TypeScript가 잘못된 의미 ID·장면 ID·그림 자산 경로를 허용하지 않는다.
 
 - [ ] **Step 7: Commit the reviewed content model**
 
@@ -1157,7 +1142,7 @@ tests/manual/content-and-audio-checklist.md                24문맥·24원본/�
 
 - [ ] **Step 4: Implement immutable session actions and transitions**
 
-  `SessionState`에 `draftClueEvaluation?: ClueEvaluation`, `draftMeaningEvaluation?: MeaningEvaluation`, `feedback: SessionFeedback | null`, `feedbackSequence: number`를 추가한다. `SessionAction`은 Architecture의 10개 판별 유니온 그대로 만든다. 잘못된 네 평가 제출은 오류를 던지지 않고 현재 단계와 `tone: 'error'` 피드백을 갱신하고, 성공 제출은 `tone: 'status'` 피드백을 갱신한다. `ANNOUNCE_FEEDBACK`은 어절 한도·오디오 UI 메시지를 같은 채널에 넣고 `CLEAR_FEEDBACK`은 메시지만 지운다. 새 피드백마다 sequence를 1 늘리며 순서를 건너뛰는 액션은 상태를 바꾸지 않는다.
+  `SessionState`에 `draftClueEvaluation?: ClueEvaluation`, `draftMeaningEvaluation?: MeaningEvaluation`, `feedback: SessionFeedback | null`, `feedbackSequence: number`를 추가한다. `SessionAction`은 Architecture의 10개 판별 유니온 그대로 만든다. 잘못된 네 평가 제출은 오류를 던지지 않고 현재 단계와 `tone: 'error'` 피드백을 갱신하고, 성공 제출은 `tone: 'status'` 피드백을 갱신한다. `ANNOUNCE_FEEDBACK`은 어절 한도 같은 reducer 밖 UI 메시지를 같은 채널에 넣고 `CLEAR_FEEDBACK`은 메시지만 지운다. 새 피드백마다 sequence를 1 늘리며 순서를 건너뛰는 액션은 상태를 바꾸지 않는다.
 
   모든 reducer 분기가 공유하는 피드백 갱신 코드는 다음 형태로 한 번만 정의한다.
 
@@ -1231,7 +1216,7 @@ tests/manual/content-and-audio-checklist.md                24문맥·24원본/�
 
   `src/app/App.test.tsx`에 다음 합격 조건을 추가한다.
 
-  - 글자 크기 컨트롤은 `보통`, `크게`, `아주 크게` 라디오 그룹이고 선택 상태를 음성으로 알린다.
+  - 글자 크기 컨트롤은 `보통`, `크게`, `아주 크게` 라디오 그룹이고 선택 상태를 보조기술에 알린다.
   - 줄 간격 컨트롤은 `보통`, `넓게` 라디오 그룹이며 앱 셸의 `data-line-spacing`을 바꾸고 브라우저 저장소를 사용하지 않는다.
   - `업데이트 내역` 버튼은 대화상자를 열고 Escape와 닫기 버튼으로 닫히며 원래 버튼으로 초점이 돌아간다.
   - 이 단계의 내역에는 `2026-08-26 / 설계 / 최초 설계 문서 작성`이 있고 완료되지 않은 개발 결과를 미리 표시하지 않는다.
@@ -1333,7 +1318,7 @@ tests/manual/content-and-audio-checklist.md                24문맥·24원본/�
 
 - [ ] **Step 2: Write failing context and prediction tests**
 
-  문맥 화면이 한 문장, 목표 표면형 강조, 중립 그림 자리, 오디오 자리, 최초 예상 60자 입력, 개인정보 안내를 보여 주는지 검사한다. 예상이 공백이면 `단서 찾기`가 비활성이고, 61자 입력은 60자로 제한되며, 이 단계의 DOM에 뜻 카드 라벨과 정답 데이터가 보이지 않는지 검사한다.
+  문맥 화면이 한 문장, 목표 표면형 강조, 중립 그림 자리, 텍스트 전용 읽기 안내, 최초 예상 60자 입력, 개인정보 안내를 보여 주는지 검사한다. 예상이 공백이면 `단서 찾기`가 비활성이고, 61자 입력은 60자로 제한되며, 이 단계의 DOM에 뜻 카드 라벨과 정답 데이터가 보이지 않는지 검사한다.
 
   뜻 선공개 금지와 제출 callback을 고정하는 대표 테스트는 다음과 같다.
 
@@ -1743,144 +1728,61 @@ tests/manual/content-and-audio-checklist.md                24문맥·24원본/�
 
   Expected: 개인 기록, 복구 가능한 재시작 확인, 인쇄 규칙만 포함한 커밋이 생성된다.
 
-### Task 13: Reviewed Local Audio and No-Audio Fallback
+### Task 13: Text-only MVP scope confirmation and metadata removal
 
 **Files:**
-- Create: `src/hooks/useLocalAudio.test.tsx`
-- Create: `src/hooks/useLocalAudio.ts`
-- Create: `src/content/audioAssets.test.ts`
-- Create: `src/components/common/AudioReader.tsx`
-- Create: `docs/content/audio-recording-protocol.md`
-- Create: `assets/audio-source/scenes/nun-snow-01.m4a`
-- Create: `assets/audio-source/scenes/nun-eye-02.m4a`
-- Create: `assets/audio-source/scenes/nun-uncertain-03.m4a`
-- Create: `assets/audio-source/scenes/bae-boat-01.m4a`
-- Create: `assets/audio-source/scenes/bae-belly-02.m4a`
-- Create: `assets/audio-source/scenes/bae-pear-03.m4a`
-- Create: `assets/audio-source/scenes/bam-night-01.m4a`
-- Create: `assets/audio-source/scenes/bam-chestnut-02.m4a`
-- Create: `assets/audio-source/scenes/bam-uncertain-03.m4a`
-- Create: `assets/audio-source/scenes/mal-horse-01.m4a`
-- Create: `assets/audio-source/scenes/mal-speech-02.m4a`
-- Create: `assets/audio-source/scenes/mal-uncertain-03.m4a`
-- Create: `assets/audio-source/scenes/chada-kick-01.m4a`
-- Create: `assets/audio-source/scenes/chada-wear-02.m4a`
-- Create: `assets/audio-source/scenes/chada-fill-03.m4a`
-- Create: `assets/audio-source/scenes/dari-leg-01.m4a`
-- Create: `assets/audio-source/scenes/dari-bridge-02.m4a`
-- Create: `assets/audio-source/scenes/dari-uncertain-03.m4a`
-- Create: `assets/audio-source/scenes/sseuda-write-01.m4a`
-- Create: `assets/audio-source/scenes/sseuda-wear-02.m4a`
-- Create: `assets/audio-source/scenes/sseuda-bitter-03.m4a`
-- Create: `assets/audio-source/scenes/gamda-close-01.m4a`
-- Create: `assets/audio-source/scenes/gamda-wind-02.m4a`
-- Create: `assets/audio-source/scenes/gamda-wash-03.m4a`
-- Create: `public/audio/scenes/nun-snow-01.mp3`
-- Create: `public/audio/scenes/nun-eye-02.mp3`
-- Create: `public/audio/scenes/nun-uncertain-03.mp3`
-- Create: `public/audio/scenes/bae-boat-01.mp3`
-- Create: `public/audio/scenes/bae-belly-02.mp3`
-- Create: `public/audio/scenes/bae-pear-03.mp3`
-- Create: `public/audio/scenes/bam-night-01.mp3`
-- Create: `public/audio/scenes/bam-chestnut-02.mp3`
-- Create: `public/audio/scenes/bam-uncertain-03.mp3`
-- Create: `public/audio/scenes/mal-horse-01.mp3`
-- Create: `public/audio/scenes/mal-speech-02.mp3`
-- Create: `public/audio/scenes/mal-uncertain-03.mp3`
-- Create: `public/audio/scenes/chada-kick-01.mp3`
-- Create: `public/audio/scenes/chada-wear-02.mp3`
-- Create: `public/audio/scenes/chada-fill-03.mp3`
-- Create: `public/audio/scenes/dari-leg-01.mp3`
-- Create: `public/audio/scenes/dari-bridge-02.mp3`
-- Create: `public/audio/scenes/dari-uncertain-03.mp3`
-- Create: `public/audio/scenes/sseuda-write-01.mp3`
-- Create: `public/audio/scenes/sseuda-wear-02.mp3`
-- Create: `public/audio/scenes/sseuda-bitter-03.mp3`
-- Create: `public/audio/scenes/gamda-close-01.mp3`
-- Create: `public/audio/scenes/gamda-wind-02.mp3`
-- Create: `public/audio/scenes/gamda-wash-03.mp3`
-- Create: `tests/manual/content-and-audio-checklist.md`
+- Modify: `src/domain/contentTypes.ts`
+- Modify: `src/domain/contentValidation.ts`
+- Modify: `src/domain/contentValidation.test.ts`
+- Modify: `src/content/wordPacks/nun.ts`
+- Modify: `src/content/wordPacks/bae.ts`
+- Modify: `src/content/wordPacks/bam.ts`
+- Modify: `src/content/wordPacks/mal.ts`
+- Modify: `src/content/wordPacks/chada.ts`
+- Modify: `src/content/wordPacks/dari.ts`
+- Modify: `src/content/wordPacks/sseuda.ts`
+- Modify: `src/content/wordPacks/gamda.ts`
 - Modify: `src/components/screens/ContextSceneScreen.tsx`
 - Modify: `src/components/screens/EntranceAndContextScreens.test.tsx`
+- Modify: `tests/e2e/privacy.spec.ts`
+- Modify: `src/content/updateHistory.ts`
+- Modify: `src/app/App.test.tsx`
 - Modify: `docs/content/asset-rights.md`
 
-**Interfaces:** `AudioStatus = 'idle' | 'loading' | 'playing' | 'paused' | 'ended' | 'error'`; `UseLocalAudioResult { status: AudioStatus; play(): Promise<void>; pause(): void }`; `useLocalAudio(src: ContextScene['audioSrc'], onFeedback: (feedback: FeedbackInput) => void): UseLocalAudioResult`; `AudioReaderProps { src: ContextScene['audioSrc']; sentence: string; onFeedback(feedback: FeedbackInput): void }`; 음성 자산 원장 필드 `sceneId`, `transcript`, `providerId`, `consentDate`, `consentScope`, `sourcePath`, `sourceSha256`, `outputPath`, `outputSha256`, `recordingTool`, `conversionTool`, `reviewer`, `approvalStatus`.
+**Interfaces:** `ContextScene` contains sentence, clue, meaning, feedback, and illustration fields only; it does not expose an audio path. `ContextSceneScreen` exposes the stable `text-only-reading-notice` hook, and the privacy E2E asserts that no `audio` element or audio request is needed.
 
-- [ ] **Step 1: Write failing audio hook tests**
+- [ ] **Step 1: Write the failing text-only contract test.**
 
-  `src/hooks/useLocalAudio.test.tsx`에 자동 재생 없음, 명시적 재생, 재생 중 정지, 소스 변경 시 이전 음원 정지, 종료 상태를 작성한다. 로드 실패는 화면 텍스트를 유지하고 `onFeedback`을 `{ tone: 'error', message: '음성을 재생하지 못했어요. 문장을 화면에서 읽을 수 있어요.' }`로 정확히 한 번 호출해야 한다. `HTMLMediaElement.play`와 `pause`는 테스트에서 제어하며 외부 요청을 만들지 않는다.
+  In `src/domain/contentValidation.test.ts`, assert that every scene has no own `audioSrc` property while retaining the 24-scene, cue, meaning, and illustration contracts. Update the context component test to use `text-only-reading-notice` and assert the sentence remains complete without an `audio` element.
 
-- [ ] **Step 2: Write failing audio asset integrity tests**
+- [ ] **Step 2: Run the focused test and confirm the intended failure.**
 
-  `src/content/audioAssets.test.ts`에 `// @vitest-environment node`를 선언하고 24개 `ContextScene.audioSrc`가 중복 없이 장면 ID와 일치하는지 검사한다. `assets/audio-source/scenes`의 M4A 24개와 `public/audio/scenes`의 MP3 24개가 같은 24개 장면 ID stem을 정확히 공유하고, 각각 1KB보다 크며, M4A는 ISO BMFF `ftyp` 서명, MP3는 ID3 또는 MPEG 프레임 서명인지 검사한다. `docs/content/asset-rights.md`의 24개 음성 원장 행에는 위 13개 필드가 모두 비어 있지 않고 `providerId`가 `voice-provider-adult-01`, `approvalStatus`가 `승인`이어야 한다.
+  Run: `npm run test:run -- src/domain/contentValidation.test.ts src/components/screens/EntranceAndContextScreens.test.tsx`
 
-  대표 Node 자산 테스트는 다음과 같다.
+  Expected: the new no-audio metadata assertion fails because the existing content still carries `audioSrc`.
 
-  ```ts
-  // @vitest-environment node
-  import { existsSync, readFileSync } from 'node:fs';
-  import { expect, it } from 'vitest';
-  import { WORD_PACKS } from './wordPacks';
+- [ ] **Step 3: Remove the audio contract with the minimum implementation.**
 
-  it('maps every scene to a real local MP3 signature', () => {
-    const scenes = WORD_PACKS.flatMap((pack) => pack.scenes);
-    expect(scenes).toHaveLength(24);
-    for (const scene of scenes) {
-      const path = `public${scene.audioSrc}`;
-      expect(existsSync(path), path).toBe(true);
-      const bytes = readFileSync(path).subarray(0, 3);
-      const isMp3 = bytes.toString('ascii') === 'ID3' || (bytes[0] === 0xff && (bytes[1]! & 0xe0) === 0xe0);
-      expect(isMp3, path).toBe(true);
-    }
-  });
-  ```
+  Remove `audioSrc` from `ContextScene`, its validator invariant, and all eight word packs. Rename the context notice test hook to `text-only-reading-notice`, remove the MP3-blocking route from `tests/e2e/privacy.spec.ts`, and retain the assertion that the full route has no audio element or external request. Do not add TTS, autoplay, media controls, audio files, or audio-related dependencies.
 
-- [ ] **Step 3: Run audio tests and confirm missing hook/assets**
+- [ ] **Step 4: Record the approved scope change.**
 
-  Run: `npm run test:run -- src/hooks/useLocalAudio.test.tsx src/content/audioAssets.test.ts`
+  Add one newest `2026-08-28 / 범위` entry to `src/content/updateHistory.ts`, update `src/app/App.test.tsx` to assert the entry, and change `docs/content/asset-rights.md` so the rights ledger covers only the eight directly authored SVG assets. The design and plan documents must state that audio recording, playback, TTS, and teacher read-aloud are excluded from this MVP.
 
-  Expected: 훅·컴포넌트·24개 파일이 없어 실패한다.
+- [ ] **Step 5: Run the complete text-only gate.**
 
-- [ ] **Step 4: Obtain adult consent, record the exact sentences, and preserve sources**
+  Run: `npm run lint && npm run test:run && npm run build && npm run test:e2e`
 
-  학생이 아닌 성인 프로젝트 콘텐츠 검수자 한 명에게 내부 식별자 `voice-provider-adult-01`을 부여한다. 녹음 전에 `앱 저장소에 원본 M4A 보존`, `파생 MP3의 정적 앱 배포`, `프로젝트 유지보수와 재인코딩`, `철회 요청 전까지의 이용`을 명시한 서면 동의의 실제 날짜와 검수 역할을 `docs/content/asset-rights.md`에 기록한다. 동의가 없거나 범위가 좁으면 녹음·커밋을 중단하고 음성 기능을 MVP에서 제외할지 사용자 결정을 받으며, 학생·보호자 음성으로 대체하지 않는다.
+  Expected: lint has zero warnings, all Vitest tests pass, the production build succeeds, all Chromium E2E scenarios pass, and no runtime source references an audio path or media element.
 
-  `docs/content/audio-recording-protocol.md`에 콘텐츠 표의 24개 `sceneId`와 문장을 고정 대본으로 싣고, macOS QuickTime Player의 `파일 > 새로운 오디오 녹음`, 실제 macOS·QuickTime 버전, 마이크 모델, 조용한 실내, 입력 레벨, 녹음 담당자 ID를 기록한다. 각 문장을 배경음 없이 한국어 보통 속도로 한 번씩 읽어 장면 ID와 같은 M4A 파일로 저장한다. 앞뒤 무음은 각각 0.5초 이하, 한 파일은 12초 이하이며 목표 낱말을 과장해 뜻을 암시하지 않는다.
-
-- [ ] **Step 5: Convert the preserved sources reproducibly**
-
-  먼저 `command -v ffmpeg && ffmpeg -version | head -n 1`로 실제 경로와 버전을 기록한다. 명령이 실패하면 구현 담당자가 사용자 승인을 받아 `brew install ffmpeg`를 실행한 뒤 같은 사전 점검을 반복한다. 다음 명령으로 메타데이터를 제거한 44.1kHz mono 96kbps MP3를 만든다.
+- [ ] **Step 6: Commit the scope amendment.**
 
   ```bash
-  set -e
-  mkdir -p public/audio/scenes
-  for audio_source in assets/audio-source/scenes/*.m4a; do audio_stem=${audio_source##*/}; audio_stem=${audio_stem%.m4a}; ffmpeg -y -i "$audio_source" -map_metadata -1 -vn -ac 1 -ar 44100 -b:a 96k "public/audio/scenes/$audio_stem.mp3"; done
+  git add 2026-08-26-word-meaning-crossroads-design.md 2026-08-26-word-meaning-crossroads-implementation-plan.md 2026-08-28-word-meaning-crossroads-learner-ux-improvement-plan.md docs/content/asset-rights.md src/domain/contentTypes.ts src/domain/contentValidation.ts src/domain/contentValidation.test.ts src/content/wordPacks src/components/screens/ContextSceneScreen.tsx src/components/screens/EntranceAndContextScreens.test.tsx tests/e2e/privacy.spec.ts src/content/updateHistory.ts src/app/App.test.tsx
+  git commit -m "chore: make word meaning MVP text-only"
   ```
 
-  Expected: 중간 파일 하나라도 변환에 실패하면 `set -e`로 즉시 비정상 종료하며, 성공할 때는 24개 명령이 모두 종료 코드 0이고 출력 stem이 원본과 정확히 같다. `docs/content/audio-recording-protocol.md`에 ffmpeg 경로·버전·명령·실행일을 기록하고, `shasum -a 256 assets/audio-source/scenes/*.m4a public/audio/scenes/*.mp3` 결과를 해당 24개 원장 행의 `sourceSha256`, `outputSha256`에 옮긴다.
-
-- [ ] **Step 6: Implement the local-only audio hook and control**
-
-  `useLocalAudio`는 한 개의 `Audio` 인스턴스를 컴포넌트 생명주기에 묶고 재생·정지·종료·오류를 상태로 노출한다. 오류는 Props의 `onFeedback`을 호출하고 App이 `ANNOUNCE_FEEDBACK`으로 전역 단일 LiveRegion에 연결한다. `AudioReader`는 `문장 듣기`, `멈추기` 버튼, 현재 상태 문자, 화면에 이미 있는 동일 문장을 참조하는 설명을 제공한다. 자동 재생, 재생 횟수 점수, 외부 TTS 대체 호출을 넣지 않는다.
-
-- [ ] **Step 7: Add teacher read-aloud guidance without hiding text**
-
-  `AudioReader`의 `교사용 읽어주기 안내` 토글은 `문장을 한 번 천천히 읽고, 학생이 주변 낱말을 직접 찾을 시간을 주세요.`를 표시한다. 이 안내와 원문은 음원 오류 여부와 무관하게 DOM에 남는다.
-
-- [ ] **Step 8: Verify source/output identity, hook behavior, and manual pronunciation**
-
-  Run: `find assets/audio-source/scenes -type f -name '*.m4a' | sort | wc -l && find public/audio/scenes -type f -name '*.mp3' | sort | wc -l && find assets/audio-source/scenes -type f -name '*.m4a' -exec file {} \; && find public/audio/scenes -type f -name '*.mp3' -exec file {} \; && npm run test:run -- src/hooks/useLocalAudio.test.tsx src/content/audioAssets.test.ts`
-
-  Expected: 첫 두 출력이 각각 `24`, 이어지는 24줄이 M4A/ISO Media로, 다음 24줄이 MPEG/MP3로 식별되고 원본·출력 stem, 해시 원장, 훅·자산 테스트가 모두 통과한다. `tests/manual/content-and-audio-checklist.md`에는 각 장면의 대본 일치, 발음, 속도, 잡음, 앞뒤 무음, 길이, 정답 암시 억양을 두 번째 성인 검수자가 실제 청취한 날짜와 결과가 기록된다. 24개가 모두 통과한 뒤에만 `docs/content/asset-rights.md`의 음성 자산 승인 상태를 `승인`으로 바꾼다.
-
-- [ ] **Step 9: Commit local audio and fallback behavior**
-
-  ```bash
-  git add src/hooks/useLocalAudio.test.tsx src/hooks/useLocalAudio.ts src/content/audioAssets.test.ts src/components/common/AudioReader.tsx docs/content/audio-recording-protocol.md assets/audio-source/scenes public/audio/scenes tests/manual/content-and-audio-checklist.md src/components/screens/ContextSceneScreen.tsx src/components/screens/EntranceAndContextScreens.test.tsx docs/content/asset-rights.md
-  git commit -m "feat: add reviewed local sentence audio"
-  ```
-
-  Expected: 동의받은 성인 원본, 재현 가능한 MP3, 재생 제어, 텍스트 대체, 권리·청취 검수 기록만 포함한 커밋이 생성된다.
+  Expected: one commit contains the explicit scope decision, audio metadata removal, updated tests, and learner-facing update history.
 
 ### Task 14: Neutral Crossroads Illustration and Image-Independent Flow
 
@@ -2207,7 +2109,7 @@ tests/manual/content-and-audio-checklist.md                24문맥·24원본/�
 - Modify: `src/components/screens/SentenceRepairScreen.tsx`
 - Modify: `src/components/screens/ExplorationRecordScreen.tsx`
 
-**Interfaces:** 접근성 이름·역할·상태 계약, 제목 구조와 landmark 계약, `aria-live` 단일 판정 알림 계약, VoiceOver 실제 발표 체크리스트.
+**Interfaces:** 접근성 이름·역할·상태 계약, 제목 구조와 landmark 계약, `aria-live` 단일 판정 알림 계약. VoiceOver 구현·수동 검증·자동화는 범위에서 제외한다.
 
 - [ ] **Step 1: Write failing accessible-name and live-region assertions**
 
@@ -2254,9 +2156,9 @@ tests/manual/content-and-audio-checklist.md                24문맥·24원본/�
 
   Expected: accessible-name 누락 0, 중복 발표 계약 위반 0, serious/critical axe 위반 0이다.
 
-- [ ] **Step 6: Perform and document the macOS VoiceOver check**
+- [ ] **Step 6: Record the excluded VoiceOver scope without performing it**
 
-  `tests/manual/voiceover-checklist.md`에 Safari 또는 Chromium과 VoiceOver 버전, 검수일, 다음 실제 발표 결과를 기록한다: 앱 제목과 목표, 문맥 속 목표 낱말, 어절의 선택/해제 상태, `결정 단서가 없어요`, 뜻 카드 3개와 선택 상태, 오답/정답 피드백, 비교 카드와 단서 가리기 문제의 읽기 순서, 가린 뒤 빈칸과 명료성 선택, 완성 문장 미리 보기, 탐사 기록 제목과 네 증거. 음성을 끈 상태에서도 모든 텍스트를 눈으로 확인해 완료한다.
+  `tests/manual/voiceover-checklist.md`는 실제 발표 결과를 채우지 않고, 이번 텍스트 전용 MVP에서 VoiceOver 구현·수동 검증·자동화가 제외되었음을 기록하는 범위 문서로만 유지한다. 키보드, 접근성 트리, axe, 일반 브라우저 DOM 검증은 Step 1~5에서 완료한다.
 
 - [ ] **Step 7: Commit screen reader verification**
 
@@ -2265,7 +2167,7 @@ tests/manual/content-and-audio-checklist.md                24문맥·24원본/�
   git commit -m "fix: verify screen reader learning flow"
   ```
 
-  Expected: 의미 구조·알림 수정과 실제 VoiceOver 증거만 포함한 커밋이 생성된다.
+  Expected: 의미 구조·알림 수정과 VoiceOver 제외 범위 기록만 포함한 커밋이 생성된다.
 
 ### Task 19: Privacy, Safety, End-to-End Completion, and Release Readiness
 
@@ -2274,12 +2176,9 @@ tests/manual/content-and-audio-checklist.md                24문맥·24원본/�
 - Create: `tests/e2e/privacy.spec.ts`
 - Modify: `tests/e2e/image-independent-flow.spec.ts`
 - Modify: `tests/e2e/print.spec.ts`
-- Modify: `tests/manual/voiceover-checklist.md`
-- Modify: `tests/manual/content-and-audio-checklist.md`
 - Modify: `docs/content/dictionary-review.md`
 - Modify: `docs/content/inclusive-language-review.md`
 - Modify: `docs/content/asset-rights.md`
-- Modify: `docs/content/audio-recording-protocol.md`
 - Modify: `src/content/wordPacks/nun.ts`
 - Modify: `src/content/wordPacks/bae.ts`
 - Modify: `src/content/wordPacks/bam.ts`
@@ -2294,7 +2193,6 @@ tests/manual/content-and-audio-checklist.md                24문맥·24원본/�
 - Modify: `src/domain/sessionReducer.ts`
 - Modify: `src/domain/selectors.ts`
 - Modify: `src/hooks/useMissionSession.ts`
-- Modify: `src/hooks/useLocalAudio.ts`
 - Modify: `src/components/screens/ContextSceneScreen.tsx`
 - Modify: `src/components/screens/ClueInvestigationScreen.tsx`
 - Modify: `src/components/screens/MeaningSignpostScreen.tsx`
@@ -2304,7 +2202,7 @@ tests/manual/content-and-audio-checklist.md                24문맥·24원본/�
 - Modify: `package.json`
 - Modify: `package-lock.json`
 
-**Interfaces:** Playwright의 built-preview `webServer`; 전체 게이트 npm script `verify`; 네트워크 허용 목록은 현재 앱 origin의 문서, JS, CSS, SVG, MP3만 포함한다.
+**Interfaces:** Playwright의 built-preview `webServer`; 전체 게이트 npm script `verify`; 네트워크 허용 목록은 현재 앱 origin의 문서, JS, CSS, SVG만 포함한다.
 
 - [ ] **Step 1: Write failing full learner-flow tests**
 
@@ -2317,14 +2215,14 @@ tests/manual/content-and-audio-checklist.md                24문맥·24원본/�
 
   테스트 헬퍼는 장면 ID별 정답을 DOM에서 읽지 않고 테스트 고정 입력으로 갖는다. 앱에 테스트 전용 정답 속성을 추가하지 않는다.
 
-- [ ] **Step 2: Write failing privacy and no-audio tests**
+- [ ] **Step 2: Write failing privacy and text-only tests**
 
   `tests/e2e/privacy.spec.ts`에 built preview를 열고 다음을 검사한다.
 
   - 초기화와 전체 core 흐름 동안 외부 origin 요청 0개다.
   - `localStorage.length`, `sessionStorage.length`, IndexedDB 데이터베이스 수, `document.cookie`가 모두 0 또는 빈 값이다.
   - 이름·학번·반·학교·이메일을 요구하는 입력이 없다.
-  - 모든 MP3 요청을 중단해도 텍스트만으로 core 첫 낱말과 기록까지 진행할 수 있다.
+  - 음성 요소나 음성 요청 없이 텍스트만으로 core 첫 낱말과 기록까지 진행할 수 있다.
   - 다시 하기 후 최초 예상 문자열이 DOM과 메모리 파생 기록에서 사라진다.
   - HTML처럼 보이는 최초 예상 문자열은 텍스트로 이스케이프되어 실행 가능한 요소나 이벤트 핸들러가 되지 않는다.
 
@@ -2356,15 +2254,15 @@ tests/manual/content-and-audio-checklist.md                24문맥·24원본/�
 
   Run: `npm run build && npx playwright test tests/e2e/student-flow.spec.ts tests/e2e/privacy.spec.ts tests/e2e/image-independent-flow.spec.ts tests/e2e/print.spec.ts --project=chromium`
 
-  Expected before final integration: 누락된 App 단계 연결, 자산 차단 처리, 기록 또는 인쇄 상태 중 실제 미완료 지점이 실패로 식별된다.
+  Expected before final integration: 누락된 App 단계 연결, 텍스트 전용 화면, 기록 또는 인쇄 상태 중 실제 미완료 지점이 실패로 식별된다.
 
 - [ ] **Step 4: Apply only the integration fixes exposed by the tests**
 
-  단계 연결은 `src/app/App.tsx`, `src/domain/sessionReducer.ts`, `src/hooks/useMissionSession.ts`에서, 기록 누락은 `src/domain/selectors.ts`와 `ExplorationRecordScreen.tsx`에서, 오디오 차단은 `src/hooks/useLocalAudio.ts`와 `ContextSceneScreen.tsx`에서, 화면별 접근 실패는 해당 화면 파일에서만 고친다. 네트워크 실패는 텍스트 대체를 유지하고 외부 API, 저장소, 사용자 식별, 점수 기능으로 우회하지 않는다.
+  단계 연결은 `src/app/App.tsx`, `src/domain/sessionReducer.ts`, `src/hooks/useMissionSession.ts`에서, 기록 누락은 `src/domain/selectors.ts`와 `ExplorationRecordScreen.tsx`에서, 텍스트 전용 화면 실패는 `ContextSceneScreen.tsx`에서, 화면별 접근 실패는 해당 화면 파일에서만 고친다. 외부 API, 저장소, 사용자 식별, 점수 기능으로 우회하지 않는다.
 
 - [ ] **Step 5: Recheck content, inclusion, and asset evidence**
 
-  24개 한 문장 장면, 8개 단서 가리기 문제, 8개 정비 문제를 `docs/content/dictionary-review.md`, `docs/content/inclusive-language-review.md`, `tests/manual/content-and-audio-checklist.md`와 대조한다. 사전 뜻·활용형, 결정/보조 단서, 모호성 판정, 주어·활용형을 보존한 수정안, 성인 음성 동의·해시, 중립 inline SVG 자산 ID가 구현과 정확히 일치해야 한다. 문구·판정·원장 불일치는 해당 `src/content/wordPacks/*.ts`, `dictionary-review.md`, `inclusive-language-review.md`, `asset-rights.md`, `audio-recording-protocol.md`를 같은 변경에서 맞춘다. 문장이 바뀌어 녹음도 달라져야 하면 Task 13 Steps 4~9로 돌아가 원본·MP3·해시·청취 검수를 새 커밋으로 완료한 뒤 Task 19를 다시 시작한다. 모든 항목이 일치한 날짜와 검수자 역할을 `tests/manual/content-and-audio-checklist.md`의 최종 대조 행에 기록하되 아직 개발 완료 내역을 추가하지 않는다.
+  24개 한 문장 장면, 8개 단서 가리기 문제, 8개 정비 문제를 `docs/content/dictionary-review.md`, `docs/content/inclusive-language-review.md`와 대조하고, 중립 inline SVG 자산 ID가 `docs/content/asset-rights.md`와 정확히 일치하는지 확인한다. 사전 뜻·활용형, 결정/보조 단서, 모호성 판정, 주어·활용형을 보존한 수정안, 텍스트 전용 안내가 구현과 정확히 일치해야 한다. 문구·판정·원장 불일치는 해당 `src/content/wordPacks/*.ts`, `dictionary-review.md`, `inclusive-language-review.md`, `asset-rights.md`를 같은 변경에서 맞춘다.
 
 - [ ] **Step 6: Run the complete automated gate with the Task 1 browser runtime**
 
@@ -2408,18 +2306,18 @@ tests/manual/content-and-audio-checklist.md                24문맥·24원본/�
 
   Expected: `npm run lint && npm run test:run && npm run build && npm run test:e2e`가 그 순서로 실행되어 린트 경고 0, 모든 Vitest 통과, TypeScript/Vite 빌드 성공, 모든 Playwright 프로젝트 통과다. 업데이트 내역 테스트도 이 최종 실행에 포함된다.
 
-- [ ] **Step 13: Repeat VoiceOver verification on the final screen state**
+- [ ] **Step 13: Confirm the excluded VoiceOver scope**
 
-  Task 18 이후 Task 19 통합 수정과 업데이트 대화상자 변경이 반영된 최종 빌드를 Safari 또는 Chromium에서 다시 연다. `tests/manual/voiceover-checklist.md`의 모든 항목을 다시 수행하고, 브라우저·VoiceOver 버전, `2026-08-26` 재검수일, 성공·오류 피드백이 각각 한 번만 발표된 결과, 업데이트 내역 대화상자의 제목·두 항목·닫기·초점 복귀 결과를 새 `최종 통합 재검수` 절에 기록한다. 한 항목이라도 실패하면 Step 4의 최소 수정으로 돌아가 Steps 5~9와 Step 12의 자동 게이트를 다시 수행한 뒤 Step 13을 반복한다. 이미 존재하는 개발 항목을 다시 추가하는 Steps 10~11은 반복하지 않는다.
+  최종 자동 검증에는 키보드, 접근성 트리, axe, 일반 브라우저 DOM 검증만 포함한다. `tests/manual/voiceover-checklist.md`는 실제 발표 결과를 채우지 않으며, VoiceOver 구현·수동 검증·자동화가 이번 MVP 범위에서 제외되었음을 나타내는 기록으로만 보존한다.
 
 - [ ] **Step 14: Commit final integration and readiness evidence**
 
   ```bash
-  git add tests/e2e/student-flow.spec.ts tests/e2e/privacy.spec.ts tests/e2e/image-independent-flow.spec.ts tests/e2e/print.spec.ts tests/manual/voiceover-checklist.md tests/manual/content-and-audio-checklist.md docs/content/dictionary-review.md docs/content/inclusive-language-review.md docs/content/asset-rights.md docs/content/audio-recording-protocol.md src/content/wordPacks/nun.ts src/content/wordPacks/bae.ts src/content/wordPacks/bam.ts src/content/wordPacks/mal.ts src/content/wordPacks/chada.ts src/content/wordPacks/dari.ts src/content/wordPacks/sseuda.ts src/content/wordPacks/gamda.ts src/content/updateHistory.ts src/app/App.test.tsx src/app/App.tsx src/domain/sessionReducer.ts src/domain/selectors.ts src/hooks/useMissionSession.ts src/hooks/useLocalAudio.ts src/components/screens/ContextSceneScreen.tsx src/components/screens/ClueInvestigationScreen.tsx src/components/screens/MeaningSignpostScreen.tsx src/components/screens/ComparisonScreen.tsx src/components/screens/SentenceRepairScreen.tsx src/components/screens/ExplorationRecordScreen.tsx package.json package-lock.json
+  git add tests/e2e/student-flow.spec.ts tests/e2e/privacy.spec.ts tests/e2e/image-independent-flow.spec.ts tests/e2e/print.spec.ts docs/content/dictionary-review.md docs/content/inclusive-language-review.md docs/content/asset-rights.md src/content/wordPacks/nun.ts src/content/wordPacks/bae.ts src/content/wordPacks/bam.ts src/content/wordPacks/mal.ts src/content/wordPacks/chada.ts src/content/wordPacks/dari.ts src/content/wordPacks/sseuda.ts src/content/wordPacks/gamda.ts src/content/updateHistory.ts src/app/App.test.tsx src/app/App.tsx src/domain/sessionReducer.ts src/domain/selectors.ts src/hooks/useMissionSession.ts src/components/screens/ContextSceneScreen.tsx src/components/screens/ClueInvestigationScreen.tsx src/components/screens/MeaningSignpostScreen.tsx src/components/screens/ComparisonScreen.tsx src/components/screens/SentenceRepairScreen.tsx src/components/screens/ExplorationRecordScreen.tsx package.json package-lock.json
   git commit -m "test: verify complete word meaning learning journey"
   ```
 
-  Expected: 실제 테스트로 요구된 통합 수정, 게이트 후 추가된 개발 내역, 최종 VoiceOver 재검수 증거만 포함한 마지막 구현 커밋이 생성된다.
+Expected: 실제 테스트로 요구된 통합 수정, 게이트 후 추가된 개발 내역, 텍스트 전용 범위의 최종 자동 검증 증거만 포함한 마지막 구현 커밋이 생성된다.
 
 - [ ] **Step 15: Confirm a clean, local-only completion state**
 
@@ -2433,16 +2331,15 @@ tests/manual/content-and-audio-checklist.md                24문맥·24원본/�
 |---|---|---|
 | 타입·빌드 | `npm run build` | TypeScript 오류 0, `dist/index.html` 생성 |
 | 도메인 | `npm run test:run -- src/domain` | 8×3 콘텐츠, 단서·뜻·정비, 상태 전이 전부 통과 |
-| 컴포넌트 | `npm run test:run -- src/app src/components src/hooks src/content` | 의미 선공개 없음, 키보드 상태, 업데이트 날짜, 오디오 실패 대체 통과 |
+| 컴포넌트 | `npm run test:run -- src/app src/components src/hooks src/content` | 의미 선공개 없음, 키보드 상태, 업데이트 날짜, 텍스트 전용 안내 통과 |
 | 실제 학습 흐름 | `npx playwright test tests/e2e/student-flow.spec.ts --project=chromium` | core·extension·all 기록 화면 도달, 8개 순서 일치, 오답 회복 가능 |
 | 모바일 | `npx playwright test tests/e2e/responsive.spec.ts --project=chromium` | 375×812와 200% 글자에서 넘침·겹침 0 |
 | 키보드 | `npx playwright test tests/e2e/keyboard.spec.ts --project=chromium` | 마우스 없는 여정 완료, 초점 단절·대화상자 누출 0 |
-| 스크린 리더 자동 | `npx playwright test tests/e2e/screen-reader.spec.ts --project=chromium` | 이름 누락·중복 알림·serious/critical axe 위반 0 |
-| 스크린 리더 실제 | `tests/manual/voiceover-checklist.md` 실제 수행 | 제목·낱말·선택 상태·피드백·기록이 올바른 순서로 발표 |
-| 음성 없음·그림 없음 | privacy와 image-independent-flow E2E | MP3 중단·그림 숨김 상태에서 학습 완료 |
+| 스크린 리더 자동 구조 | `npx playwright test tests/e2e/screen-reader.spec.ts --project=chromium` | 이름 누락·중복 알림·serious/critical axe 위반 0; VoiceOver는 범위 제외 |
+| 텍스트 전용·그림 없음 | privacy와 image-independent-flow E2E | 음성 요소·음원 요청 없이 그림 숨김 상태에서 학습 완료 |
 | 개인정보 | `npx playwright test tests/e2e/privacy.spec.ts --project=chromium` | 외부 요청·저장소·쿠키·이름 입력 0 |
 | 모션 감소 | `npx playwright test tests/e2e/motion.spec.ts --project=chromium` | 애니메이션 0, 정적 필수 강조 유지 |
-| 내용·권리 | `docs/content/`와 수동 체크리스트 | 성취기준·사전·포용성, 성인 동의 원본 24개·MP3 24개, 8개 inline SVG 변형의 승인 근거 존재 |
+| 내용·권리 | `docs/content/` | 성취기준·사전·포용성, 8개 inline SVG 변형의 승인 근거 존재 |
 | 파일 크기 | Task 19 Step 8 명령 | 500줄 이상 구현 파일 0 |
 | 범위 | 앱 UI와 번들 검사 | 서버·로그인·외부 AI·사전 검색·경쟁·이론 수업 없음 |
 
@@ -2452,8 +2349,8 @@ tests/manual/content-and-audio-checklist.md                24문맥·24원본/�
 - 콘텐츠 수량: 표와 검증 계획에 장면 24개, 필요 단서 가리기 8개, 문장 정비 8개가 있으며 `core`, `extension`, `all` 경로가 4·4·8개 낱말을 갖는다.
 - 계약 일관성: `SceneId`, `MeaningId`, `TokenId`, `RepairChallenge.wordId`, `SessionAction` payload, `CompletedEvidence`, `ExplorationRecord`, `getCurrentWordPack`, `getCurrentScene`, `data-illustration-id`, `.gi-pulse`/`data-emphasis`, 단일 `LiveRegion` 계약의 명칭·export 파일·사용 지점이 일치한다.
 - 스타일 포함 순서: Task 1은 `tokens.css`→`base.css`, Task 12는 마지막에 `print.css`를 연결하고, Task 15는 최종적으로 `tokens`→`base`→`layout`→`components`→`motion`→`print` 순서를 `src/main.tsx`에 고정해 각 CSS가 실제 번들에 포함된다.
-- 접근성·운영 순서: 모바일, 200% 글자, 키보드, 자동 스크린 리더, 실제 VoiceOver를 별도 과제로 검증하며 Task 19 통합 수정 뒤 최종 VoiceOver를 다시 수행한다. 개발 업데이트 항목은 자동 게이트 통과 뒤에만 추가한다.
-- 음성 출처: 학생 음성을 금지하고 성인 제공자 동의, 24개 M4A 원본, 24개 MP3 출력, 변환 명령·버전·해시·청취 검수를 모두 추적한다.
+- 접근성·운영 순서: 모바일, 200% 글자, 키보드, 자동 스크린 리더를 별도 과제로 검증한다. VoiceOver 구현·수동 검증·자동화는 범위에서 제외하며 개발 업데이트 항목은 자동 게이트 통과 뒤에만 추가한다.
+- 텍스트 전용 경계: 음성 녹음·재생·TTS·교사용 읽어주기와 관련 원본·출력·권리·청취 기록을 만들지 않는다. 문맥·피드백·기록은 화면 텍스트와 접근성 트리로 완결한다.
 - 계획 문법: Task 0~19가 순서대로 존재하고 각 Task의 체크박스 Step 번호가 1부터 연속이며, 동작 과제는 실패 테스트→의도한 실패 확인→최소 구현→통과 확인→커밋 순서다.
 - 문서 위생: 사용자가 금지한 자리표시자 표현은 0건이고, 모든 작업에 구체적인 파일 경로·인터페이스·실행할 명령·예상 결과·커밋 경계가 있다. 현재 문서 작성 단계는 구현·설치·Git·푸시·배포를 실행하지 않는다.
 
@@ -2472,7 +2369,7 @@ tests/manual/content-and-audio-checklist.md                24문맥·24원본/�
 11. `feat: compare same-form words across contexts`
 12. `feat: repair ambiguous sentences in multiple ways`
 13. `feat: summarize and print learning evidence`
-14. `feat: add reviewed local sentence audio`
+14. `chore: make word meaning MVP text-only`
 15. `feat: add answer-neutral crossroads illustrations`
 16. `feat: style required actions with reduced-motion support`
 17. `fix: support mobile and 200 percent text`

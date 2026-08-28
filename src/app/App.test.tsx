@@ -64,10 +64,11 @@ describe('App shell', () => {
     expect(trigger).not.toHaveClass('history-button');
     expect(trigger).not.toHaveAttribute('style');
     expect((await axe(dialog)).violations).toHaveLength(0);
-    expect(within(dialog).getAllByRole('listitem')).toHaveLength(6);
+    expect(within(dialog).getAllByRole('listitem')).toHaveLength(7);
     expect(within(dialog).getAllByRole('listitem')[0]).toHaveTextContent('2026-08-28');
-    expect(within(dialog).getAllByRole('listitem')[0]).toHaveTextContent('개선');
-    expect(within(dialog).getAllByRole('listitem')[0]).toHaveTextContent('모바일 겹침을 없애고');
+    expect(within(dialog).getAllByRole('listitem')[0]).toHaveTextContent('범위');
+    expect(within(dialog).getAllByRole('listitem')[0]).toHaveTextContent('텍스트 전용 MVP');
+    expect(within(dialog).getAllByRole('listitem')[1]).toHaveTextContent('모바일 겹침을 없애고');
     expect(within(dialog).getByText('2026-08-26')).toBeInTheDocument();
     expect(within(dialog).getByText('설계')).toBeInTheDocument();
     expect(within(dialog).getByText('최초 설계 문서 작성')).toBeInTheDocument();

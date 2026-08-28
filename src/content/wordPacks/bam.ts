@@ -19,7 +19,7 @@ export const bam = {
         'bam:night': '‘어두운’과 ‘해가 지고’라는 단서가 어두운 시간을 가리켜요.',
         'bam:chestnut': '껍질을 벗겨 먹는 열매 장면이 아니라 ‘어두운 밤’과 가로등 장면인지 비교해 보아요.',
         'insufficient-context': '‘어두운’과 ‘가로등’이 남아 있어 어두운 시간인지 살펴볼 수 있어요.',
-      }, audioSrc: '/audio/scenes/bam-night-01.mp3', illustrationId: 'crossroads-bam',
+      }, illustrationId: 'crossroads-bam',
     },
     {
       id: 'bam-chestnut-02', wordId: 'bam', order: 2,
@@ -32,7 +32,7 @@ export const bam = {
         'bam:chestnut': '‘쪘습니다’와 ‘껍질을 벗긴’이라는 단서가 먹는 열매를 가리켜요.',
         'bam:night': '가로등이 켜진 시간 장면이 아니라 ‘솥에 쪘습니다’라는 요리 행동인지 비교해 보아요.',
         'insufficient-context': '‘쪘습니다’와 ‘솥에’가 남아 있어 먹는 열매인지 살펴볼 수 있어요.',
-      }, audioSrc: '/audio/scenes/bam-chestnut-02.mp3', illustrationId: 'crossroads-bam',
+      }, illustrationId: 'crossroads-bam',
     },
     {
       id: 'bam-uncertain-03', wordId: 'bam', order: 3,
@@ -45,7 +45,7 @@ export const bam = {
         'bam:night': '‘좋아합니다’만으로는 어두운 시간인지 먹는 열매인지 결정되지 않아요.',
         'bam:chestnut': '먹는 행동이나 껍질 같은 단서가 없어 열매라고 정할 수 없어요.',
         'insufficient-context': '시간인지 열매인지 알려 주는 단서가 없어서 ‘밤’의 뜻을 정하기 어려워요.',
-      }, audioSrc: '/audio/scenes/bam-uncertain-03.mp3', illustrationId: 'crossroads-bam',
+      }, illustrationId: 'crossroads-bam',
     },
   ],
   necessityChallenge: { id: 'necessity-bam', wordId: 'bam', originalSentence: '할머니는 밤을 쪘습니다.', hiddenTokenText: '쪘습니다', sentenceAfterHide: '할머니는 밤을 ______.', expectedClarity: 'now-unclear', explanation: '‘쪘습니다’가 없으면 어두운 시간을 말하는지 열매를 말하는지 정하기 어려워요.' },

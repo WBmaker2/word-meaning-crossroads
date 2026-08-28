@@ -63,17 +63,11 @@ test('keeps the complete core route local and leaves no privacy-sensitive state'
   expect(externalRequests, 'the complete core route must not contact an external origin').toEqual([])
 })
 
-test('completes the core route with every audio MP3 request blocked', async ({ page }) => {
-  const blockedAudioRequests: string[] = []
+test('completes the core route as a text-only reading flow', async ({ page }) => {
   const externalRequests: string[] = []
   page.on('request', (request) => {
     if (new URL(request.url()).origin !== LOCAL_ORIGIN) externalRequests.push(request.url())
   })
-  await page.route('**/*.mp3', async (route) => {
-    blockedAudioRequests.push(route.request().url())
-    await route.abort()
-  })
-
   await page.goto('./')
   await startRoute(page, 'core')
   await expect(page.getByRole('heading', { name: '문장을 읽고 처음 생각을 적어 보아요' })).toBeVisible()
@@ -82,8 +76,8 @@ test('completes the core route with every audio MP3 request blocked', async ({ p
   for (const wordId of ['nun', 'bae', 'bam', 'mal'] as const) await completeWord(page, wordId)
 
   await expect(page.getByRole('heading', { name: '탐사 기록' })).toBeVisible()
-  expect(blockedAudioRequests).toHaveLength(0)
-  expect(externalRequests, 'the audio-blocked route must not contact an external origin').toEqual([])
+  await expect(page.locator('audio')).toHaveCount(0)
+  expect(externalRequests, 'the text-only route must not contact an external origin').toEqual([])
   await expectEmptyPrivacySurface(page)
 })
 

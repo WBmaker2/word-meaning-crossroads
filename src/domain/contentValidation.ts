@@ -64,7 +64,6 @@ function validateScene(
   if (sentence.plainText !== sentence.tokens.map((token) => token.text).join(' ')) {
     fail(scene.id, 'plainText equals tokens')
   }
-  if (scene.audioSrc !== `/audio/scenes/${scene.id}.mp3`) fail(scene.id, 'audio path')
   if (scene.illustrationId !== `crossroads-${pack.id}`) fail(scene.id, 'illustration path')
 
   const candidateSet = new Set(scene.candidateMeaningIds)

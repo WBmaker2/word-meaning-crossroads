@@ -7,6 +7,11 @@ export interface UpdateHistoryEntry {
 export const UPDATE_HISTORY = [
   {
     date: '2026-08-28',
+    category: '범위',
+    detail: '음성 기능을 제외하고 모든 학습 정보를 화면 텍스트로 제공하는 텍스트 전용 MVP로 범위를 정리',
+  },
+  {
+    date: '2026-08-28',
     category: '개선',
     detail: '모바일 겹침을 없애고 보이는 피드백·장면 진행·학습 기록과 학생용 문장을 정리',
   },

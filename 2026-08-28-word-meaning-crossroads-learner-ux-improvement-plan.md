@@ -17,7 +17,7 @@
 ```mermaid
 flowchart LR
     A[모바일 보조 버튼 겹침 제거] --> B[오답 피드백·다시 고르기]
-    B --> C[오디오 대기 문구 정리]
+    B --> C[텍스트 전용 읽기 안내 정리]
     C --> D[장면 진행·단서 수 표시]
     D --> E[어린이용 문장·기록 요약]
     E --> F[업데이트 기록·favicon·전체 회귀]
@@ -54,7 +54,7 @@ flowchart LR
 | `src/app/App.tsx` | 헤더 제목 묶음, 진행 정보에 현재 장면 전달, 기존 phase 분기 유지 |
 | `src/components/common/UpdateHistoryDialog.tsx` | 업데이트 내역 열기·닫기·포커스 복귀·모달 격리 |
 | `src/components/common/ProgressHeader.tsx` | 낱말 수와 장면 수의 시각·접근성 레이블 |
-| `src/components/screens/ContextSceneScreen.tsx` | 문맥 문장, 최초 예상 입력, 오디오가 없는 상태 안내 |
+| `src/components/screens/ContextSceneScreen.tsx` | 문맥 문장, 최초 예상 입력, 텍스트 전용 읽기 안내 |
 | `src/components/screens/ClueInvestigationScreen.tsx` | 단서 버튼, 선택 단서 수, 결정 단서 없음 선택 |
 | `src/components/screens/MeaningSignpostScreen.tsx` | 뜻 선택, 오답 피드백의 가시성, 다시 고르기 |
 | `src/components/screens/ExplorationRecordScreen.tsx` | 어린이용 학습 요약, 응답 기록, 인쇄·재시작 조작 |
@@ -121,13 +121,13 @@ flowchart LR
 
 **Interfaces:**
 - Preserve `ContextSceneScreenProps`, `onSavePrediction`, and the 60-character limit.
-- Replace `data-testid="local-audio-placeholder"` text with `소리 없이도 읽어도 괜찮아요. 문장을 천천히 읽어 보세요.` and keep the test ID as a stable text-only notice hook.
-- Do not add an audio request, autoplay, external TTS, or VoiceOver-specific behavior in this task; `audioSrc` remains content metadata for a separately approved audio implementation.
+- Render `data-testid="text-only-reading-notice"` with `소리 없이도 읽어도 괜찮아요. 문장을 천천히 읽어 보세요.` as the stable text-only notice hook.
+- Do not add an audio request, autoplay, external TTS, or VoiceOver-specific behavior. The approved MVP scope removes audio metadata and keeps every learning explanation in visible text.
 
 - [ ] **Step 1: Write the failing test.** Assert every rendered context screen contains the new text and does not contain `문장 듣기 준비 중`. Assert no `audio` element is introduced and privacy tests still see zero external requests.
 - [ ] **Step 2: Run the failing test.** Run `npm run test:run -- src/components/screens/EntranceAndContextScreens.test.tsx`. Expected: FAIL because the current placeholder says `문장 듣기 준비 중`.
 - [ ] **Step 3: Write the minimal implementation.** Change only the notice copy and add a low-emphasis `.text-only-reading-notice` style that is visually distinct from an error or spinner.
-- [ ] **Step 4: Run focused and privacy tests.** Run `npm run test:run -- src/components/screens/EntranceAndContextScreens.test.tsx` and `npm run test:e2e -- --project=chromium --workers=1 tests/e2e/privacy.spec.ts -g "audio"`. Expected: PASS with text-only learning and no network/storage regression.
+- [ ] **Step 4: Run focused and privacy tests.** Run `npm run test:run -- src/components/screens/EntranceAndContextScreens.test.tsx` and `npm run test:e2e -- --project=chromium --workers=1 tests/e2e/privacy.spec.ts -g "text-only"`. Expected: PASS with text-only learning and no network/storage regression.
 - [ ] **Step 5: Commit.** Run `git add src/components/screens/ContextSceneScreen.tsx src/styles/components.css src/components/screens/EntranceAndContextScreens.test.tsx tests/e2e/privacy.spec.ts && git commit -m "copy: clarify text-only reading state"`. Expected: one commit containing only Task 3 files.
 
 ### Task 4: 장면 진행과 단서 선택 수를 화면에 드러내기
