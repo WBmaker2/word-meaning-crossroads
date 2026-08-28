@@ -97,8 +97,19 @@ export function ExplorationRecordScreen({ record, onRestartRoute, onReturnToEntr
         <p>같은 형태의 낱말이 문맥에 따라 다른 뜻을 나타낼 수 있음을 알고, 문장 속 단서로 뜻을 구별해요.</p>
       </section>
 
+      <section className="record-summary" aria-label="배움 정리">
+        <div className="record-takeaway">
+          <h3 id="record-takeaway-title">내가 배운 것</h3>
+          <p>같은 낱말도 문장에 따라 뜻이 달라져요. 주변 낱말을 단서로 살펴보면 더 정확하게 읽을 수 있어요.</p>
+        </div>
+        <div className="record-next-step">
+          <h3 id="record-next-step-title">다음에 해 볼 것</h3>
+          <p>다음에는 새 문장에서 단서를 찾아 뜻을 말해 보세요.</p>
+        </div>
+      </section>
+
       <section className="record-evidence" aria-labelledby="record-evidence-title">
-        <h3 id="record-evidence-title">배운 흔적</h3>
+        <h3 id="record-evidence-title">내가 해낸 것</h3>
         <ul>
           {EVIDENCE.map(([key, label]) => (
             <li key={key} data-evidence={key}>

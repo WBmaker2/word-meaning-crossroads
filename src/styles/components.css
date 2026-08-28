@@ -82,6 +82,7 @@ button:disabled {
 .meaning-comparison-panel,
 .necessity-challenge,
 .sentence-repair-alternatives,
+.record-summary,
 .record-learning-goal,
 .record-evidence,
 .record-necessity,
@@ -90,6 +91,15 @@ button:disabled {
   padding: 1rem;
   background: var(--soft-accent);
   border-radius: 12px;
+}
+
+.record-summary {
+  display: grid;
+  gap: 1rem;
+}
+
+.record-summary p {
+  margin-bottom: 0;
 }
 
 .clue-decisions-heading {

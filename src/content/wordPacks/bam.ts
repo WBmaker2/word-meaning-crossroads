@@ -48,7 +48,7 @@ export const bam = {
       }, audioSrc: '/audio/scenes/bam-uncertain-03.mp3', illustrationId: 'crossroads-bam',
     },
   ],
-  necessityChallenge: { id: 'necessity-bam', wordId: 'bam', originalSentence: '할머니는 밤을 쪘습니다.', hiddenTokenText: '쪘습니다', sentenceAfterHide: '할머니는 밤을 ______.', expectedClarity: 'now-unclear', explanation: '`쪘습니다`가 없으면 어두운 시간을 말하는지 열매를 말하는지 정하기 어려워요.' },
+  necessityChallenge: { id: 'necessity-bam', wordId: 'bam', originalSentence: '할머니는 밤을 쪘습니다.', hiddenTokenText: '쪘습니다', sentenceAfterHide: '할머니는 밤을 ______.', expectedClarity: 'now-unclear', explanation: '‘쪘습니다’가 없으면 어두운 시간을 말하는지 열매를 말하는지 정하기 어려워요.' },
   repair: { id: 'repair-bam', wordId: 'bam', ambiguousSentence: '나는 밤을 좋아한다.', solutions: [
     { id: 'bam-night', meaningId: 'bam:night', blockLabel: '시간 단서', completedSentence: '나는 별이 뜨는 밤을 좋아한다.', reviewNote: '별이 뜨는 시간임을 덧붙였어요.' },
     { id: 'bam-chestnut', meaningId: 'bam:chestnut', blockLabel: '열매 단서', completedSentence: '나는 삶아서 먹는 밤을 좋아한다.', reviewNote: '삶아 먹는 열매임을 덧붙였어요.' },

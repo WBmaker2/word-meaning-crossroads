@@ -14,7 +14,7 @@ export const nun = {
         { id: 'nun-snow-01:t1', text: '아침부터', role: 'neutral' }, { id: 'nun-snow-01:t2', text: '흰', role: 'supportive' }, { id: 'nun-snow-01:t3', text: '눈이', role: 'target', targetSurface: '눈' }, { id: 'nun-snow-01:t4', text: '내려', role: 'decisive' }, { id: 'nun-snow-01:t5', text: '운동장이', role: 'neutral' }, { id: 'nun-snow-01:t6', text: '하얗게', role: 'supportive' }, { id: 'nun-snow-01:t7', text: '변했습니다.', role: 'neutral' },
       ] }],
       candidateMeaningIds: ['nun:snow', 'nun:eye'], expectedDecision: 'nun:snow', decisiveCueTokenIds: ['nun-snow-01:t4'], supportiveCueTokenIds: ['nun-snow-01:t2', 'nun-snow-01:t6'],
-      wrongChoiceFeedback: { 'nun:snow': '‘내려’와 ‘하얗게’라는 단서가 하늘에서 내리는 눈을 가리켜요.', 'nun:eye': '눈으로 보는 행동이 아니라 ‘내려’ 운동장을 하얗게 만든 장면인지 비교해 보아요.', 'insufficient-context': '‘내려’와 ‘하얗게’가 남아 있어 내리는 눈인지 살펴볼 수 있어요.' },
+      wrongChoiceFeedback: { 'nun:snow': '‘내려’와 ‘하얗게’라는 단서가 하늘에서 내리는 눈을 가리켜요.', 'nun:eye': '이 문장에서는 눈이 내려 운동장을 하얗게 만들었어요. ‘보는 눈’이 아니라 ‘내리는 눈’이에요.', 'insufficient-context': '‘내려’와 ‘하얗게’가 남아 있어 내리는 눈인지 살펴볼 수 있어요.' },
       audioSrc: '/audio/scenes/nun-snow-01.mp3', illustrationId: 'crossroads-nun',
     },
     {
@@ -36,7 +36,7 @@ export const nun = {
       audioSrc: '/audio/scenes/nun-uncertain-03.mp3', illustrationId: 'crossroads-nun',
     },
   ],
-  necessityChallenge: { id: 'necessity-nun', wordId: 'nun', originalSentence: '민서는 눈으로 칠판 글씨를 보았습니다.', hiddenTokenText: '보았습니다', sentenceAfterHide: '민서는 눈으로 칠판 글씨를 ______.', expectedClarity: 'still-clear', explanation: '`눈으로`와 `칠판 글씨를`이 남아 보는 눈이라는 뜻을 알 수 있어요.' },
+  necessityChallenge: { id: 'necessity-nun', wordId: 'nun', originalSentence: '민서는 눈으로 칠판 글씨를 보았습니다.', hiddenTokenText: '보았습니다', sentenceAfterHide: '민서는 눈으로 칠판 글씨를 ______.', expectedClarity: 'still-clear', explanation: '‘눈으로’와 ‘칠판 글씨를’이 남아 보는 눈이라는 뜻을 알 수 있어요.' },
   repair: { id: 'repair-nun', wordId: 'nun', ambiguousSentence: '나는 눈을 보았다.', solutions: [
     { id: 'nun-snow', meaningId: 'nun:snow', blockLabel: '내리는 눈 단서', completedSentence: '나는 창밖에 내리는 눈을 보았다.', reviewNote: '내리는 장소와 모습을 덧붙였어요.' },
     { id: 'nun-eye', meaningId: 'nun:eye', blockLabel: '보는 눈 단서', completedSentence: '나는 거울 속 내 눈을 보았다.', reviewNote: '거울 속 대상을 덧붙였어요.' },

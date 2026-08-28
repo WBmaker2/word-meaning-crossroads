@@ -57,7 +57,7 @@ export const bae = {
       }, audioSrc: '/audio/scenes/bae-pear-03.mp3', illustrationId: 'crossroads-bae',
     },
   ],
-  necessityChallenge: { id: 'necessity-bae', wordId: 'bae', originalSentence: '우리는 배를 타고 갔습니다.', hiddenTokenText: '타고', sentenceAfterHide: '우리는 배를 ______ 갔습니다.', expectedClarity: 'now-unclear', explanation: '`타고`가 없으면 배를 먹고 갔는지 배를 타고 갔는지 정하기 어려워요.' },
+  necessityChallenge: { id: 'necessity-bae', wordId: 'bae', originalSentence: '우리는 배를 타고 갔습니다.', hiddenTokenText: '타고', sentenceAfterHide: '우리는 배를 ______ 갔습니다.', expectedClarity: 'now-unclear', explanation: '‘타고’가 없으면 배를 먹고 갔는지 배를 타고 갔는지 정하기 어려워요.' },
   repair: { id: 'repair-bae', wordId: 'bae', ambiguousSentence: '민수가 배를 골랐다.', solutions: [
     { id: 'bae-pear', meaningId: 'bae:pear', blockLabel: '과일 단서', completedSentence: '민수가 과일 바구니에서 먹을 배를 골랐다.', reviewNote: '과일과 먹는 상황을 덧붙였어요.' },
     { id: 'bae-boat', meaningId: 'bae:boat', blockLabel: '탈것 단서', completedSentence: '민수가 강가에서 탈 배를 골랐다.', reviewNote: '강가와 탈것 단서를 덧붙였어요.' },

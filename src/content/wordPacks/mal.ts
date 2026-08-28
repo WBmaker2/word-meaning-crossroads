@@ -29,7 +29,7 @@ export const mal = {
       wrongChoiceFeedback: { 'mal:horse': '‘좋아합니다’만으로는 달리는 동물인지 주고받는 말인지 결정되지 않아요.', 'mal:speech': '듣거나 말한 상황이 없어 주고받는 말이라고 정할 수 없어요.', 'insufficient-context': '동물의 움직임이나 대화 단서가 없어서 ‘말’의 뜻을 정하기 어려워요.' }, audioSrc: '/audio/scenes/mal-uncertain-03.mp3', illustrationId: 'crossroads-mal',
     },
   ],
-  necessityChallenge: { id: 'necessity-mal', wordId: 'mal', originalSentence: '친구의 말을 듣고 웃었습니다.', hiddenTokenText: '듣고', sentenceAfterHide: '친구의 말을 ______ 웃었습니다.', expectedClarity: 'now-unclear', explanation: '`듣고`가 없으면 주고받은 말을 가리키는지 친구의 동물을 가리키는지 확실하지 않아요.' },
+  necessityChallenge: { id: 'necessity-mal', wordId: 'mal', originalSentence: '친구의 말을 듣고 웃었습니다.', hiddenTokenText: '듣고', sentenceAfterHide: '친구의 말을 ______ 웃었습니다.', expectedClarity: 'now-unclear', explanation: '‘듣고’가 없으면 주고받은 말을 가리키는지 친구의 동물을 가리키는지 확실하지 않아요.' },
   repair: { id: 'repair-mal', wordId: 'mal', ambiguousSentence: '지우는 말을 좋아한다.', solutions: [
     { id: 'mal-horse', meaningId: 'mal:horse', blockLabel: '동물 단서', completedSentence: '지우는 목장에서 달리는 말을 좋아한다.', reviewNote: '목장과 달리는 모습을 덧붙였어요.' },
     { id: 'mal-speech', meaningId: 'mal:speech', blockLabel: '대화 단서', completedSentence: '지우는 친구가 다정하게 건넨 말을 좋아한다.', reviewNote: '친구의 말과 느낌을 덧붙였어요.' },

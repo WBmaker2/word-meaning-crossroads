@@ -27,6 +27,13 @@ describe('ExplorationRecordScreen', () => {
   it('shows ordered evidence and responses without score-like fields', () => {
     render(<ExplorationRecordScreen record={record} onRestartRoute={vi.fn()} onReturnToEntrance={vi.fn()} onPrint={vi.fn()} />)
     expect(screen.getByRole('heading', { name: '탐사 기록' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: '내가 배운 것' })).toHaveAttribute('id', 'record-takeaway-title')
+    expect(screen.getByText('같은 낱말도 문장에 따라 뜻이 달라져요. 주변 낱말을 단서로 살펴보면 더 정확하게 읽을 수 있어요.')).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: '내가 해낸 것' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: '다음에 해 볼 것' })).toHaveAttribute('id', 'record-next-step-title')
+    expect(screen.getByText('다음에는 새 문장에서 단서를 찾아 뜻을 말해 보세요.')).toBeInTheDocument()
+    expect(document.getElementById('record-takeaway-title')!.compareDocumentPosition(document.getElementById('record-responses-title')!) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+    expect(document.getElementById('record-next-step-title')!.compareDocumentPosition(document.getElementById('record-responses-title')!) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
     expect(screen.getByText('기본 길 4개')).toBeInTheDocument()
     expect(screen.getByText('뜻 구별')).toBeInTheDocument()
     expect(screen.getByText('근거 사용')).toBeInTheDocument()

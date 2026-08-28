@@ -30,7 +30,7 @@ export const sseuda = {
       wrongChoiceFeedback: { 'sseuda:bitter': '‘맛이’와 ‘약을 먹어 보니’라는 단서가 쓴맛을 가리켜요.', 'sseuda:write': '글자를 적은 장면이 아니라 ‘약을 먹어 보니 맛이’ 쓴 상태인지 비교해 보아요.', 'insufficient-context': '‘맛이’와 ‘약을 먹어 보니’가 남아 있어 맛이 쓰기인지 살펴볼 수 있어요.' }, audioSrc: '/audio/scenes/sseuda-bitter-03.mp3', illustrationId: 'crossroads-sseuda',
     },
   ],
-  necessityChallenge: { id: 'necessity-sseuda', wordId: 'sseuda', originalSentence: '나는 연필로 일기를 썼습니다.', hiddenTokenText: '연필로', sentenceAfterHide: '나는 ______ 일기를 썼습니다.', expectedClarity: 'still-clear', explanation: '`일기를`이 남아 글을 적은 뜻임을 알 수 있어요.' },
+  necessityChallenge: { id: 'necessity-sseuda', wordId: 'sseuda', originalSentence: '나는 연필로 일기를 썼습니다.', hiddenTokenText: '연필로', sentenceAfterHide: '나는 ______ 일기를 썼습니다.', expectedClarity: 'still-clear', explanation: '‘일기를’이 남아 글을 적은 뜻임을 알 수 있어요.' },
   repair: { id: 'repair-sseuda', wordId: 'sseuda', ambiguousSentence: '민서는 썼다.', solutions: [
     { id: 'sseuda-write', meaningId: 'sseuda:write', blockLabel: '글쓰기 단서', completedSentence: '민서는 공책에 연필로 글을 썼다.', reviewNote: '공책과 연필을 덧붙였어요.' },
     { id: 'sseuda-wear', meaningId: 'sseuda:wear', blockLabel: '모자 단서', completedSentence: '민서는 햇빛을 가리려고 모자를 썼다.', reviewNote: '햇빛과 모자를 덧붙였어요.' },
