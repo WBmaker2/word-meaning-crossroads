@@ -100,13 +100,23 @@ const ALLOWED_PSEUDO_ELEMENTS = new Set([
 ])
 const SELECTOR_ARGUMENT_PSEUDOS = new Set(['has', 'is', 'not', 'where'])
 
-function hasOwnedComponentScope(selector: ParsedSelector): boolean {
-  return selector.nodes.some((node) => {
-    if (node.kind === 'class') return OWNED_CLASS_NAMES.has(node.name)
-    if (node.kind !== 'attribute') return false
-    const attribute = node.content.trim().match(/^([-_a-zA-Z][-_a-zA-Z0-9]*)/)?.[1]
-    return Boolean(attribute && OWNED_ATTRIBUTE_NAMES.has(attribute))
-  })
+function isOwnedComponentScopeNode(node: ParsedSelector['nodes'][number]): boolean {
+  if (node.kind === 'class') return OWNED_CLASS_NAMES.has(node.name)
+  if (node.kind !== 'attribute') return false
+  const attribute = node.content.trim().match(/^([-_a-zA-Z][-_a-zA-Z0-9]*)/)?.[1]
+  return Boolean(attribute && OWNED_ATTRIBUTE_NAMES.has(attribute))
+}
+
+function hasOwnedComponentDescendantScope(selector: ParsedSelector, elementIndex: number): boolean {
+  const descendantCombinator = selector.nodes[elementIndex - 1]
+  if (descendantCombinator?.kind !== 'combinator' || descendantCombinator.value !== ' ') return false
+
+  for (let index = elementIndex - 2; index >= 0; index -= 1) {
+    const node = selector.nodes[index]!
+    if (node.kind === 'combinator') return false
+    if (isOwnedComponentScopeNode(node)) return true
+  }
+  return false
 }
 
 const ALLOWED_PROPERTIES = new Set([
@@ -180,9 +190,8 @@ const FORBIDDEN_PROPERTIES = new Set([
 function selectorOwnershipErrors(selector: ParsedSelector, requireOwnedToken = true): string[] {
   const errors: string[] = []
   let hasOwnedToken = false
-  const hasScopedDescendant = hasOwnedComponentScope(selector)
 
-  for (const node of selector.nodes) {
+  for (const [nodeIndex, node] of selector.nodes.entries()) {
     if (node.kind === 'class') {
       if (!OWNED_CLASS_NAMES.has(node.name)) errors.push(`unowned class selector: ${node.name}`)
       else hasOwnedToken = true
@@ -200,7 +209,7 @@ function selectorOwnershipErrors(selector: ParsedSelector, requireOwnedToken = t
     }
     if (node.kind === 'element') {
       const isAllowedElement = OWNED_ELEMENT_NAMES.has(node.name) ||
-        (hasScopedDescendant && SCOPED_DESCENDANT_ELEMENT_NAMES.has(node.name))
+        (SCOPED_DESCENDANT_ELEMENT_NAMES.has(node.name) && hasOwnedComponentDescendantScope(selector, nodeIndex))
       if (!isAllowedElement) errors.push(`unowned element selector: ${node.name}`)
       else hasOwnedToken = true
       continue

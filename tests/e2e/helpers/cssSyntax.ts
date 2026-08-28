@@ -9,7 +9,7 @@ export type SelectorNode =
   | { kind: 'attribute'; content: string }
   | { kind: 'element'; name: string }
   | { kind: 'universal' }
-  | { kind: 'combinator'; value: '>' | '+' | '~' }
+  | { kind: 'combinator'; value: ' ' | '>' | '+' | '~' }
   | { kind: 'pseudo'; name: string; colonCount: 1 | 2; argument?: string }
 
 export type ParsedSelector = {
@@ -289,8 +289,13 @@ function parseSelector(source: string): ParsedSelector {
   while (index < source.length) {
     const character = source[index]!
     if (isWhitespace(character)) {
-      index += 1
-      continue
+      let nextIndex = index + 1
+      while (nextIndex < source.length && isWhitespace(source[nextIndex])) nextIndex += 1
+      const previousNode = nodes.at(-1); const nextCharacter = source[nextIndex]
+      if (previousNode && previousNode.kind !== 'combinator' && nextCharacter !== undefined && !'>+~'.includes(nextCharacter)) {
+        nodes.push({ kind: 'combinator', value: ' ' })
+      }
+      index = nextIndex; continue
     }
     if (character === '>' || character === '+' || character === '~') {
       nodes.push({ kind: 'combinator', value: character })
