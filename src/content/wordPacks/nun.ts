@@ -23,7 +23,7 @@ export const nun = {
         { id: 'nun-eye-02:t1', text: '민서는', role: 'neutral' }, { id: 'nun-eye-02:t2', text: '눈으로', role: 'target', targetSurface: '눈' }, { id: 'nun-eye-02:t3', text: '칠판의', role: 'supportive' }, { id: 'nun-eye-02:t4', text: '작은', role: 'neutral' }, { id: 'nun-eye-02:t5', text: '글씨를', role: 'supportive' }, { id: 'nun-eye-02:t6', text: '보았습니다.', role: 'decisive' },
       ] }],
       candidateMeaningIds: ['nun:eye', 'nun:snow'], expectedDecision: 'nun:eye', decisiveCueTokenIds: ['nun-eye-02:t6'], supportiveCueTokenIds: ['nun-eye-02:t3', 'nun-eye-02:t5'],
-      wrongChoiceFeedback: { 'nun:eye': '‘보았습니다’와 ‘칠판의 글씨를’이라는 단서가 보는 눈을 가리켜요.', 'nun:snow': '눈이 내리거나 길이 하얘진 장면이 아니라 ‘보았습니다’라는 행동인지 비교해 보아요.', 'insufficient-context': '‘보았습니다’와 ‘칠판의 글씨를’이 남아 있어 보는 눈인지 살펴볼 수 있어요.' },
+      wrongChoiceFeedback: { 'nun:eye': '‘보았습니다’와 ‘칠판의 글씨를’이라는 단서가 보는 눈을 가리켜요.', 'nun:snow': '눈이 내리거나 길이 하얘진 장면이 아니라 ‘보았습니다’라는 행동인지 비교해 보아요.', 'insufficient-context': '‘보았습니다’와 ‘칠판의 글씨를’이라는 말이 남아 있어 보는 눈인지 살펴볼 수 있어요.' },
       audioSrc: '/audio/scenes/nun-eye-02.mp3', illustrationId: 'crossroads-nun',
     },
     {

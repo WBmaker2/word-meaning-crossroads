@@ -43,6 +43,19 @@ describe('learner-facing content copy', () => {
     expect(dari?.scenes[2]?.wrongChoiceFeedback['insufficient-context']).toContain('몸의 부분인지')
   })
 
+  it('uses natural quoted particles in insufficient-context feedback and explanations', () => {
+    const chada = WORD_PACKS.find((pack) => pack.id === 'chada')
+    const nun = WORD_PACKS.find((pack) => pack.id === 'nun')
+    const sseuda = WORD_PACKS.find((pack) => pack.id === 'sseuda')
+
+    expect(chada?.scenes[1]?.wrongChoiceFeedback['insufficient-context'])
+      .toBe('‘손목에’와 ‘시계를’이라는 말이 남아 있어 몸에 차기인지 살펴볼 수 있어요.')
+    expect(nun?.scenes[1]?.wrongChoiceFeedback['insufficient-context'])
+      .toBe('‘보았습니다’와 ‘칠판의 글씨를’이라는 말이 남아 있어 보는 눈인지 살펴볼 수 있어요.')
+    expect(sseuda?.necessityChallenge.explanation)
+      .toBe('‘일기를’이라는 말이 남아 글을 적은 뜻임을 알 수 있어요.')
+  })
+
   it('keeps repair review notes in one polite ending style', () => {
     const notes = WORD_PACKS.flatMap((pack) => pack.repair.solutions.map((solution) => solution.reviewNote))
     expect(notes.every((note) => note.endsWith('어요.'))).toBe(true)

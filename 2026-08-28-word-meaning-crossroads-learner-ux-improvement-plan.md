@@ -229,3 +229,23 @@ After Task 6, inspect the complete diff against `b1e4df5`, confirm that evaluato
 - Spec coverage checked: learning goals, app differentiation, full learning flow, content/evaluation contracts, accessibility without VoiceOver, privacy/safety, MVP boundaries, and completion criteria each map to a task or global constraint.
 - Placeholder scan checked: 금지된 빈칸·미정 표현이 이 계획에 남아 있지 않다.
 - Type and naming consistency checked: `ProgressHeaderProps`, `UpdateHistoryEntry`, `MeaningSignpostScreenProps`, `meaning-feedback`, `record-takeaway-title`, and `record-next-step-title` are used consistently across tasks and tests.
+
+## Important review follow-up report (2026-08-28)
+
+이번 후속 작업은 최종 광범위 검토의 Important finding 두 건만 다뤘다.
+
+| Finding | 조치 | 확인 결과 |
+|---|---|---|
+| 375×812에서 HTML 글자 크기 200%·넓은 줄 간격일 때 오답 뜻 피드백 행이 가로로 넘침 | 모바일 피드백 행을 flex 줄바꿈으로 바꾸고, 피드백 최소 폭을 글자 기준으로 보장하며, 재시도 버튼이 두 번째 줄에서 가용 폭을 사용하게 했다. 기존 `nearest` 피드백 스크롤 계약과 데스크톱 규칙은 유지했다. | 새 student-flow 회귀가 오답 제출→피드백·재시도 viewport containment→재시도 클릭→재제출 가능 상태를 확인하고 통과했다. 수평 overflow도 0이다. |
+| 학생 문구의 `이` 조사 결합이 어색함 | `chada`, `nun`, `sseuda`의 지정된 세 문구만 `이라는 말이` 형태로 고쳤고 낱말 ID·판정 입력은 바꾸지 않았다. | contentCopy의 세 exact regression assertion과 전체 콘텐츠 검증이 통과했다. |
+
+TDD 증거:
+
+- Red: `npm test -- --run src/content/contentCopy.test.ts`에서 새 exact copy assertion이 기존 `이 남아` 문구를 거부했다.
+- Red: 수정 전 `npx playwright test tests/e2e/student-flow.spec.ts -g "keeps wrong-meaning feedback usable" --project=chromium --workers=1`에서 재시도 버튼이 viewport 밖으로 남았다.
+- Green: `npm test -- --run src/content/contentCopy.test.ts src/components/screens/MeaningSignpostScreen.test.tsx` — 2 files, 16 tests passed.
+- Green: `npx playwright test tests/e2e/student-flow.spec.ts -g "mobile meaning feedback recovery" --project=chromium --workers=1` — 2 passed.
+- Green: `npx playwright test tests/e2e/responsive.spec.ts -g "200 percent text" --project=chromium --workers=1` — 1 passed.
+- Quality gates: `npm run test:run` — 14 files, 148 tests passed; `npm run lint`; `npm run build`; `git diff --check`; 500줄 이상인 소스·테스트·스타일 파일 없음.
+
+Playwright Chromium은 macOS `MachPortRendezvousServer` 권한 오류로 몇 차례 프로세스 시작이 불안정했으나 재시도 후 위 focused Chromium 검증은 통과했다. VoiceOver 검증은 범위에서 제외한다.

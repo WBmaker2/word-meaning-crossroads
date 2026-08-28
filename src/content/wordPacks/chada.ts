@@ -20,7 +20,7 @@ export const chada = {
       sentences: [{ id: 'chada-wear-02:s1', plainText: '나는 손목에 시계를 찼습니다.', tokens: [
         { id: 'chada-wear-02:t1', text: '나는', role: 'neutral' }, { id: 'chada-wear-02:t2', text: '손목에', role: 'supportive' }, { id: 'chada-wear-02:t3', text: '시계를', role: 'decisive' }, { id: 'chada-wear-02:t4', text: '찼습니다.', role: 'target', targetSurface: '찼습니다' },
       ] }], candidateMeaningIds: ['chada:wear', 'chada:fill'], expectedDecision: 'chada:wear', decisiveCueTokenIds: ['chada-wear-02:t3'], supportiveCueTokenIds: ['chada-wear-02:t2'],
-      wrongChoiceFeedback: { 'chada:wear': '‘시계를’와 ‘손목에’라는 단서가 몸에 차는 행동을 가리켜요.', 'chada:fill': '물이 가득해진 웅덩이가 아니라 ‘손목에 시계를’ 두른 장면인지 비교해 보아요.', 'insufficient-context': '‘손목에’와 ‘시계를’이 남아 있어 몸에 차기인지 살펴볼 수 있어요.' }, audioSrc: '/audio/scenes/chada-wear-02.mp3', illustrationId: 'crossroads-chada',
+      wrongChoiceFeedback: { 'chada:wear': '‘시계를’와 ‘손목에’라는 단서가 몸에 차는 행동을 가리켜요.', 'chada:fill': '물이 가득해진 웅덩이가 아니라 ‘손목에 시계를’ 두른 장면인지 비교해 보아요.', 'insufficient-context': '‘손목에’와 ‘시계를’이라는 말이 남아 있어 몸에 차기인지 살펴볼 수 있어요.' }, audioSrc: '/audio/scenes/chada-wear-02.mp3', illustrationId: 'crossroads-chada',
     },
     {
       id: 'chada-fill-03', wordId: 'chada', order: 3,

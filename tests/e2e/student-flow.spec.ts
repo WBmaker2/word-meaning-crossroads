@@ -50,6 +50,14 @@ async function installFlowMetrics(page: Page): Promise<void> {
   })
 }
 
+async function expectNoHorizontalOverflow(page: Page): Promise<void> {
+  const sizes = await page.evaluate(() => ({
+    scroll: document.documentElement.scrollWidth,
+    client: document.documentElement.clientWidth,
+  }))
+  expect(sizes.scroll, `document scrollWidth ${sizes.scroll} exceeds clientWidth ${sizes.client}`).toBeLessThanOrEqual(sizes.client)
+}
+
 async function expectFlowMetrics(page: Page, expected: FlowMetrics): Promise<void> {
   const actual = await page.evaluate(() => JSON.parse(
     document.documentElement.dataset.studentFlowMetrics ?? '{}',
@@ -203,5 +211,40 @@ test.describe('mobile meaning feedback recovery', () => {
     await completeWord(page, 'mal')
     await expectRecord(page, '기본 길 4개', TEST_ROUTE_WORDS.core)
     await expect(page.locator('.record-word').first()).toContainText('나는 창밖에 내리는 눈을 보았다.')
+  })
+
+  test('keeps wrong-meaning feedback usable at 200 percent text and wide spacing', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    await page.goto('./')
+    await page.locator('html').evaluate((element) => { element.style.fontSize = '200%' })
+    await page.getByRole('radio', { name: '넓게', exact: true }).check()
+    await startRoute(page, 'core')
+
+    const firstScene = FLOW_ANSWERS.scenes['nun-snow-01']
+    await page.getByRole('textbox', { name: /처음에는 어떤 뜻/ }).fill(firstScene.prediction)
+    await page.getByRole('button', { name: /단서 찾기/ }).click()
+    await page.getByRole('button', { name: '내려, 선택 안 됨', exact: true }).click()
+    await page.getByRole('button', { name: /뜻 확인/ }).click()
+    await page.getByRole('radio', { name: /보는 눈/ }).check()
+    await page.getByRole('button', { name: '선택한 뜻 결정하기', exact: true }).click()
+
+    const feedback = page.getByTestId('meaning-feedback')
+    const retry = page.getByRole('button', { name: '다시 뜻 고르기', exact: true })
+    await expect(feedback).toBeVisible()
+    await expect(retry).toBeVisible()
+    await expectNoHorizontalOverflow(page)
+
+    const geometry = await Promise.all([feedback.boundingBox(), retry.boundingBox()])
+    for (const [name, box] of [['feedback', geometry[0]], ['retry', geometry[1]] as const]) {
+      expect(box, `${name} must have a positive bounding box`).not.toBeNull()
+      expect(box!.x, `${name} left containment`).toBeGreaterThanOrEqual(0)
+      expect(box!.x + box!.width, `${name} right containment`).toBeLessThanOrEqual(375)
+      expect(box!.y, `${name} bottom containment`).toBeLessThan(812)
+      expect(box!.y + box!.height, `${name} top containment`).toBeGreaterThan(0)
+    }
+
+    await retry.click()
+    await expect(page.getByRole('button', { name: '선택한 뜻 결정하기', exact: true })).toBeEnabled()
+    await expect(page.getByRole('radio', { name: /보는 눈/ })).toBeChecked()
   })
 })
