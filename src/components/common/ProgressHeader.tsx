@@ -1,18 +1,22 @@
 export interface ProgressHeaderProps {
   readonly currentWordIndex: number
   readonly totalWords: number
+  readonly currentSceneIndex: number
+  readonly totalScenes: number
 }
 
-export function ProgressHeader({ currentWordIndex, totalWords }: ProgressHeaderProps) {
+export function ProgressHeader({ currentWordIndex, totalWords, currentSceneIndex, totalScenes }: ProgressHeaderProps) {
   if (totalWords < 1) return null
+
+  const progressLabel = `현재 낱말 ${currentWordIndex}/${totalWords} · 장면 ${currentSceneIndex}/${totalScenes}`
 
   return (
     <p
       className="progress-header"
       role="group"
-      aria-label={`현재 낱말 ${currentWordIndex}번째, 전체 ${totalWords}개`}
+      aria-label={progressLabel}
     >
-      현재 낱말 {currentWordIndex}/{totalWords}
+      {progressLabel}
     </p>
   )
 }

@@ -43,6 +43,22 @@ describe('ClueInvestigationScreen', () => {
     expect(screen.queryByRole('button', { name: new RegExp(target.text) })).not.toBeInTheDocument()
   })
 
+  it('shows the selected clue count and describes the sentence with it', async () => {
+    const user = userEvent.setup()
+    renderScreen()
+    expect(screen.getByText('선택한 단서 0/2개')).toBeInTheDocument()
+    expect(screen.getByTestId('clue-sentence')).toHaveAttribute('aria-describedby', 'clue-help clue-count')
+    await user.click(screen.getAllByRole('button', { name: /선택 안 됨/ })[0])
+    expect(screen.getByText('선택한 단서 1/2개')).toBeInTheDocument()
+  })
+
+  it('reports no selected clue when the decision is insufficient', async () => {
+    const user = userEvent.setup()
+    renderScreen(unclearScene)
+    await user.click(screen.getByRole('button', { name: /결정 단서가 없어요/ }))
+    expect(screen.getByText('선택한 단서 없음')).toBeInTheDocument()
+  })
+
   it('uses only meaning-neutral context and target hooks', () => {
     renderScreen()
 

@@ -3,11 +3,14 @@ import { StrictMode } from 'react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { axe } from 'vitest-axe';
+import { WORD_PACKS } from '../content/wordPacks';
 import { FocusHeading } from '../components/common/FocusHeading';
 import { ProgressHeader } from '../components/common/ProgressHeader';
 import { RequiredActionButton } from '../components/common/RequiredActionButton';
 import { UpdateHistoryDialog } from '../components/common/UpdateHistoryDialog';
 import App from './App';
+
+const firstScene = WORD_PACKS.find((pack) => pack.id === 'nun')!.scenes.find((scene) => scene.order === 1)!;
 
 describe('App shell', () => {
   afterEach(() => cleanup());
@@ -212,11 +215,32 @@ describe('App shell', () => {
     expect(screen.getByRole('heading', { level: 2, name: '다음 단계' })).toHaveFocus();
   });
 
-  it('renders only the current word position in ProgressHeader', () => {
-    const { rerender } = render(<ProgressHeader currentWordIndex={2} totalWords={4} />);
-    expect(screen.getByText('현재 낱말 2/4')).toBeInTheDocument();
+  it('renders word and scene position in ProgressHeader', () => {
+    const { rerender } = render(
+      <ProgressHeader currentWordIndex={1} totalWords={4} currentSceneIndex={2} totalScenes={3} />,
+    );
+    const progress = screen.getByRole('group', { name: '현재 낱말 1/4 · 장면 2/3' });
+    expect(progress).toHaveTextContent('현재 낱말 1/4 · 장면 2/3');
     expect(screen.queryByText(/%|점수|등급|남은 시간|타이머/)).not.toBeInTheDocument();
-    rerender(<ProgressHeader currentWordIndex={0} totalWords={0} />);
+    rerender(
+      <ProgressHeader currentWordIndex={0} totalWords={0} currentSceneIndex={0} totalScenes={0} />,
+    );
     expect(screen.queryByText(/현재 낱말/)).not.toBeInTheDocument();
+  });
+
+  it('shows the second scene instead of repeating word-only progress', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    await user.click(screen.getByRole('button', { name: '기본 길 4개' }));
+    await user.type(screen.getByRole('textbox', { name: /처음에는 어떤 뜻/ }), '하늘에서 오는 것');
+    await user.click(screen.getByRole('button', { name: /단서 찾기/ }));
+    const decisiveId = firstScene.decisiveCueTokenIds[0];
+    const decisive = firstScene.sentences[0].tokens.find((token) => token.id === decisiveId)!;
+    await user.click(screen.getByRole('button', { name: new RegExp(decisive.text) }));
+    await user.click(screen.getByRole('button', { name: /뜻 확인/ }));
+    await user.click(screen.getByRole('radio', { name: /내리는 눈/ }));
+    await user.click(screen.getByRole('button', { name: '선택한 뜻 결정하기' }));
+    expect(screen.getByRole('group', { name: '현재 낱말 1/4 · 장면 2/3' })).toHaveTextContent('장면 2/3');
+    expect(screen.queryByText('현재 낱말 1/4')).not.toBeInTheDocument();
   });
 });

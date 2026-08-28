@@ -100,7 +100,7 @@ export function ClueInvestigationScreen({
       </FocusHeading>
       <p id="clue-help">목표 낱말을 빼고, 뜻을 결정하는 데 도움이 되는 어절을 최대 두 개 골라요.</p>
 
-      <div className="clue-sentence" data-testid="clue-sentence" aria-describedby="clue-help">
+      <div className="clue-sentence" data-testid="clue-sentence" aria-describedby="clue-help clue-count">
         {scene.sentences.map((sentence, sentenceIndex) => (
           <p key={sentence.id} data-sentence-order={sentenceIndex + 1}>
             {sentence.tokens.map((token) => (
@@ -125,7 +125,12 @@ export function ClueInvestigationScreen({
       </div>
 
       <div className="clue-decisions">
-        <h3>고른 단서</h3>
+        <div className="clue-decisions-heading">
+          <h3>고른 단서</h3>
+          <p id="clue-count">
+            {insufficient ? '선택한 단서 없음' : `선택한 단서 ${selectedTokenIds.length}/2개`}
+          </p>
+        </div>
         <ol data-testid="selected-clues" aria-label="선택한 단서">
           {selectedTokenIds.map((tokenId) => {
             const token = scene.sentences.flatMap((sentence) => sentence.tokens).find((candidate) => candidate.id === tokenId)

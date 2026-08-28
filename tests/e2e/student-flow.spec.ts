@@ -85,6 +85,26 @@ test('completes the core route and records all four learning evidence types', as
   await expectFlowMetrics(page, { context: 12, clue: 12, comparison: 4, hiddenCue: 4, repair: 4 })
 })
 
+test('keeps scene progress visible through comparison and repair', async ({ page }) => {
+  await page.goto('./')
+  await startRoute(page, 'core')
+
+  await expect(page.getByRole('group', { name: '현재 낱말 1/4 · 장면 1/3', exact: true })).toBeVisible()
+  await completeScene(page, 'nun-snow-01')
+  await expect(page.getByRole('group', { name: '현재 낱말 1/4 · 장면 2/3', exact: true })).toBeVisible()
+
+  await completeScene(page, 'nun-eye-02')
+  await expect(page.getByRole('heading', { name: '같은 낱말을 두 문장에서 비교해 보아요' })).toBeVisible()
+  await expect(page.getByRole('group', { name: '현재 낱말 1/4 · 장면 2/3', exact: true })).toBeVisible()
+  await page.getByRole('button', { name: '단서 하나 가리기', exact: true }).click()
+  await page.getByRole('radio', { name: '여전히 분명해요', exact: true }).check()
+  await page.getByRole('button', { name: '판단 확인하기', exact: true }).click()
+
+  await completeScene(page, 'nun-uncertain-03')
+  await expect(page.getByRole('group', { name: '현재 낱말 1/4 · 장면 3/3', exact: true })).toBeVisible()
+  await expect(page.getByRole('button', { name: '문장을 분명하게 만들기', exact: true })).toBeVisible()
+})
+
 test('completes the extension route with all four extended word paths', async ({ page }) => {
   test.setTimeout(120_000)
   await page.goto('./')

@@ -153,6 +153,8 @@ export default function App(): ReactElement {
         <ProgressHeader
           currentWordIndex={state.currentWordIndex + 1}
           totalWords={state.routeWordIds.length}
+          currentSceneIndex={state.currentSceneIndex + 1}
+          totalScenes={3}
         />
         <LiveRegion
           tone={feedback?.tone ?? 'status'}
