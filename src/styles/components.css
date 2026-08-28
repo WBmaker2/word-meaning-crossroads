@@ -94,14 +94,15 @@ button:disabled {
 
 .meaning-feedback-row {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 0.75rem;
   align-items: center;
   margin-top: 1.25rem;
 }
 
 .meaning-feedback {
-  flex: 1 1 16rem;
+  flex: 1 1 12rem;
+  min-width: 0;
   padding: 1rem;
   background: var(--soft-accent);
   border: 2px solid var(--color-primary);

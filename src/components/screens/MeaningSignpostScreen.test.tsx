@@ -130,13 +130,11 @@ describe('MeaningSignpostScreen', () => {
     expect(document.querySelectorAll('[aria-live], [role="alert"], [role="status"]')).toHaveLength(0)
   })
 
-  it('keeps wrong meaning feedback visible and retries the selected meaning on mobile', async () => {
+  it('keeps wrong meaning feedback visible and retries the selected meaning', async () => {
     const user = userEvent.setup()
-    const originalInnerWidth = window.innerWidth
     const scrollIntoView = vi.fn()
     const originalScrollIntoView = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'scrollIntoView')
     const originalRequestAnimationFrame = window.requestAnimationFrame
-    Object.defineProperty(window, 'innerWidth', { configurable: true, value: 375 })
     Object.defineProperty(HTMLElement.prototype, 'scrollIntoView', {
       configurable: true,
       writable: true,
@@ -156,23 +154,17 @@ describe('MeaningSignpostScreen', () => {
       await user.click(submit)
 
       const feedback = screen.getByTestId('meaning-feedback')
-      Object.defineProperty(feedback, 'getBoundingClientRect', {
-        configurable: true,
-        value: () => ({ bottom: 240 } as DOMRect),
-      })
       expect(feedback).toBeVisible()
       expect(feedback).toHaveAttribute('aria-hidden', 'true')
       expect(screen.getByRole('button', { name: '다시 뜻 고르기' })).toBeVisible()
       expect(submit).toBeDisabled()
       expect(scrollIntoView).toHaveBeenCalledWith({ block: 'nearest' })
-      expect(feedback.getBoundingClientRect().bottom).toBeGreaterThan(0)
 
       await user.click(screen.getByRole('button', { name: '다시 뜻 고르기' }))
       expect(submit).toBeEnabled()
       expect(wrongChoice).toBeChecked()
       expect(wrongChoice).toHaveFocus()
     } finally {
-      Object.defineProperty(window, 'innerWidth', { configurable: true, value: originalInnerWidth })
       window.requestAnimationFrame = originalRequestAnimationFrame
       if (originalScrollIntoView) {
         Object.defineProperty(HTMLElement.prototype, 'scrollIntoView', originalScrollIntoView)
