@@ -5,10 +5,16 @@ import { FLOW_ANSWERS } from './fixtures/answers'
 test.use({ viewport: { width: 375, height: 812 } })
 
 test('loads the neutral favicon without a 404 response', async ({ page }) => {
-  const favicon404s: string[] = []
-  page.on('response', (response) => {
-    if (response.url().endsWith('/favicon.svg') && response.status() === 404) {
-      favicon404s.push(response.url())
+  const faviconConsoleErrors: string[] = []
+  const failedFaviconRequests: string[] = []
+  page.on('console', (message) => {
+    if (message.type() === 'error' && /favicon|failed to load resource/i.test(message.text())) {
+      faviconConsoleErrors.push(message.text())
+    }
+  })
+  page.on('requestfailed', (request) => {
+    if (request.url().endsWith('/favicon.svg')) {
+      failedFaviconRequests.push(`${request.url()}: ${request.failure()?.errorText ?? 'unknown failure'}`)
     }
   })
 
@@ -17,7 +23,16 @@ test('loads the neutral favicon without a 404 response', async ({ page }) => {
   const favicon = page.locator('link[rel="icon"]')
   await expect(favicon).toHaveCount(1)
   await expect(favicon).toHaveAttribute('href', /favicon\.svg$/)
-  expect(favicon404s).toEqual([])
+  const [faviconResponse] = await Promise.all([
+    page.waitForResponse((response) => new URL(response.url()).pathname.endsWith('/favicon.svg')),
+    favicon.evaluate((element) => fetch((element as HTMLLinkElement).href)),
+  ])
+  expect(faviconResponse.status()).toBe(200)
+  expect(faviconResponse.ok()).toBe(true)
+  expect(faviconResponse.headers()['content-type']).toMatch(/image\/svg\+xml/)
+  expect(await faviconResponse.text()).toContain('<svg')
+  expect(faviconConsoleErrors).toEqual([])
+  expect(failedFaviconRequests).toEqual([])
 })
 
 export async function expectNoHorizontalOverflow(page: Page): Promise<void> {

@@ -24,7 +24,7 @@ const REPAIR_LABELS: Readonly<Record<RepairSolutionId, string>> = {
   'bam-night': '시간 단서', 'bam-chestnut': '열매 단서',
   'mal-horse': '동물 단서', 'mal-speech': '대화 단서',
   'chada-kick': '공을 차기', 'chada-wear': '시계를 차기',
-  'dari-bridge': '건너는 시설', 'dari-leg': '몸의 부분',
+  'dari-bridge': '건너는 다리', 'dari-leg': '몸의 부분',
   'sseuda-write': '글쓰기 단서', 'sseuda-wear': '모자 단서',
   'gamda-close': '눈을 감기', 'gamda-wind': '리본을 감기', 'gamda-wash': '머리를 감기',
 }
