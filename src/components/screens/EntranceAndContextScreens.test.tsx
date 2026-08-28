@@ -155,6 +155,30 @@ describe('ContextSceneScreen', () => {
     expect(document.querySelector('[data-correct-decision]')).not.toBeInTheDocument()
   })
 
+  it('shows the same text-only reading notice on every context scene', () => {
+    for (const wordPack of WORD_PACKS) {
+      for (const scene of wordPack.scenes) {
+        render(
+          <ContextSceneScreen
+            wordPack={wordPack}
+            scene={scene}
+            initialPrediction=""
+            onSavePrediction={vi.fn()}
+            onFeedback={vi.fn()}
+            onClearFeedback={vi.fn()}
+          />,
+        )
+
+        expect(screen.getByTestId('local-audio-placeholder')).toHaveTextContent(
+          '소리 없이도 읽어도 괜찮아요. 문장을 천천히 읽어 보세요.',
+        )
+        expect(screen.queryByText('문장 듣기 준비 중')).not.toBeInTheDocument()
+        expect(document.querySelectorAll('audio')).toHaveLength(0)
+        cleanup()
+      }
+    }
+  })
+
   it('exposes only meaning-neutral context sentence hooks', () => {
     render(
       <ContextSceneScreen
