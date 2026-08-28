@@ -139,6 +139,8 @@ flowchart LR
 - Modify: `/Volumes/ External Drive 256G/Dev2/codex/word-meaning-crossroads/.worktrees/implementation/src/styles/components.css`
 - Test: `/Volumes/ External Drive 256G/Dev2/codex/word-meaning-crossroads/.worktrees/implementation/src/app/App.test.tsx`
 - Test: `/Volumes/ External Drive 256G/Dev2/codex/word-meaning-crossroads/.worktrees/implementation/src/components/screens/ClueInvestigationScreen.test.tsx`
+- Test: `/Volumes/ External Drive 256G/Dev2/codex/word-meaning-crossroads/.worktrees/implementation/src/components/screens/EntranceAndContextScreens.test.tsx`
+- Test: `/Volumes/ External Drive 256G/Dev2/codex/word-meaning-crossroads/.worktrees/implementation/src/components/screens/SentenceRepairScreen.test.tsx`
 - Test: `/Volumes/ External Drive 256G/Dev2/codex/word-meaning-crossroads/.worktrees/implementation/tests/e2e/student-flow.spec.ts`
 
 **Interfaces:**
@@ -150,7 +152,7 @@ flowchart LR
 - [ ] **Step 2: Run the failing tests.** Run `npm run test:run -- src/app/App.test.tsx src/components/screens/ClueInvestigationScreen.test.tsx`. Expected: FAIL because the current progress has no scene count and the clue screen has no counter.
 - [ ] **Step 3: Write the minimal implementation.** Pass `state.currentSceneIndex + 1` and `3` from `App.tsx`, update the progress component, add the counter beside `고른 단서`, and set `aria-describedby="clue-help clue-count"` on the sentence area.
 - [ ] **Step 4: Run focused and full-flow tests.** Run the focused Vitest command and `npm run test:e2e -- --project=chromium --workers=1 tests/e2e/student-flow.spec.ts -g "completes the core route"`. Expected: PASS with correct scene numbering through comparison and repair.
-- [ ] **Step 5: Commit.** Run `git add src/app/App.tsx src/components/common/ProgressHeader.tsx src/components/screens/ClueInvestigationScreen.tsx src/styles/components.css src/app/App.test.tsx src/components/screens/ClueInvestigationScreen.test.tsx tests/e2e/student-flow.spec.ts && git commit -m "feat: show scene progress and clue count"`. Expected: one commit containing only Task 4 files.
+- [ ] **Step 5: Commit.** Run `git add src/app/App.tsx src/components/common/ProgressHeader.tsx src/components/screens/ClueInvestigationScreen.tsx src/styles/components.css src/app/App.test.tsx src/components/screens/ClueInvestigationScreen.test.tsx src/components/screens/EntranceAndContextScreens.test.tsx src/components/screens/SentenceRepairScreen.test.tsx tests/e2e/student-flow.spec.ts && git commit -m "feat: show scene progress and clue count"`. Expected: one commit containing only Task 4 files and the two existing progress-contract assertions updated for the new scene label.
 
 ### Task 5: 어린이용 문장과 최종 기록을 일관되게 정리
 
