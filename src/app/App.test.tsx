@@ -59,18 +59,7 @@ describe('App shell', () => {
     const dialog = screen.getByRole('dialog', { name: '업데이트 내역' });
     expect(trigger).toHaveClass('update-history-trigger');
     expect(trigger).not.toHaveClass('history-button');
-    expect(trigger).toHaveStyle({
-      position: 'fixed',
-      right: 'var(--update-history-right)',
-      bottom: 'var(--update-history-bottom)',
-      'z-index': '10',
-    });
-    expect(trigger.style.getPropertyValue('--update-history-right')).toBe(
-      'calc(12px + env(safe-area-inset-right))',
-    );
-    expect(trigger.style.getPropertyValue('--update-history-bottom')).toBe(
-      'calc(12px + env(safe-area-inset-bottom))',
-    );
+    expect(trigger).not.toHaveAttribute('style');
     expect((await axe(dialog)).violations).toHaveLength(0);
     expect(within(dialog).getAllByRole('listitem')).toHaveLength(5);
     expect(within(dialog).getAllByRole('listitem')[0]).toHaveTextContent('2026-08-26');

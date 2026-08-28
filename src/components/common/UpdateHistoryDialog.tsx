@@ -1,5 +1,5 @@
 import { createPortal } from 'react-dom'
-import { useEffect, useRef, useState, type CSSProperties } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { UPDATE_HISTORY, type UpdateHistoryEntry } from '../../content/updateHistory'
 
 export interface UpdateHistoryDialogProps {
@@ -110,14 +110,6 @@ export function UpdateHistoryDialog({ entries = UPDATE_HISTORY }: UpdateHistoryD
         ref={triggerRef}
         className="update-history-trigger"
         type="button"
-        style={{
-          position: 'fixed',
-          right: 'var(--update-history-right)',
-          bottom: 'var(--update-history-bottom)',
-          zIndex: 10,
-          '--update-history-right': 'calc(12px + env(safe-area-inset-right))',
-          '--update-history-bottom': 'calc(12px + env(safe-area-inset-bottom))',
-        } as CSSProperties}
         onClick={() => setIsOpen(true)}
       >
         업데이트 내역

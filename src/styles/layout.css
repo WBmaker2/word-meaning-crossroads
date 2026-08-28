@@ -9,9 +9,17 @@
 }
 
 .site-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: start;
   position: relative;
   padding: 2rem 0 1.25rem;
   border-bottom: 2px solid var(--line);
+}
+
+.site-heading {
+  min-width: 0;
 }
 
 .main-content {
@@ -35,10 +43,8 @@
 }
 
 .update-history-trigger {
-  position: fixed;
-  right: max(1rem, env(safe-area-inset-right));
-  bottom: max(1rem, env(safe-area-inset-bottom));
-  z-index: 10;
+  position: static;
+  justify-self: end;
 }
 
 @media (max-width: 48rem) {
@@ -53,7 +59,7 @@
 
   .main-content {
     padding-top: 1.5rem;
-    padding-bottom: calc(4rem + 60px);
+    padding-bottom: 4rem;
   }
 
   .shared-controls {
@@ -66,8 +72,4 @@
     grid-template-columns: 1fr;
   }
 
-  .update-history-trigger {
-    right: calc(12px + env(safe-area-inset-right));
-    bottom: calc(12px + env(safe-area-inset-bottom));
-  }
 }

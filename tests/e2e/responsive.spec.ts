@@ -12,9 +12,34 @@ export async function expectNoHorizontalOverflow(page: Page): Promise<void> {
   expect(sizes.scroll, `document scrollWidth ${sizes.scroll} exceeds clientWidth ${sizes.client}`).toBeLessThanOrEqual(sizes.client)
 }
 
+test('keeps update history outside the entrance card on mobile', async ({ page }) => {
+  await page.goto('./')
+
+  const rectangles = await page.evaluate(() => {
+    const trigger = document.querySelector<HTMLElement>('.update-history-trigger')
+    const entranceCard = document.querySelector<HTMLElement>('.entrance-card')
+    if (!trigger || !entranceCard) throw new Error('mobile layout hooks are missing')
+    const triggerRect = trigger.getBoundingClientRect()
+    const entranceRect = entranceCard.getBoundingClientRect()
+    return {
+      trigger: { left: triggerRect.left, right: triggerRect.right, top: triggerRect.top, bottom: triggerRect.bottom },
+      entrance: { left: entranceRect.left, right: entranceRect.right, top: entranceRect.top, bottom: entranceRect.bottom },
+      scrollWidth: document.documentElement.scrollWidth,
+      clientWidth: document.documentElement.clientWidth,
+    }
+  })
+
+  const intersects = rectangles.trigger.left < rectangles.entrance.right &&
+    rectangles.trigger.right > rectangles.entrance.left &&
+    rectangles.trigger.top < rectangles.entrance.bottom &&
+    rectangles.trigger.bottom > rectangles.entrance.top
+  expect(intersects, 'update history must not intersect the entrance card').toBe(false)
+  expect(rectangles.scrollWidth).toBeLessThanOrEqual(rectangles.clientWidth)
+})
+
 async function expectScreenFits(page: Page): Promise<void> {
   await expectNoHorizontalOverflow(page)
-  await expect(page.getByRole('button', { name: '업데이트 내역', exact: true })).toBeInViewport()
+  await expect(page.getByRole('button', { name: '업데이트 내역', exact: true })).toBeVisible()
 }
 
 async function expectActionClear(page: Page, primary: Locator): Promise<void> {
@@ -28,16 +53,17 @@ async function expectActionClear(page: Page, primary: Locator): Promise<void> {
   await expect(primary).toBeVisible()
   await expect(primary).toBeInViewport()
   await expect(trigger).toBeVisible()
-  await expect(trigger).toBeInViewport()
   const boxes = await Promise.all([primary.boundingBox(), trigger.boundingBox()])
   for (const [name, box] of [['primary action', boxes[0]], ['update trigger', boxes[1]] as const]) {
     expect(box, `${name} must have a positive bounding box`).not.toBeNull()
     expect(box!.width, `${name} width`).toBeGreaterThan(0)
     expect(box!.height, `${name} height`).toBeGreaterThan(0)
     expect(box!.x, `${name} left containment`).toBeGreaterThanOrEqual(0)
-    expect(box!.y, `${name} top containment`).toBeGreaterThanOrEqual(0)
     expect(box!.x + box!.width, `${name} right containment`).toBeLessThanOrEqual(375)
-    expect(box!.y + box!.height, `${name} bottom containment`).toBeLessThanOrEqual(812)
+    if (name === 'primary action') {
+      expect(box!.y, `${name} top containment`).toBeGreaterThanOrEqual(0)
+      expect(box!.y + box!.height, `${name} bottom containment`).toBeLessThanOrEqual(812)
+    }
   }
   const primaryBox = boxes[0]!
   const triggerBox = boxes[1]!
@@ -45,7 +71,7 @@ async function expectActionClear(page: Page, primary: Locator): Promise<void> {
     triggerBox.x + triggerBox.width > primaryBox.x &&
     triggerBox.y < primaryBox.y + primaryBox.height &&
     triggerBox.y + triggerBox.height > primaryBox.y
-  expect(overlaps, 'fixed update trigger must not overlap the explicit current primary action').toBe(false)
+  expect(overlaps, 'update trigger must not overlap the explicit current primary action').toBe(false)
 }
 
 async function expectRouteCardsStacked(page: Page): Promise<void> {

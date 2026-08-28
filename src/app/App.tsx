@@ -139,8 +139,10 @@ export default function App(): ReactElement {
         본문으로 건너뛰기
       </a>
       <header className="site-header">
-        <p className="eyebrow">우리말 탐험 교실</p>
-        <h1>낱말 뜻 갈림길</h1>
+        <div className="site-heading">
+          <p className="eyebrow">우리말 탐험 교실</p>
+          <h1>낱말 뜻 갈림길</h1>
+        </div>
         <UpdateHistoryDialog />
       </header>
       <main id="main-content" className="main-content" tabIndex={-1}>

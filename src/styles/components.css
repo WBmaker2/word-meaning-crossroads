@@ -220,10 +220,4 @@ button:disabled {
     padding: 12px;
   }
 
-  .required-action-button,
-  .meaning-signpost-card > button,
-  .necessity-challenge > button,
-  .sentence-repair-card > button {
-    margin-bottom: 72px;
-  }
 }
