@@ -16,6 +16,8 @@ function selectors(css: string): string[] {
 test('rejects unowned selectors and layout properties even when names are not denylisted', () => {
   const cases = [
     '.record-grid { display: grid; }',
+    'p { margin: 0; }',
+    'h3 { margin: 0; }',
     '[data-record-root] { padding: 1rem; }',
     '@media (max-width: 48rem) { .main-content { width: 100%; } }',
     '@media (max-width: 48rem) { .clue-choice-card { animation: none; } }',

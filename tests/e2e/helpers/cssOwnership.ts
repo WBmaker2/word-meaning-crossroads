@@ -52,7 +52,8 @@ const OWNED_CLASS_NAMES = new Set([
 ])
 
 const OWNED_ATTRIBUTE_NAMES = new Set(['data-feedback-announcer'])
-const OWNED_ELEMENT_NAMES = new Set(['button', 'h3', 'input', 'li', 'p', 'span'])
+const OWNED_ELEMENT_NAMES = new Set(['button', 'input', 'li', 'span'])
+const SCOPED_DESCENDANT_ELEMENT_NAMES = new Set(['h3', 'p'])
 
 const ALLOWED_PSEUDO_CLASSES = new Set([
   'active',
@@ -98,6 +99,15 @@ const ALLOWED_PSEUDO_ELEMENTS = new Set([
   'selection',
 ])
 const SELECTOR_ARGUMENT_PSEUDOS = new Set(['has', 'is', 'not', 'where'])
+
+function hasOwnedComponentScope(selector: ParsedSelector): boolean {
+  return selector.nodes.some((node) => {
+    if (node.kind === 'class') return OWNED_CLASS_NAMES.has(node.name)
+    if (node.kind !== 'attribute') return false
+    const attribute = node.content.trim().match(/^([-_a-zA-Z][-_a-zA-Z0-9]*)/)?.[1]
+    return Boolean(attribute && OWNED_ATTRIBUTE_NAMES.has(attribute))
+  })
+}
 
 const ALLOWED_PROPERTIES = new Set([
   'align-items',
@@ -170,6 +180,7 @@ const FORBIDDEN_PROPERTIES = new Set([
 function selectorOwnershipErrors(selector: ParsedSelector, requireOwnedToken = true): string[] {
   const errors: string[] = []
   let hasOwnedToken = false
+  const hasScopedDescendant = hasOwnedComponentScope(selector)
 
   for (const node of selector.nodes) {
     if (node.kind === 'class') {
@@ -188,7 +199,9 @@ function selectorOwnershipErrors(selector: ParsedSelector, requireOwnedToken = t
       continue
     }
     if (node.kind === 'element') {
-      if (!OWNED_ELEMENT_NAMES.has(node.name)) errors.push(`unowned element selector: ${node.name}`)
+      const isAllowedElement = OWNED_ELEMENT_NAMES.has(node.name) ||
+        (hasScopedDescendant && SCOPED_DESCENDANT_ELEMENT_NAMES.has(node.name))
+      if (!isAllowedElement) errors.push(`unowned element selector: ${node.name}`)
       else hasOwnedToken = true
       continue
     }
