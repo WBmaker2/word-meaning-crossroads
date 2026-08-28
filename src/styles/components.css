@@ -92,6 +92,30 @@ button:disabled {
   border-radius: 12px;
 }
 
+.meaning-feedback-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  margin-top: 1.25rem;
+}
+
+.meaning-feedback {
+  flex: 1 1 16rem;
+  padding: 1rem;
+  background: var(--soft-accent);
+  border: 2px solid var(--color-primary);
+  border-radius: 12px;
+}
+
+.meaning-feedback p {
+  margin: 0;
+}
+
+.meaning-feedback-row > button {
+  flex: 0 0 auto;
+}
+
 .token-choice {
   min-width: 44px;
   min-height: 48px;

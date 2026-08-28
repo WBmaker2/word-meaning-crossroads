@@ -130,6 +130,58 @@ describe('MeaningSignpostScreen', () => {
     expect(document.querySelectorAll('[aria-live], [role="alert"], [role="status"]')).toHaveLength(0)
   })
 
+  it('keeps wrong meaning feedback visible and retries the selected meaning on mobile', async () => {
+    const user = userEvent.setup()
+    const originalInnerWidth = window.innerWidth
+    const scrollIntoView = vi.fn()
+    const originalScrollIntoView = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'scrollIntoView')
+    const originalRequestAnimationFrame = window.requestAnimationFrame
+    Object.defineProperty(window, 'innerWidth', { configurable: true, value: 375 })
+    Object.defineProperty(HTMLElement.prototype, 'scrollIntoView', {
+      configurable: true,
+      writable: true,
+      value: scrollIntoView,
+    })
+    window.requestAnimationFrame = ((callback: FrameRequestCallback) => {
+      callback(0)
+      return 0
+    }) as typeof window.requestAnimationFrame
+
+    try {
+      renderScreen()
+      const wrongChoice = screen.getByRole('radio', { name: /보는 눈/ })
+      const submit = screen.getByRole('button', { name: '선택한 뜻 결정하기' })
+
+      await user.click(wrongChoice)
+      await user.click(submit)
+
+      const feedback = screen.getByTestId('meaning-feedback')
+      Object.defineProperty(feedback, 'getBoundingClientRect', {
+        configurable: true,
+        value: () => ({ bottom: 240 } as DOMRect),
+      })
+      expect(feedback).toBeVisible()
+      expect(feedback).toHaveAttribute('aria-hidden', 'true')
+      expect(screen.getByRole('button', { name: '다시 뜻 고르기' })).toBeVisible()
+      expect(submit).toBeDisabled()
+      expect(scrollIntoView).toHaveBeenCalledWith({ block: 'nearest' })
+      expect(feedback.getBoundingClientRect().bottom).toBeGreaterThan(0)
+
+      await user.click(screen.getByRole('button', { name: '다시 뜻 고르기' }))
+      expect(submit).toBeEnabled()
+      expect(wrongChoice).toBeChecked()
+      expect(wrongChoice).toHaveFocus()
+    } finally {
+      Object.defineProperty(window, 'innerWidth', { configurable: true, value: originalInnerWidth })
+      window.requestAnimationFrame = originalRequestAnimationFrame
+      if (originalScrollIntoView) {
+        Object.defineProperty(HTMLElement.prototype, 'scrollIntoView', originalScrollIntoView)
+      } else {
+        delete (HTMLElement.prototype as Partial<HTMLElement>).scrollIntoView
+      }
+    }
+  })
+
   it('submits uncertainty successfully for an unclear scene and rejects a specific choice by the evaluator', async () => {
     expect(evaluateMeaningDecision(unclearScene, 'insufficient-context')).toMatchObject({ isCorrect: true, canContinue: true })
     unclearScene.candidateMeaningIds.forEach((candidateId) => {

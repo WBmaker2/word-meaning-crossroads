@@ -20,6 +20,7 @@ export function MeaningSignpostScreen({
   const [selectedDecision, setSelectedDecision] = useState<MeaningDecisionId | null>(null)
   const [hasSubmitted, setHasSubmitted] = useState(false)
   const selectedRadioRef = useRef<HTMLInputElement | null>(null)
+  const feedbackRef = useRef<HTMLElement | null>(null)
 
   useEffect(() => {
     // A new scene starts with a fresh choice and no local comparison panel.
@@ -44,6 +45,23 @@ export function MeaningSignpostScreen({
   }
 
   const selectedFeedback = selectedDecision ? scene.wrongChoiceFeedback[selectedDecision] : undefined
+  const isWrongSubmission = Boolean(
+    hasSubmitted && selectedDecision && selectedDecision !== scene.expectedDecision,
+  )
+
+  useEffect(() => {
+    if (!isWrongSubmission || !selectedFeedback) return
+    const frameId = window.requestAnimationFrame(() => {
+      feedbackRef.current?.scrollIntoView?.({ block: 'nearest' })
+    })
+    return () => window.cancelAnimationFrame(frameId)
+  }, [hasSubmitted, isWrongSubmission, selectedFeedback])
+
+  const handleRetryMeaning = () => {
+    setHasSubmitted(false)
+    onClearFeedback()
+    selectedRadioRef.current?.focus()
+  }
 
   return (
     <section className="meaning-signpost-card" aria-labelledby="meaning-signpost-title">
@@ -116,10 +134,25 @@ export function MeaningSignpostScreen({
         선택한 뜻 결정하기
       </button>
 
-      {hasSubmitted ? (
+      {isWrongSubmission ? (
+        <div className="meaning-feedback-row">
+          <aside
+            ref={feedbackRef}
+            className="meaning-feedback"
+            data-testid="meaning-feedback"
+            aria-hidden="true"
+          >
+            <p>{selectedFeedback}</p>
+          </aside>
+          <button type="button" onClick={handleRetryMeaning}>
+            다시 뜻 고르기
+          </button>
+        </div>
+      ) : null}
+
+      {isWrongSubmission ? (
         <aside className="meaning-comparison-panel" aria-labelledby="meaning-comparison-title">
           <h3 id="meaning-comparison-title">그 뜻이 되려면 주변에 어떤 말이 필요할까요?</h3>
-          {selectedFeedback ? <p>{selectedFeedback}</p> : null}
           <ul>
             {candidateMeanings.map((meaning) => (
               <li key={meaning.id}>
