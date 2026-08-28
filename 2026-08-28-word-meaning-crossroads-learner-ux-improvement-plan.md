@@ -194,6 +194,7 @@ flowchart LR
 - Test: `/Volumes/ External Drive 256G/Dev2/codex/word-meaning-crossroads/.worktrees/implementation/tests/e2e/helpers/learnerFlow.ts`
 - Test: `/Volumes/ External Drive 256G/Dev2/codex/word-meaning-crossroads/.worktrees/implementation/src/app/App.test.tsx`
 - Test: `/Volumes/ External Drive 256G/Dev2/codex/word-meaning-crossroads/.worktrees/implementation/tests/e2e/helpers/cssOwnership.ts`
+- Test: `/Volumes/ External Drive 256G/Dev2/codex/word-meaning-crossroads/.worktrees/implementation/tests/e2e/helpers/cssSyntax.ts`
 - Test: `/Volumes/ External Drive 256G/Dev2/codex/word-meaning-crossroads/.worktrees/implementation/tests/e2e/style-ownership.spec.ts`
 - Test: `/Volumes/ External Drive 256G/Dev2/codex/word-meaning-crossroads/.worktrees/implementation/tests/e2e/screen-reader.spec.ts`
 
