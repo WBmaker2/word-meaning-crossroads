@@ -26,7 +26,7 @@ export const dari = {
       sentences: [{ id: 'dari-uncertain-03:s1', plainText: '우리는 다리를 자세히 살펴보았습니다.', tokens: [
         { id: 'dari-uncertain-03:t1', text: '우리는', role: 'neutral' }, { id: 'dari-uncertain-03:t2', text: '다리를', role: 'target', targetSurface: '다리' }, { id: 'dari-uncertain-03:t3', text: '자세히', role: 'neutral' }, { id: 'dari-uncertain-03:t4', text: '살펴보았습니다.', role: 'supportive' },
       ] }], candidateMeaningIds: ['dari:leg', 'dari:bridge'], expectedDecision: 'insufficient-context', decisiveCueTokenIds: [], supportiveCueTokenIds: ['dari-uncertain-03:t4'],
-      wrongChoiceFeedback: { 'dari:leg': '‘살펴보았습니다’만으로는 몸의 부분인지 건너는 다리인지 결정되지 않아요.', 'dari:bridge': '강이나 걷는 행동 같은 단서가 없어 건너는 다리라고 정할 수 없어요.', 'insufficient-context': '몸인지 다리인지 알려 주는 단서가 없어서 ‘다리’의 뜻을 정하기 어려워요.' }, audioSrc: '/audio/scenes/dari-uncertain-03.mp3', illustrationId: 'crossroads-dari',
+      wrongChoiceFeedback: { 'dari:leg': '‘살펴보았습니다’만으로는 몸의 부분인지 건너는 다리인지 결정되지 않아요.', 'dari:bridge': '강이나 걷는 행동 같은 단서가 없어 건너는 다리라고 정할 수 없어요.', 'insufficient-context': '몸의 부분인지 건너는 다리인지 알려 주는 단서가 없어서 ‘다리’의 뜻을 정하기 어려워요.' }, audioSrc: '/audio/scenes/dari-uncertain-03.mp3', illustrationId: 'crossroads-dari',
     },
   ],
   necessityChallenge: { id: 'necessity-dari', wordId: 'dari', originalSentence: '강 위의 다리를 건넜습니다.', hiddenTokenText: '강 위의', sentenceAfterHide: '______ 다리를 건넜습니다.', expectedClarity: 'still-clear', explanation: '‘건넜습니다’가 남아 건너는 다리라는 뜻을 알 수 있어요.' },

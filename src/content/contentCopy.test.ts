@@ -27,8 +27,20 @@ describe('learner-facing content copy', () => {
   it('uses complete child-facing feedback for the nun snow choice', () => {
     const nun = WORD_PACKS.find((pack) => pack.id === 'nun')
     const feedback = nun?.scenes[0]?.wrongChoiceFeedback['nun:eye']
-    expect(feedback).toBe('이 문장에서는 눈이 내려 운동장을 하얗게 만들었어요. ‘보는 눈’이 아니라 ‘내리는 눈’이에요.')
+    expect(feedback).toBe('이 문장에서는 눈이 내려 운동장을 하얗게 만들었어요. ‘보는 눈’이 아니라 ‘내리는 눈’이에요. 주변 단서를 비교해 보세요.')
     expect(feedback).toMatch(/눈이 내려 운동장을 하얗게 만들었어요\./)
+  })
+
+  it('uses precise child-facing contrasts and natural quoted conjunctions', () => {
+    const strings = WORD_PACKS.flatMap(studentFacingStrings)
+    expect(strings.some((value) => value.includes('몸인지 다리인지'))).toBe(false)
+    expect(strings.some((value) => value.includes('‘머리를’과'))).toBe(false)
+    expect(strings.some((value) => value.includes('‘모자를’과'))).toBe(false)
+    expect(strings.some((value) => value.includes('몸인지 시설인지'))).toBe(false)
+
+    const dari = WORD_PACKS.find((pack) => pack.id === 'dari')
+    expect(dari?.scenes[2]?.wrongChoiceFeedback['dari:leg']).toContain('몸의 부분인지 건너는 다리인지')
+    expect(dari?.scenes[2]?.wrongChoiceFeedback['insufficient-context']).toContain('몸의 부분인지')
   })
 
   it('keeps repair review notes in one polite ending style', () => {

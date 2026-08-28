@@ -27,7 +27,7 @@ export const gamda = {
       sentences: [{ id: 'gamda-wash-03:s1', plainText: '샤워하면서 따뜻한 물로 머리를 감았습니다.', tokens: [
         { id: 'gamda-wash-03:t1', text: '샤워하면서', role: 'supportive' }, { id: 'gamda-wash-03:t2', text: '따뜻한', role: 'neutral' }, { id: 'gamda-wash-03:t3', text: '물로', role: 'supportive' }, { id: 'gamda-wash-03:t4', text: '머리를', role: 'decisive' }, { id: 'gamda-wash-03:t5', text: '감았습니다.', role: 'target', targetSurface: '감았습니다' },
       ] }], candidateMeaningIds: ['gamda:wash', 'gamda:close'], expectedDecision: 'gamda:wash', decisiveCueTokenIds: ['gamda-wash-03:t4'], supportiveCueTokenIds: ['gamda-wash-03:t1', 'gamda-wash-03:t3'],
-      wrongChoiceFeedback: { 'gamda:wash': '‘머리를’과 ‘물로’라는 단서가 머리를 씻는 행동을 가리켜요.', 'gamda:close': '눈꺼풀을 내린 장면이 아니라 ‘물로 머리를’ 씻은 행동인지 비교해 보아요.', 'insufficient-context': '‘머리를’과 ‘물로’가 남아 있어 머리를 감기인지 살펴볼 수 있어요.' }, audioSrc: '/audio/scenes/gamda-wash-03.mp3', illustrationId: 'crossroads-gamda',
+      wrongChoiceFeedback: { 'gamda:wash': '물로 머리를 씻는 장면이라는 단서가 머리를 씻는 행동을 가리켜요.', 'gamda:close': '눈꺼풀을 내린 장면이 아니라 ‘물로 머리를’ 씻은 행동인지 비교해 보아요.', 'insufficient-context': '물과 머리를 씻는 장면이 남아 있어 머리를 감기인지 살펴볼 수 있어요.' }, audioSrc: '/audio/scenes/gamda-wash-03.mp3', illustrationId: 'crossroads-gamda',
     },
   ],
   necessityChallenge: { id: 'necessity-gamda', wordId: 'gamda', originalSentence: '선물 상자에 리본을 감았습니다.', hiddenTokenText: '리본을', sentenceAfterHide: '선물 상자에 ______ 감았습니다.', expectedClarity: 'still-clear', explanation: '‘선물 상자에’가 남아 무엇인가를 둘러싼 뜻임을 알 수 있어요.' },

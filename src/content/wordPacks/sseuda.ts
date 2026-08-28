@@ -20,7 +20,7 @@ export const sseuda = {
       sentences: [{ id: 'sseuda-wear-02:s1', plainText: '햇빛이 강해서 머리에 모자를 썼습니다.', tokens: [
         { id: 'sseuda-wear-02:t1', text: '햇빛이', role: 'supportive' }, { id: 'sseuda-wear-02:t2', text: '강해서', role: 'neutral' }, { id: 'sseuda-wear-02:t3', text: '머리에', role: 'supportive' }, { id: 'sseuda-wear-02:t4', text: '모자를', role: 'decisive' }, { id: 'sseuda-wear-02:t5', text: '썼습니다.', role: 'target', targetSurface: '썼습니다' },
       ] }], candidateMeaningIds: ['sseuda:wear', 'sseuda:bitter'], expectedDecision: 'sseuda:wear', decisiveCueTokenIds: ['sseuda-wear-02:t4'], supportiveCueTokenIds: ['sseuda-wear-02:t1', 'sseuda-wear-02:t3'],
-      wrongChoiceFeedback: { 'sseuda:wear': '‘모자를’과 ‘머리에’라는 단서가 모자를 쓰는 행동을 가리켜요.', 'sseuda:bitter': '약을 먹은 맛이 아니라 ‘햇빛을 가리려고 머리에 모자를’ 쓴 장면인지 비교해 보아요.', 'insufficient-context': '‘모자를’과 ‘머리에’가 남아 있어 모자를 쓰기인지 살펴볼 수 있어요.' }, audioSrc: '/audio/scenes/sseuda-wear-02.mp3', illustrationId: 'crossroads-sseuda',
+      wrongChoiceFeedback: { 'sseuda:wear': '머리에 모자를 쓴다는 단서가 모자를 쓰는 행동을 가리켜요.', 'sseuda:bitter': '약을 먹은 맛이 아니라 ‘햇빛을 가리려고 머리에 모자를’ 쓴 장면인지 비교해 보아요.', 'insufficient-context': '머리에 모자를 쓴다는 말이 남아 있어 모자를 쓰기인지 살펴볼 수 있어요.' }, audioSrc: '/audio/scenes/sseuda-wear-02.mp3', illustrationId: 'crossroads-sseuda',
     },
     {
       id: 'sseuda-bitter-03', wordId: 'sseuda', order: 3,

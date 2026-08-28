@@ -61,6 +61,23 @@ async function expectRecord(page: Page, routeLabel: string, wordIds: readonly Wo
   await expect(page.getByRole('heading', { name: '탐사 기록' })).toBeVisible()
   await expect(page.locator('.record-route-label')).toContainText(routeLabel)
 
+  await expect(page.getByRole('heading', { name: '내가 배운 것', exact: true })).toBeVisible()
+  await expect(page.getByText('같은 낱말도 문장에 따라 뜻이 달라져요. 주변 낱말을 단서로 살펴보면 더 정확하게 읽을 수 있어요.', { exact: true })).toBeVisible()
+  await expect(page.getByRole('heading', { name: '내가 해낸 것', exact: true })).toBeVisible()
+  await expect(page.getByRole('heading', { name: '다음에 해 볼 것', exact: true })).toBeVisible()
+  await expect(page.getByText('다음에는 새 문장에서 단서를 찾아 뜻을 말해 보세요.', { exact: true })).toBeVisible()
+  const summaryBeforeResponses = await page.evaluate(() => {
+    const takeaway = document.getElementById('record-takeaway-title')
+    const nextStep = document.getElementById('record-next-step-title')
+    const responses = document.getElementById('record-responses-title')
+    return Boolean(
+      takeaway && nextStep && responses
+      && (takeaway.compareDocumentPosition(responses) & Node.DOCUMENT_POSITION_FOLLOWING)
+      && (nextStep.compareDocumentPosition(responses) & Node.DOCUMENT_POSITION_FOLLOWING),
+    )
+  })
+  expect(summaryBeforeResponses).toBe(true)
+
   const words = page.locator('.record-word')
   await expect(words).toHaveCount(wordIds.length)
   await expect(words.locator('h4')).toHaveText(wordIds.map((wordId, index) => `${index + 1}. ${WORD_LABELS[wordId]}`))
@@ -150,11 +167,11 @@ test.describe('mobile meaning feedback recovery', () => {
     await page.getByRole('radio', { name: /보는 눈/ }).check()
     await page.getByRole('button', { name: '선택한 뜻 결정하기', exact: true }).click()
     await expect(page.locator('[data-feedback-announcer]')).toHaveAttribute('role', 'alert')
-    await expect(page.locator('[data-feedback-announcer]')).toContainText('눈으로 보는 행동이 아니라')
+    await expect(page.locator('[data-feedback-announcer]')).toContainText('이 문장에서는 눈이 내려 운동장을 하얗게 만들었어요. ‘보는 눈’이 아니라 ‘내리는 눈’이에요. 주변 단서를 비교해 보세요.')
     const meaningFeedback = page.getByTestId('meaning-feedback')
     await expect(meaningFeedback).toBeVisible()
     await expect(meaningFeedback).toHaveAttribute('aria-hidden', 'true')
-    await expect(meaningFeedback).toContainText('눈으로 보는 행동이 아니라')
+    await expect(meaningFeedback).toContainText('이 문장에서는 눈이 내려 운동장을 하얗게 만들었어요. ‘보는 눈’이 아니라 ‘내리는 눈’이에요. 주변 단서를 비교해 보세요.')
     await expect(meaningFeedback).toBeInViewport()
     const retryMeaning = page.getByRole('button', { name: '다시 뜻 고르기', exact: true })
     await expect(retryMeaning).toBeVisible()
