@@ -112,7 +112,7 @@ describe('ContextSceneScreen', () => {
     expect(screen.getByRole('button', { name: /단서 찾기/ })).toBeVisible()
   })
 
-  it('shows the current sentence, reading-order tokens, and neutral local placeholders only', () => {
+  it('shows the current sentence, reading-order tokens, and a text-only reading notice', () => {
     render(
       <ContextSceneScreen
         wordPack={snowPack}
@@ -142,8 +142,10 @@ describe('ContextSceneScreen', () => {
     expect(screen.getByTestId('neutral-illustration')).toHaveAttribute('data-illustration-id', 'crossroads-nun')
     expect(screen.getByTestId('neutral-illustration')).toHaveAttribute('aria-hidden', 'true')
     expect(screen.getByTestId('local-audio-placeholder').tagName).toBe('P')
-    expect(screen.getByTestId('local-audio-placeholder')).toHaveTextContent('문장 듣기 준비 중')
+    expect(screen.getByTestId('local-audio-placeholder')).toHaveTextContent('소리 없이도 읽어도 괜찮아요. 문장을 천천히 읽어 보세요.')
+    expect(screen.queryByText('문장 듣기 준비 중')).not.toBeInTheDocument()
     expect(screen.getByTestId('local-audio-placeholder')).not.toHaveAttribute('aria-live')
+    expect(document.querySelectorAll('audio')).toHaveLength(0)
     expect(screen.getByText(/외부로 보내지지 않아요/)).toBeInTheDocument()
     expect(document.querySelectorAll('img')).toHaveLength(0)
     for (const element of document.querySelectorAll('[src], [href]')) {

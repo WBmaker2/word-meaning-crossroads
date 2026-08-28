@@ -97,8 +97,8 @@ export function ContextSceneScreen({
           </p>
         ))}
       </div>
-      <p data-testid="local-audio-placeholder">
-        문장 듣기 준비 중
+      <p className="text-only-reading-notice" data-testid="local-audio-placeholder">
+        소리 없이도 읽어도 괜찮아요. 문장을 천천히 읽어 보세요.
       </p>
       <aside className="privacy-notice" aria-label="개인정보 안내">
         이름을 쓰지 마세요. 적은 내용은 이 탭 안에만 머물고 외부로 보내지지 않아요.
