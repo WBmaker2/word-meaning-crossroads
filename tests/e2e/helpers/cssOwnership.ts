@@ -153,6 +153,7 @@ const ALLOWED_PROPERTIES = new Set([
   'overflow-y',
   'opacity',
   'padding',
+  'scroll-margin-block',
   'place-items',
   'text-decoration',
   'text-decoration-thickness',

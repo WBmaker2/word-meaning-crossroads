@@ -256,3 +256,4 @@ Playwright Chromium은 macOS `MachPortRendezvousServer` 권한 오류로 몇 차
 - `MeaningSignpostScreen`은 기존 `scrollIntoView({ block: 'nearest' })` 옵션을 유지하면서 모바일 피드백 행 전체를 scroll ref로 삼고, constrained row의 scroll margin을 적용해 피드백과 재시도 버튼을 함께 보이게 했다.
 - `nun` necessity explanation의 `‘눈으로’와 ‘칠판 글씨를’이 남아`를 `‘눈으로’와 ‘칠판 글씨를’이라는 말이 남아`로 고쳤고, `contentCopy.test.ts`에 exact assertion을 추가했다.
 - 추가 확인: contentCopy·MeaningSignpostScreen Vitest 16 tests passed, focused 200% Chromium student-flow 1 passed, build/lint/diff-check 재확인. Chromium 시작 시 간헐적인 macOS MachPort 권한 오류가 있었으나 재시도 후 통과했다.
+- 후속 style-ownership 게이트에서 새 반응형 선언의 logical shorthand 네 가지가 허용 목록에 없음을 red로 확인했다. 기존 허용 `gap`·`padding` shorthand로 정리하고 실제 필요한 `scroll-margin-block`만 `ALLOWED_PROPERTIES`에 추가했으며, selector ownership strictness는 변경하지 않았다.

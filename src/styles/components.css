@@ -276,15 +276,14 @@ button:disabled {
   .meaning-feedback-row {
     flex-wrap: wrap;
     align-items: stretch;
-    column-gap: 0.75rem;
-    row-gap: 0;
+    gap: 0 0.75rem;
     scroll-margin-block: 4rem;
   }
 
   .meaning-feedback {
     flex-basis: 0;
     min-width: 6ch;
-    padding-block: calc(1rem - 1px);
+    padding: calc(1rem - 1px) 1rem;
   }
 
   .meaning-feedback-row > button {
