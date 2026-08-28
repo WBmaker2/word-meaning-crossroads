@@ -64,10 +64,10 @@ describe('App shell', () => {
     expect(trigger).not.toHaveClass('history-button');
     expect(trigger).not.toHaveAttribute('style');
     expect((await axe(dialog)).violations).toHaveLength(0);
-    expect(within(dialog).getAllByRole('listitem')).toHaveLength(5);
-    expect(within(dialog).getAllByRole('listitem')[0]).toHaveTextContent('2026-08-26');
-    expect(within(dialog).getAllByRole('listitem')[0]).toHaveTextContent('설계');
-    expect(within(dialog).getAllByRole('listitem')[0]).toHaveTextContent('최초 설계 문서 작성');
+    expect(within(dialog).getAllByRole('listitem')).toHaveLength(6);
+    expect(within(dialog).getAllByRole('listitem')[0]).toHaveTextContent('2026-08-28');
+    expect(within(dialog).getAllByRole('listitem')[0]).toHaveTextContent('개선');
+    expect(within(dialog).getAllByRole('listitem')[0]).toHaveTextContent('모바일 겹침을 없애고');
     expect(within(dialog).getByText('2026-08-26')).toBeInTheDocument();
     expect(within(dialog).getByText('설계')).toBeInTheDocument();
     expect(within(dialog).getByText('최초 설계 문서 작성')).toBeInTheDocument();
@@ -76,6 +76,7 @@ describe('App shell', () => {
     expect(within(dialog).getByText(/키보드만으로 학습 흐름/)).toBeInTheDocument();
     expect(within(dialog).getByText(/스크린 리더 의미 구조와 단일 판정 알림/)).toBeInTheDocument();
     expect(within(dialog).getByText(/뜻을 고르기 전 화면의 내부 식별자/)).toBeInTheDocument();
+    expect(within(dialog).getByText(/접근성 범위에서 VoiceOver는 제외/)).toBeInTheDocument();
     expect(within(dialog).queryByText(/개발 완료|구현 완료/)).not.toBeInTheDocument();
     expect(document.querySelector('.app-shell')).toHaveAttribute('inert', '');
 

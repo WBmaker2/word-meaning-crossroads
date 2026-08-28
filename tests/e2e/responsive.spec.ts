@@ -4,6 +4,22 @@ import { FLOW_ANSWERS } from './fixtures/answers'
 
 test.use({ viewport: { width: 375, height: 812 } })
 
+test('loads the neutral favicon without a 404 response', async ({ page }) => {
+  const favicon404s: string[] = []
+  page.on('response', (response) => {
+    if (response.url().endsWith('/favicon.svg') && response.status() === 404) {
+      favicon404s.push(response.url())
+    }
+  })
+
+  await page.goto('./')
+
+  const favicon = page.locator('link[rel="icon"]')
+  await expect(favicon).toHaveCount(1)
+  await expect(favicon).toHaveAttribute('href', /favicon\.svg$/)
+  expect(favicon404s).toEqual([])
+})
+
 export async function expectNoHorizontalOverflow(page: Page): Promise<void> {
   const sizes = await page.evaluate(() => ({
     scroll: document.documentElement.scrollWidth,

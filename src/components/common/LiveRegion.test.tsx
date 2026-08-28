@@ -1,11 +1,19 @@
 import { act, cleanup, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { LiveRegion } from './LiveRegion';
+import { UPDATE_HISTORY } from '../../content/updateHistory';
 
 describe('LiveRegion', () => {
   afterEach(() => {
     cleanup();
     vi.useRealTimers();
+  });
+
+  it('keeps update history newest first without the stale VoiceOver wording', () => {
+    expect(UPDATE_HISTORY[0]?.date).toBe('2026-08-28');
+    const dates = UPDATE_HISTORY.map((entry) => entry.date);
+    expect(dates).toEqual([...dates].sort((left, right) => right.localeCompare(left)));
+    expect(UPDATE_HISTORY.some((entry) => entry.detail.includes('실제 VoiceOver 검수는 별도로 남김'))).toBe(false);
   });
 
   it('renders one visible error announcer', () => {
