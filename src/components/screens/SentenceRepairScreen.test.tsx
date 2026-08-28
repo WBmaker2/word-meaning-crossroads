@@ -215,7 +215,7 @@ describe('SentenceRepairScreen', () => {
     await user.click(screen.getByRole('button', { name: '문장을 분명하게 만들기' }))
 
     expect(screen.getByRole('heading', { name: '문장을 읽고 처음 생각을 적어 보아요' })).toBeInTheDocument()
-    expect(screen.getByText('현재 낱말 2/4')).toBeInTheDocument()
+    expect(screen.getByRole('group', { name: '현재 낱말 2/4 · 장면 1/3' })).toHaveTextContent('현재 낱말 2/4 · 장면 1/3')
     await waitFor(() => expect(screen.getByRole('status')).toHaveTextContent('이제 한 가지 뜻으로 읽을 수 있어요.'))
   })
 })

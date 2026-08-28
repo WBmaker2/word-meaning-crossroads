@@ -326,7 +326,7 @@ describe('App entrance and prediction integration', () => {
     render(<App />)
     await user.click(screen.getByRole('button', { name: '전체 길 8개' }))
     expect(screen.getByTestId('context-sentence')).toHaveTextContent('아침부터 흰 낱말 눈이 내려 운동장이 하얗게 변했습니다.')
-    expect(screen.getByText('현재 낱말 1/8')).toBeInTheDocument()
+    expect(screen.getByRole('group', { name: '현재 낱말 1/8 · 장면 1/3' })).toHaveTextContent('현재 낱말 1/8 · 장면 1/3')
   })
 
   it('keeps exactly one app feedback announcer and shared controls', () => {
