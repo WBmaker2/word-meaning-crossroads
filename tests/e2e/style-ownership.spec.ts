@@ -86,7 +86,7 @@ test('accepts the current component pseudo selectors and function values', () =>
 
 test('keeps layout selectors limited to shell, grid, width, and fixed update names', () => {
   const approvedSelectors = new Set([
-    '.app-shell', '.site-header', '.main-content', '.shared-controls', '.route-list',
+    '.app-shell', '.site-header', '.site-heading', '.main-content', '.shared-controls', '.route-list',
     '.comparison-scene-grid', '.update-history-trigger',
   ])
   expect(selectors(layoutCss).every((selector) => approvedSelectors.has(selector))).toBe(true)

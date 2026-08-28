@@ -151,7 +151,7 @@ test('checks entrance, context, and the single error announcement with axe', asy
   await expectSeriousAndCriticalAxeClean(page, 'entrance')
 
   await startRoute(page, 'core')
-  await expect(page.locator('.progress-header')).toHaveAccessibleName('현재 낱말 1번째, 전체 4개')
+  await expect(page.locator('.progress-header')).toHaveAccessibleName('현재 낱말 1/4 · 장면 1/3')
   await expect(page.locator('.progress-header')).not.toContainText(/%|점수|등급|남은 시간|타이머/)
   const contextHeading = page.getByRole('heading', { level: 2, name: '문장을 읽고 처음 생각을 적어 보아요' })
   await expect(contextHeading).toBeVisible()

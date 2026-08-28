@@ -41,13 +41,18 @@ const OWNED_CLASS_NAMES = new Set([
   'comparison-scene-card',
   'record-word',
   'record-scenes',
+  'record-summary',
+  'clue-decisions-heading',
+  'meaning-feedback-row',
+  'meaning-feedback',
+  'text-only-reading-notice',
   'history-dialog',
   'restart-dialog',
   'update-history-trigger',
 ])
 
 const OWNED_ATTRIBUTE_NAMES = new Set(['data-feedback-announcer'])
-const OWNED_ELEMENT_NAMES = new Set(['button', 'input', 'li', 'span'])
+const OWNED_ELEMENT_NAMES = new Set(['button', 'h3', 'input', 'li', 'p', 'span'])
 
 const ALLOWED_PSEUDO_CLASSES = new Set([
   'active',
