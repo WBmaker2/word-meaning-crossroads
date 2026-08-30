@@ -146,10 +146,20 @@ export default function App(): ReactElement {
         <UpdateHistoryDialog />
       </header>
       <main id="main-content" className="main-content" tabIndex={-1}>
-        <div className="shared-controls" aria-label="읽기 설정">
-          <TextScaleControls value={textScale.textScale} onChange={textScale.setTextScale} />
-          <LineSpacingControls value={lineSpacing.lineSpacing} onChange={lineSpacing.setLineSpacing} />
-        </div>
+        <section
+          className="shared-controls-panel"
+          data-testid="reading-settings"
+          aria-labelledby="reading-settings-title"
+        >
+          <div className="shared-controls-heading">
+            <p id="reading-settings-title">읽기 설정</p>
+            <span>필요할 때만 조절해요</span>
+          </div>
+          <div className="shared-controls" aria-label="읽기 설정">
+            <TextScaleControls value={textScale.textScale} onChange={textScale.setTextScale} />
+            <LineSpacingControls value={lineSpacing.lineSpacing} onChange={lineSpacing.setLineSpacing} />
+          </div>
+        </section>
         <ProgressHeader
           currentWordIndex={state.currentWordIndex + 1}
           totalWords={state.routeWordIds.length}

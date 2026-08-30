@@ -16,6 +16,9 @@ describe('EntranceScreen', () => {
     const { container } = render(<EntranceScreen routes={ROUTES} onStartRoute={onStartRoute} />)
 
     expect(screen.getByRole('heading', { name: '오늘의 학습 목표' })).toBeInTheDocument()
+    expect(screen.getByTestId('entrance-goal')).toContainElement(screen.getByRole('heading', { name: '오늘의 학습 목표' }))
+    expect(screen.getByTestId('entrance-routes')).toContainElement(screen.getByRole('heading', { name: '학습 경로를 골라요' }))
+    expect(screen.getByTestId('entrance-goal').compareDocumentPosition(screen.getByTestId('entrance-routes')) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
     expect(screen.getByText(/같은 모양의 낱말도 문장 속 단서에 따라 뜻이 달라질 수 있어요/)).toBeInTheDocument()
     expect(screen.getByText(/응답은 새로고침하면 사라져요/)).toBeInTheDocument()
     expect(screen.getByText(/이 탭을 닫으면 학습 기록도 남지 않아요/)).toBeInTheDocument()
@@ -33,6 +36,7 @@ describe('EntranceScreen', () => {
         expect(within(card as HTMLElement).getByText(WORD_PACKS.find((pack) => pack.id === wordId)!.lemma)).toBeInTheDocument()
       }
     }
+    expect(screen.getByRole('button', { name: '기본 길 4개' }).closest('[data-route-card]')).toHaveAttribute('data-route-priority', 'recommended')
   })
 
   it('sends the selected route id without changing the other route copy', async () => {
@@ -145,6 +149,9 @@ describe('ContextSceneScreen', () => {
     expect(screen.getByTestId('text-only-reading-notice')).toHaveTextContent('소리 없이도 읽어도 괜찮아요. 문장을 천천히 읽어 보세요.')
     expect(screen.queryByText('문장 듣기 준비 중')).not.toBeInTheDocument()
     expect(screen.getByTestId('text-only-reading-notice')).not.toHaveAttribute('aria-live')
+    const actionZone = screen.getByTestId('context-action-zone')
+    expect(actionZone).toContainElement(screen.getByRole('textbox', { name: /처음에는 어떤 뜻/ }))
+    expect(actionZone).toContainElement(screen.getByRole('button', { name: /단서 찾기/ }))
     expect(document.querySelectorAll('audio')).toHaveLength(0)
     expect(screen.getByText(/외부로 보내지지 않아요/)).toBeInTheDocument()
     expect(document.querySelectorAll('img')).toHaveLength(0)

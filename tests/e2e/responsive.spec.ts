@@ -151,6 +151,7 @@ test('keeps every learner screen usable at 375 by 812', async ({ page }) => {
   await expect(page.getByRole('heading', { name: '오늘의 학습 목표' })).toBeVisible()
   await expectScreenFits(page)
   await expectRouteCardsStacked(page)
+  await expect(page.getByRole('button', { name: '기본 길 4개', exact: true })).toBeInViewport()
   await expectActionClear(page, page.getByRole('button', { name: '기본 길 4개', exact: true }))
 
   await startRoute(page, 'core')

@@ -20,21 +20,29 @@ const WORD_LABELS: Readonly<Record<WordId, string>> = {
 export function EntranceScreen({ routes, onStartRoute }: EntranceScreenProps) {
   return (
     <section className="entrance-card" aria-labelledby="entrance-title">
-      <FocusHeading level={2} focusKey="entrance" id="entrance-title">
-        오늘의 학습 목표
-      </FocusHeading>
-      <p>같은 모양의 낱말도 문장 속 단서에 따라 뜻이 달라질 수 있어요.</p>
-      <p>주변 낱말을 살펴보고, 알맞은 뜻이나 판단하기 어려움을 골라 보아요.</p>
+      <div className="entrance-goal" data-testid="entrance-goal">
+        <FocusHeading level={2} focusKey="entrance" id="entrance-title">
+          오늘의 학습 목표
+        </FocusHeading>
+        <p>같은 모양의 낱말도 문장 속 단서에 따라 뜻이 달라질 수 있어요.</p>
+        <p>주변 낱말을 살펴보고, 알맞은 뜻이나 판단하기 어려움을 골라 보아요.</p>
+      </div>
       <aside className="privacy-notice" aria-label="응답과 개인정보 안내">
         <p>응답은 새로고침하면 사라져요.</p>
         <p>이름을 쓰지 않으며 응답은 외부로 보내지지 않아요.</p>
         <p>이 탭을 닫으면 학습 기록도 남지 않아요.</p>
       </aside>
-      <section aria-labelledby="route-title">
+      <section className="entrance-routes" data-testid="entrance-routes" aria-labelledby="route-title">
         <h3 id="route-title">학습 경로를 골라요</h3>
         <div className="route-list">
-          {routes.map((route) => (
-            <article className="route-card" data-route-card key={route.id}>
+          {routes.map((route, routeIndex) => (
+            <article
+              className={['route-card', routeIndex === 0 ? 'route-card--recommended' : ''].filter(Boolean).join(' ')}
+              data-route-card
+              data-route-priority={routeIndex === 0 ? 'recommended' : undefined}
+              key={route.id}
+            >
+              {routeIndex === 0 ? <span className="route-card-badge">처음이라면 여기부터</span> : null}
               <h4>{route.label}</h4>
               <ul aria-label={`${route.label} 낱말 목록`}>
                 {route.wordIds.map((wordId) => (

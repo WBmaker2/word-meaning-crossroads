@@ -53,6 +53,19 @@ describe('App shell', () => {
     storageSpy.mockRestore();
   });
 
+  it('groups reading settings and keeps the activity progress after that group', () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    const settings = screen.getByTestId('reading-settings');
+    expect(settings).toHaveAttribute('aria-labelledby', 'reading-settings-title');
+    expect(within(settings).getByText('읽기 설정')).toHaveAttribute('id', 'reading-settings-title');
+    return user.click(screen.getByRole('button', { name: '기본 길 4개' })).then(() => {
+      const progress = screen.getByRole('group', { name: '현재 낱말 1/4 · 장면 1/3' });
+      expect(settings.compareDocumentPosition(progress) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    });
+  });
+
   it('opens and closes update history while restoring trigger focus', async () => {
     const user = userEvent.setup();
     render(<App />);
@@ -64,11 +77,12 @@ describe('App shell', () => {
     expect(trigger).not.toHaveClass('history-button');
     expect(trigger).not.toHaveAttribute('style');
     expect((await axe(dialog)).violations).toHaveLength(0);
-    expect(within(dialog).getAllByRole('listitem')).toHaveLength(7);
-    expect(within(dialog).getAllByRole('listitem')[0]).toHaveTextContent('2026-08-28');
-    expect(within(dialog).getAllByRole('listitem')[0]).toHaveTextContent('범위');
-    expect(within(dialog).getAllByRole('listitem')[0]).toHaveTextContent('텍스트 전용 MVP');
-    expect(within(dialog).getAllByRole('listitem')[1]).toHaveTextContent('모바일 겹침을 없애고');
+    expect(within(dialog).getAllByRole('listitem')).toHaveLength(8);
+    expect(within(dialog).getAllByRole('listitem')[0]).toHaveTextContent('2026-08-29');
+    expect(within(dialog).getAllByRole('listitem')[0]).toHaveTextContent('리디자인');
+    expect(within(dialog).getAllByRole('listitem')[0]).toHaveTextContent('입구·활동 카드·기록 화면');
+    expect(within(dialog).getAllByRole('listitem')[1]).toHaveTextContent('2026-08-28');
+    expect(within(dialog).getAllByRole('listitem')[2]).toHaveTextContent('모바일 겹침을 없애고');
     expect(within(dialog).getByText('2026-08-26')).toBeInTheDocument();
     expect(within(dialog).getByText('설계')).toBeInTheDocument();
     expect(within(dialog).getByText('최초 설계 문서 작성')).toBeInTheDocument();
@@ -223,6 +237,8 @@ describe('App shell', () => {
     );
     const progress = screen.getByRole('group', { name: '현재 낱말 1/4 · 장면 2/3' });
     expect(progress).toHaveTextContent('현재 낱말 1/4 · 장면 2/3');
+    expect(progress.querySelector('.progress-header__label')).toHaveTextContent('현재 낱말 1/4 · 장면 2/3');
+    expect(progress.querySelector('.progress-header__rail')).toBeInTheDocument();
     expect(screen.queryByText(/%|점수|등급|남은 시간|타이머/)).not.toBeInTheDocument();
     rerender(
       <ProgressHeader currentWordIndex={0} totalWords={0} currentSceneIndex={0} totalScenes={0} />,

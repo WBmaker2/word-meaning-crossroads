@@ -43,6 +43,9 @@ describe('ExplorationRecordScreen', () => {
     expect(screen.getByText('결정 단서가 없어요')).toBeInTheDocument()
     expect(screen.getByText('판단하기 어려움')).toBeInTheDocument()
     expect(screen.getByText('나는 창밖에 내리는 눈을 보았다.')).toBeInTheDocument()
+    const actions = document.querySelector('.record-actions')!
+    const responses = document.querySelector('.record-responses')!
+    expect(actions.compareDocumentPosition(responses) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
     expect(document.querySelector('img')).not.toBeInTheDocument()
     expect(document.querySelector('script')).not.toBeInTheDocument()
     expect(screen.queryByText(/점수|정답률|등급|순위|소요 시간|학생 이름/)).not.toBeInTheDocument()
