@@ -6,6 +6,11 @@ export interface UpdateHistoryEntry {
 
 export const UPDATE_HISTORY = [
   {
+    date: '2026-08-29',
+    category: '리디자인',
+    detail: '학습 목표와 다음 행동을 더 빨리 찾도록 입구·활동 카드·기록 화면의 읽기 순서와 모바일 여백을 다듬음',
+  },
+  {
     date: '2026-08-28',
     category: '범위',
     detail: '음성 기능을 제외하고 모든 학습 정보를 화면 텍스트로 제공하는 텍스트 전용 MVP로 범위를 정리',

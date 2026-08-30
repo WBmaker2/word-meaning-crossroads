@@ -108,6 +108,12 @@ export function ExplorationRecordScreen({ record, onRestartRoute, onReturnToEntr
         </div>
       </section>
 
+      <div className="record-actions" aria-label="기록 조작">
+        <button ref={restartTriggerRef} type="button" disabled={dialogOpen} onClick={() => setDialogOpen(true)}>다시 하기</button>
+        <button type="button" disabled={dialogOpen} onClick={onReturnToEntrance}>입구로 돌아가기</button>
+        <button type="button" disabled={dialogOpen} onClick={onPrint}>인쇄하기</button>
+      </div>
+
       <section className="record-evidence" aria-labelledby="record-evidence-title">
         <h3 id="record-evidence-title">내가 해낸 것</h3>
         <ul>
@@ -149,12 +155,6 @@ export function ExplorationRecordScreen({ record, onRestartRoute, onReturnToEntr
           </article>
         ))}
       </section>
-
-      <div className="record-actions" aria-label="기록 조작">
-        <button ref={restartTriggerRef} type="button" disabled={dialogOpen} onClick={() => setDialogOpen(true)}>다시 하기</button>
-        <button type="button" disabled={dialogOpen} onClick={onReturnToEntrance}>입구로 돌아가기</button>
-        <button type="button" disabled={dialogOpen} onClick={onPrint}>인쇄하기</button>
-      </div>
 
       <ConfirmRestartDialog
         open={dialogOpen}

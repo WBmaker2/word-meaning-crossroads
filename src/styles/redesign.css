@@ -1,0 +1,166 @@
+.progress-header__label {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.progress-header__rail {
+  display: block;
+  flex: 1 1 4rem;
+  min-width: 2.5rem;
+  height: 0.45rem;
+  overflow: hidden;
+  background: rgb(45 106 102 / 18%);
+  border-radius: 999px;
+}
+
+.progress-header__fill {
+  display: block;
+  height: 100%;
+  background: var(--color-primary);
+  border-radius: inherit;
+}
+
+.entrance-goal h2 {
+  margin-bottom: 0.45rem;
+}
+
+.entrance-goal p {
+  margin-bottom: 0.35rem;
+}
+
+.entrance-goal p:last-child {
+  margin-bottom: 0;
+}
+
+.entrance-routes > h3 {
+  margin-bottom: 0.6rem;
+}
+
+.route-card--recommended h4 {
+  flex: 1 1 8rem;
+  margin-bottom: 0.35rem;
+  overflow-wrap: anywhere;
+}
+
+.route-card--recommended ul,
+.route-card--recommended p,
+.route-card--recommended button {
+  flex-basis: 100%;
+}
+
+.route-card-badge {
+  overflow-wrap: anywhere;
+}
+
+.entrance-card > .privacy-notice {
+  font-size: 0.9em;
+  line-height: 1.45;
+}
+
+.entrance-card > .privacy-notice p {
+  margin-bottom: 0.3rem;
+}
+
+.context-form > * {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.context-form label {
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.context-form #prediction-help,
+.context-form #prediction-count,
+.context-form #prediction-judgement {
+  margin-bottom: 0.15rem;
+}
+
+.context-card > .privacy-notice {
+  margin-top: 0.75rem;
+}
+
+.record-actions {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: var(--soft-primary);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-panel);
+}
+
+.record-actions button:first-child {
+  color: var(--card);
+  background: var(--color-primary);
+}
+
+@media (max-width: 48rem) {
+  .accessibility-control {
+    gap: 0.15rem 0.35rem;
+    padding: 0.25rem 0.4rem;
+  }
+
+  .accessibility-control label {
+    font-size: 0.84em;
+  }
+
+  .context-action-zone {
+    padding: 0.65rem 0.75rem;
+  }
+
+  .route-card--recommended ul {
+    margin-bottom: 0.6rem;
+  }
+}
+
+@media (min-width: 49rem) {
+  .site-header {
+    padding-block: 1.25rem 0.75rem;
+  }
+
+  .main-content {
+    padding-top: 1rem;
+  }
+
+  .shared-controls-panel {
+    margin-bottom: 0.75rem;
+    padding: 0.45rem 0.6rem;
+  }
+
+  .progress-header {
+    margin-bottom: 0.75rem;
+  }
+
+  .neutral-illustration-wrap {
+    margin-block: 0.05rem 0.5rem;
+  }
+
+  .neutral-crossroads-illustration {
+    width: min(100%, 7.5rem);
+  }
+
+  .context-sentence {
+    margin-block: 0.6rem;
+    padding-block: 0.75rem;
+  }
+
+  .context-action-zone {
+    margin-top: 0.6rem;
+    padding: 0.6rem 0.75rem;
+  }
+
+  .context-action-zone .text-only-reading-notice {
+    margin-bottom: 0.5rem;
+    padding-block: 0.5rem;
+  }
+
+  .context-form {
+    line-height: 1.4;
+  }
+
+  .context-form textarea {
+    min-height: 4.5rem;
+    margin-block: 0.25rem;
+  }
+}

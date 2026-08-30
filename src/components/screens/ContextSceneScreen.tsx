@@ -97,34 +97,36 @@ export function ContextSceneScreen({
           </p>
         ))}
       </div>
-      <p className="text-only-reading-notice" data-testid="text-only-reading-notice">
-        소리 없이도 읽어도 괜찮아요. 문장을 천천히 읽어 보세요.
-      </p>
+      <div className="context-action-zone" data-testid="context-action-zone">
+        <p className="text-only-reading-notice" data-testid="text-only-reading-notice">
+          소리 없이도 읽어도 괜찮아요. 문장을 천천히 읽어 보세요.
+        </p>
+        <form className="context-form" onSubmit={handleSubmit}>
+          <label htmlFor="initial-prediction">
+            처음에는 어떤 뜻을 가리키는지 짧게 적어 보아요.
+          </label>
+          <p id="prediction-help">이름은 쓰지 말고, 문장에서 가리키는 뜻만 짧게 적어요.</p>
+          <textarea
+            id="initial-prediction"
+            name="initial-prediction"
+            value={prediction}
+            onChange={(event) => handlePredictionChange(event.target.value)}
+            maxLength={60}
+            aria-describedby="prediction-help prediction-count prediction-judgement"
+            rows={3}
+          />
+          <p id="prediction-count">{prediction.length}/60</p>
+          <p id="prediction-judgement">자동으로 맞고 틀림을 판단하지 않아요</p>
+          <RequiredActionButton
+            label="단서 찾기"
+            disabled={prediction.trim().length === 0}
+            onClick={handleSave}
+          />
+        </form>
+      </div>
       <aside className="privacy-notice" aria-label="개인정보 안내">
         이름을 쓰지 마세요. 적은 내용은 이 탭 안에만 머물고 외부로 보내지지 않아요.
       </aside>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="initial-prediction">
-          처음에는 어떤 뜻을 가리키는지 짧게 적어 보아요.
-        </label>
-        <p id="prediction-help">이름은 쓰지 말고, 문장에서 가리키는 뜻만 짧게 적어요.</p>
-        <textarea
-          id="initial-prediction"
-          name="initial-prediction"
-          value={prediction}
-          onChange={(event) => handlePredictionChange(event.target.value)}
-          maxLength={60}
-          aria-describedby="prediction-help prediction-count prediction-judgement"
-          rows={3}
-        />
-        <p id="prediction-count">{prediction.length}/60</p>
-        <p id="prediction-judgement">자동으로 맞고 틀림을 판단하지 않아요</p>
-        <RequiredActionButton
-          label="단서 찾기"
-          disabled={prediction.trim().length === 0}
-          onClick={handleSave}
-        />
-      </form>
     </section>
   )
 }

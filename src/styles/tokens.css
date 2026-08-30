@@ -25,4 +25,7 @@
   --soft-accent: #FFF0DE;
   --soft-success: #E5F2E9;
   --soft-warning: #FFF1D6;
+  --radius-card: 20px;
+  --radius-panel: 14px;
+  --shadow-card: 0 0.75rem 0 rgb(36 52 71 / 8%);
 }
