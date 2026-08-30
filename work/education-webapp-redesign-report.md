@@ -131,5 +131,6 @@ production preview에서 다음 뷰포트를 확인했습니다.
 2. 작업 브랜치 `codex/education-webapp-redesign`를 원격에 푸시하고 [PR #1](https://github.com/WBmaker2/word-meaning-crossroads/pull/1)을 `main`에 병합했습니다. 병합 커밋은 `1b2edd7`입니다.
 3. [GitHub Pages workflow 33291827271](https://github.com/WBmaker2/word-meaning-crossroads/actions/runs/33291827271)의 build/deploy job이 모두 성공했습니다.
 4. 공개 학습자 경로 [https://wbmaker2.github.io/word-meaning-crossroads/](https://wbmaker2.github.io/word-meaning-crossroads/)가 HTTP 200을 반환했고 제목 `낱말 뜻 갈림길`, 생성 JS/CSS 자산 HTTP 200을 확인했습니다.
+5. 배포 증거를 문서에 반영한 `8bb8113`을 PR #2로 병합했고, [최종 Pages workflow 33291998222](https://github.com/WBmaker2/word-meaning-crossroads/actions/runs/33291998222)도 build/deploy 성공을 확인했습니다.
 
-현재 작업트리는 `main`과 `origin/main`이 `1b2edd7`에서 일치하며 깨끗합니다. 실제 초등학생·교사 사용성 세션과 HVC 등록은 별도 승인 후 진행할 수 있습니다. VoiceOver와 음성 기능은 명시된 텍스트 전용 범위에서 제외합니다.
+현재 작업트리는 `main`과 `origin/main`이 최신 병합 커밋 `6e51f5a`에서 일치하며 깨끗합니다. 실제 초등학생·교사 사용성 세션과 HVC 등록은 별도 승인 후 진행할 수 있습니다. VoiceOver와 음성 기능은 명시된 텍스트 전용 범위에서 제외합니다.
