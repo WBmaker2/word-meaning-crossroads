@@ -3,7 +3,7 @@
 작성일: 2026-08-30
 실행 모드: full
 대상: `/Volumes/ External Drive 256G/Dev2/codex/word-meaning-crossroads`
-현재 상태: 리디자인 구현·자동 검증 완료; 사람 검토·커밋·푸시·배포는 실행하지 않음
+현재 상태: 리디자인 구현·자동 검증·GitHub Pages 배포 완료; 사람 검토와 VoiceOver는 범위 밖
 
 ## 1. 범위와 결론
 
@@ -17,7 +17,7 @@
 - 학생 이름·학번·반·학교·이메일을 받지 않는 개인정보 경계, 저장소·쿠키·외부 요청·원격 폰트·분석 SDK 미사용
 - `gi-pulse`는 필수 학습 CTA인 `단서 찾기`, `뜻 확인`에만 적용하고 reduced-motion에서는 정적 외곽선과 `필수` 배지로 대체
 
-자동 검증 기준은 모두 통과했습니다. 다만 실제 초등학생·교사 사용성 승인, VoiceOver, 커밋·푸시·GitHub Pages 배포·HVC 등록은 이 요청에서 수행하지 않았습니다.
+자동 검증 기준은 모두 통과했습니다. 실제 초등학생·교사 사용성 승인과 VoiceOver는 이 범위에 포함하지 않았고, HVC 등록은 수행하지 않았습니다.
 
 ## 2. 먼저 확인한 규칙과 계획
 
@@ -123,13 +123,13 @@ production preview에서 다음 뷰포트를 확인했습니다.
 - 학생 입력은 기존 메모리 상태에만 머물며 localStorage/sessionStorage/IndexedDB/cookie, 네트워크 요청, 외부 이미지·폰트·분석 SDK가 없습니다.
 - 답을 암시할 수 있는 semantic ID를 새로 만들지 않았고, 기존 텍스트 콘텐츠·평가 경계도 수정하지 않았습니다.
 
-## 8. 남은 단계와 안전한 종료 상태
+## 8. 릴리스 결과와 남은 단계
 
-이번 요청의 구현 범위는 완료되었습니다. 다음 항목은 별도 승인 후 진행할 수 있지만, 현재는 실행하지 않았습니다.
+사용자의 별도 커밋·푸시·배포 승인에 따라 다음 릴리스를 완료했습니다.
 
-1. 실제 초등학생·교사 사용성 세션: 문장 이해, CTA 발견 시간, 오답 회복, 모바일 손가락 조작을 관찰하고 별도 사람 검증 보고서를 작성합니다.
-2. 변경 검토 후 사용자가 원할 때 커밋·푸시합니다.
-3. 사용자가 별도 승인할 때 GitHub Pages workflow와 실제 공개 learner path를 확인하고 배포합니다. 배포 URL과 HTTP·자산·콘솔·경로 결과는 그때 보고합니다.
-4. HVC 등록 또는 카탈로그 동기화는 배포 확인 뒤 별도 요청이 있을 때만 진행합니다.
+1. 리디자인 변경을 `0280589` (`feat: redesign learner experience`)로 커밋했습니다.
+2. 작업 브랜치 `codex/education-webapp-redesign`를 원격에 푸시하고 [PR #1](https://github.com/WBmaker2/word-meaning-crossroads/pull/1)을 `main`에 병합했습니다. 병합 커밋은 `1b2edd7`입니다.
+3. [GitHub Pages workflow 33291827271](https://github.com/WBmaker2/word-meaning-crossroads/actions/runs/33291827271)의 build/deploy job이 모두 성공했습니다.
+4. 공개 학습자 경로 [https://wbmaker2.github.io/word-meaning-crossroads/](https://wbmaker2.github.io/word-meaning-crossroads/)가 HTTP 200을 반환했고 제목 `낱말 뜻 갈림길`, 생성 JS/CSS 자산 HTTP 200을 확인했습니다.
 
-현재 작업트리에는 리디자인 소스·테스트·문서 변경이 커밋되지 않은 상태입니다. 이는 요청 범위를 넘는 외부 변경을 막기 위한 안전한 종료입니다.
+현재 작업트리는 `main`과 `origin/main`이 `1b2edd7`에서 일치하며 깨끗합니다. 실제 초등학생·교사 사용성 세션과 HVC 등록은 별도 승인 후 진행할 수 있습니다. VoiceOver와 음성 기능은 명시된 텍스트 전용 범위에서 제외합니다.
