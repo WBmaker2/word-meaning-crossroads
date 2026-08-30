@@ -133,4 +133,4 @@ production preview에서 다음 뷰포트를 확인했습니다.
 4. 공개 학습자 경로 [https://wbmaker2.github.io/word-meaning-crossroads/](https://wbmaker2.github.io/word-meaning-crossroads/)가 HTTP 200을 반환했고 제목 `낱말 뜻 갈림길`, 생성 JS/CSS 자산 HTTP 200을 확인했습니다.
 5. 배포 증거를 문서에 반영한 `8bb8113`을 PR #2로 병합했고, [최종 Pages workflow 33291998222](https://github.com/WBmaker2/word-meaning-crossroads/actions/runs/33291998222)도 build/deploy 성공을 확인했습니다.
 
-현재 작업트리는 `main`과 `origin/main`이 최신 병합 커밋 `6e51f5a`에서 일치하며 깨끗합니다. 실제 초등학생·교사 사용성 세션과 HVC 등록은 별도 승인 후 진행할 수 있습니다. VoiceOver와 음성 기능은 명시된 텍스트 전용 범위에서 제외합니다.
+현재 작업트리는 최신 릴리스 상태에서 `main`과 `origin/main`이 일치하며 깨끗합니다. 실제 초등학생·교사 사용성 세션과 HVC 등록은 별도 승인 후 진행할 수 있습니다. VoiceOver와 음성 기능은 명시된 텍스트 전용 범위에서 제외합니다.
