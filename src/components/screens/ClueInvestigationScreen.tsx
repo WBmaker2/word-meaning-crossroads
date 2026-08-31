@@ -98,7 +98,7 @@ export function ClueInvestigationScreen({
       <FocusHeading level={2} focusKey={scene.id} focusOnMount id="clue-title">
         문장에서 뜻을 알려 주는 단서를 골라 보아요
       </FocusHeading>
-      <p id="clue-help">목표 낱말을 빼고, 뜻을 결정하는 데 도움이 되는 어절을 최대 두 개 골라요.</p>
+      <p id="clue-help">목표 낱말은 빼고, 뜻을 알려 주는 말을 최대 두 개 골라요.</p>
 
       <div className="clue-sentence" data-testid="clue-sentence" aria-describedby="clue-help clue-count">
         {scene.sentences.map((sentence, sentenceIndex) => (
@@ -175,7 +175,10 @@ const TokenButton = forwardRef<HTMLButtonElement, TokenButtonProps>(function Tok
   return (
     <button
       ref={ref}
-      className={['token-choice', selected ? 'token-choice--selected token-underline' : ''].filter(Boolean).join(' ')}
+      className={[
+        'token-choice',
+        selected ? 'token-choice--selected token-underline' : 'token-choice--available',
+      ].filter(Boolean).join(' ')}
       type="button"
       aria-pressed={selected}
       aria-label={`${token.text}, ${stateLabel}`}

@@ -88,6 +88,9 @@ describe('ComparisonScreen', () => {
   it('shows the exact original challenge before hiding and native radios after hiding', async () => {
     const user = userEvent.setup()
     const pack = renderComparison()
+    const necessitySection = screen.getByRole('region', { name: '필요 단서를 찾아 보아요' })
+    expect(screen.getByText('단서 하나를 가리고도 뜻이 보이는지 살펴봐요.')).toBeVisible()
+    expect(necessitySection).toHaveAccessibleDescription('단서 하나를 가리고도 뜻이 보이는지 살펴봐요.')
     const before = screen.getByTestId('necessity-original-sentence')
     expect(before).toHaveTextContent(pack.necessityChallenge.originalSentence)
     expect(within(before).getByText(pack.necessityChallenge.hiddenTokenText)).toHaveStyle({ textDecoration: 'underline' })

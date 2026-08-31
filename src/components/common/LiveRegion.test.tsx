@@ -10,7 +10,7 @@ describe('LiveRegion', () => {
   });
 
   it('keeps update history newest first without the stale VoiceOver wording', () => {
-    expect(UPDATE_HISTORY[0]?.date).toBe('2026-08-29');
+    expect(UPDATE_HISTORY[0]?.date).toBe('2026-08-31');
     const dates = UPDATE_HISTORY.map((entry) => entry.date);
     expect(dates).toEqual([...dates].sort((left, right) => right.localeCompare(left)));
     expect(UPDATE_HISTORY.some((entry) => entry.detail.includes('실제 VoiceOver 검수는 별도로 남김'))).toBe(false);

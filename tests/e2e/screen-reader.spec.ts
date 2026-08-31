@@ -257,6 +257,7 @@ test('walks the real learner screens and checks names, legends, order, and recor
   })
   const necessitySection = page.getByRole('region', { name: '필요 단서를 찾아 보아요' })
   await expect(necessitySection).toContainText('필요 단서를 찾아 보아요')
+  await expect(necessitySection).toHaveAccessibleDescription('단서 하나를 가리고도 뜻이 보이는지 살펴봐요.')
   await expectSeriousAndCriticalAxeClean(page, 'comparison before hiding cue')
   await page.getByRole('button', { name: '단서 하나 가리기', exact: true }).click()
   await expect(page.getByRole('img', { name: '가린 단서', exact: true })).toHaveAccessibleName('가린 단서')
