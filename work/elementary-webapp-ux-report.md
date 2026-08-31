@@ -2,7 +2,7 @@
 
 작성일: 2026-08-31
 대상: `/Volumes/ External Drive 256G/Dev2/codex/word-meaning-crossroads`
-상태: 구현·자동 검증 완료, 커밋 전
+상태: 구현·자동 검증·커밋·푸시·GitHub Pages 배포 완료
 
 ## 결과 요약
 
@@ -67,11 +67,17 @@
 
 첫 샌드박스 Chromium 실행은 macOS `MachPortRendezvous ... Permission denied`로 시작 전에 종료되었다. Playwright wrapper는 root 소유 npm cache EPERM이 두 차례 확인되어 재호출하지 않았고, 외부 실행 승인된 프로젝트 로컬 `npx playwright`로 최종 34/34를 확인했다.
 
+## 릴리스 증거
+
+- 기능 커밋: `be94aee` — `fix: clarify elementary learner cues`
+- 병합 커밋: `7323301` — PR [#5](https://github.com/WBmaker2/word-meaning-crossroads/pull/5)
+- Pages workflow: [33348994248](https://github.com/WBmaker2/word-meaning-crossroads/actions/runs/33348994248) — build·deploy 모두 성공
+- 공개 주소: [https://wbmaker2.github.io/word-meaning-crossroads/](https://wbmaker2.github.io/word-meaning-crossroads/)
+- 배포 후 공개 브라우저 확인: 제목 `낱말 뜻 갈림길`, 입구의 `기본 길 4개`, 첫 문맥 화면, 375×812 가로 넘침 0, HTTP 실패 응답 0, 콘솔 오류 0
+
 ## 범위 제외와 현재 공개 상태
 
 - VoiceOver 실제 음성 검증, TTS, 음성 재생·녹음은 텍스트 전용 요청에 따라 구현·검증하지 않았다.
 - 실제 학생·교사 대면 검증은 아직 수행하지 않았다.
-- 이번 작업에서는 Git 커밋·푸시·배포·HVC 등록을 실행하지 않았다.
-- 현재 공개되어 있는 기존 release는 [GitHub Pages 학습 화면](https://wbmaker2.github.io/word-meaning-crossroads/)이며, 이번 미커밋 변경은 그 주소에 아직 반영되지 않았다.
-
-별도 승인을 받으면 먼저 검증 로그와 변경 문서만 포함해 `git commit -m "fix: clarify elementary learner cues"`를 만들고, 그 다음에만 push·Pages 배포·공개 learner path 확인을 진행한다.
+- HVC 등록은 실행하지 않았다.
+- 위 공개 주소에 이번 개선 커밋이 반영되었고, 배포 후 learner path 확인까지 완료했다.

@@ -49,4 +49,4 @@
 | 학습 흐름·판정 | 통과 — core·extension·all, 오답 회복, 기록 순서 유지 | student-flow E2E |
 | 안전·텍스트 전용 | 통과 — 기존 저장소·쿠키·외부 요청·audio 부재 유지 | privacy E2E |
 
-전체 Chromium 34/34, Vitest 149/149, lint, build, diff check가 통과했다. 첫 샌드박스 Chromium 실행과 Playwright wrapper의 npm cache EPERM은 환경 제한으로 기록하고 프로젝트 로컬 runner를 사용했다. 실제 초등학생·교사 승인, VoiceOver, 공개 배포 후 확인은 남은 human/release gate다.
+전체 Chromium 34/34, Vitest 149/149, lint, build, diff check가 통과했다. 첫 샌드박스 Chromium 실행과 Playwright wrapper의 npm cache EPERM은 환경 제한으로 기록하고 프로젝트 로컬 runner를 사용했다. 실제 초등학생·교사 승인과 VoiceOver는 남은 human gate이며, 공개 배포 후 확인은 Pages workflow `33348994248`과 공개 브라우저 점검으로 완료했다.
