@@ -46,9 +46,12 @@ describe('ClueInvestigationScreen', () => {
   it('shows the selected clue count and describes the sentence with it', async () => {
     const user = userEvent.setup()
     renderScreen()
+    expect(screen.getByText('목표 낱말은 빼고, 뜻을 알려 주는 말을 최대 두 개 골라요.')).toBeInTheDocument()
     expect(screen.getByText('선택한 단서 0/2개')).toBeInTheDocument()
     expect(screen.getByTestId('clue-sentence')).toHaveAttribute('aria-describedby', 'clue-help clue-count')
-    await user.click(screen.getAllByRole('button', { name: /선택 안 됨/ })[0])
+    const firstChoice = screen.getAllByRole('button', { name: /선택 안 됨/ })[0]!
+    expect(firstChoice).toHaveClass('token-choice--available')
+    await user.click(firstChoice)
     expect(screen.getByText('선택한 단서 1/2개')).toBeInTheDocument()
   })
 

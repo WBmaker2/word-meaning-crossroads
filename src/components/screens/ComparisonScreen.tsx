@@ -213,8 +213,9 @@ export function ComparisonScreen({ wordPack, completedScenes, challenge, onConfi
         })}
       </div>
 
-      <section className="necessity-challenge" aria-labelledby="necessity-title">
+      <section className="necessity-challenge" aria-labelledby="necessity-title" aria-describedby="necessity-help">
         <h3 id="necessity-title">필요 단서를 찾아 보아요</h3>
+        <p id="necessity-help">단서 하나를 가리고도 뜻이 보이는지 살펴봐요.</p>
         {!isHidden ? (
           <>
             <p data-testid="necessity-original-sentence">

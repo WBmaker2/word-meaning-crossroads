@@ -161,7 +161,10 @@ test('keeps every learner screen usable at 375 by 812', async ({ page }) => {
 
   await page.getByRole('textbox', { name: /처음에는 어떤 뜻/ }).fill(FLOW_ANSWERS.scenes['nun-snow-01'].prediction)
   await page.getByRole('button', { name: /단서 찾기/ }).click()
-  await expect(page.getByRole('heading', { name: '문장에서 뜻을 알려 주는 단서를 골라 보아요' })).toBeVisible()
+  const clueHeading = page.getByRole('heading', { name: '문장에서 뜻을 알려 주는 단서를 골라 보아요' })
+  await expect(clueHeading).toBeVisible()
+  await expect(clueHeading).toHaveCSS('word-break', 'keep-all')
+  await expect(page.getByRole('button', { name: '흰, 선택 안 됨', exact: true })).toHaveCSS('text-decoration-style', 'dotted')
   await expectScreenFits(page)
   await expectTouchTargets(page)
   await expectActionClear(page, page.getByRole('button', { name: /뜻 확인/ }))

@@ -282,6 +282,16 @@ button:disabled {
   font-weight: 600;
 }
 
+.token-choice--available {
+  text-decoration: underline dotted;
+  text-decoration-thickness: 0.1em;
+  text-underline-offset: 0.2em;
+}
+
+.token-choice--selected {
+  text-decoration-style: solid;
+}
+
 .token-choice:hover:not(:disabled),
 .token-choice:focus-visible:not(:disabled) {
   color: var(--color-ink);

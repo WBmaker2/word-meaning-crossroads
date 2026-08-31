@@ -6,6 +6,11 @@ export interface UpdateHistoryEntry {
 
 export const UPDATE_HISTORY = [
   {
+    date: '2026-08-31',
+    category: '개선',
+    detail: '초등 학습자가 단서로 고를 말을 더 쉽게 찾고, 단서 가리기 활동의 목적을 먼저 이해하도록 안내 문구와 읽기 표시를 다듬음',
+  },
+  {
     date: '2026-08-29',
     category: '리디자인',
     detail: '학습 목표와 다음 행동을 더 빨리 찾도록 입구·활동 카드·기록 화면의 읽기 순서와 모바일 여백을 다듬음',

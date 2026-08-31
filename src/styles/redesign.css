@@ -67,6 +67,32 @@
   max-width: 100%;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+legend,
+label,
+button,
+.meaning-choice-copy,
+.sentence-repair-choice-copy {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+.meaning-choice-group,
+.sentence-repair-choice-group,
+.meaning-choice-card,
+.sentence-repair-choice-card {
+  min-width: 0;
+}
+
+.meaning-choice-copy > *,
+.sentence-repair-choice-copy > * {
+  min-width: 0;
+}
+
 .context-form label {
   font-weight: 800;
   overflow-wrap: anywhere;
