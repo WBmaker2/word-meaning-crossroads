@@ -3,7 +3,7 @@
 작성일: 2026-08-31
 대상: `/Volumes/ External Drive 256G/Dev2/codex/word-meaning-crossroads`
 실행 모드: `full`
-현재 단계: 구현·검증 완료(커밋 전)
+현재 단계: 구현·검증·커밋·푸시·배포 완료
 
 ## Goal
 
@@ -184,15 +184,15 @@ App shell
 - **예상 결과:** focused 테스트는 새 문구·class·description을 통과하고, 전체 Vitest·lint·build·Chromium E2E·diff check가 성공한다. `src`와 `tests`의 구현 파일에 500줄 이상이 없다. VoiceOver는 실행하지 않는다.
 - **시각 확인:** 375×812와 1280×900에서 제목 단어가 음절 중간에서 끊기지 않고, 단서 선택 말의 점선 밑줄·선택 체크·주요 CTA가 보인다. 200% 글자·`넓게`·reduced motion에서도 overflow·겹침이 없다.
 
-### Step 6 — 보고서와 향후 커밋 단계
+### Step 6 — 보고서와 릴리스 증거
 
 - **Files:** `work/elementary-webapp-ux-audit.md`, `work/elementary-webapp-ux-language-audit.md`, `work/elementary-webapp-ux-simulation-decision.md`, `work/elementary-webapp-ux-report.md`
-- **작업:** 초기 관찰과 구현 후 결과를 분리해 기록한다. 실제 초등학생·교사 승인, VoiceOver, 커밋·푸시·배포는 실행하지 않은 상태로 남긴다.
-- **향후 승인 후 커밋 단계:**
-  1. `git diff --check`와 전체 검증 로그를 확인한다.
-  2. 변경 소스·테스트·감사 문서만 포함해 `git add`한다.
-  3. `git commit -m "fix: clarify elementary learner cues"`로 한 변경 단위를 커밋한다.
-  4. 별도 사용자 승인 뒤에만 원격 push와 GitHub Pages 배포를 진행하고, 공개 URL·workflow·실제 학습자 경로를 확인한다.
+- **작업:** 초기 관찰과 구현 후 결과를 분리해 기록하고, 실제 초등학생·교사 승인과 VoiceOver는 실행하지 않은 범위로 남긴다. 커밋·푸시·Pages 배포와 공개 learner path 확인은 승인 후 완료했다.
+- **완료된 릴리스 단계:**
+  1. `git diff --check`와 전체 검증 로그를 확인했다.
+  2. 변경 소스·테스트·감사 문서만 포함해 `be94aee`를 커밋했다.
+  3. 작업 브랜치를 원격에 푸시하고 PR [#5](https://github.com/WBmaker2/word-meaning-crossroads/pull/5)를 `main`에 병합해 `7323301`을 만들었다.
+  4. Pages workflow [33348994248](https://github.com/WBmaker2/word-meaning-crossroads/actions/runs/33348994248)의 build·deploy 성공과 공개 learner path를 확인했다.
 
 ## Acceptance matrix
 
@@ -217,4 +217,4 @@ App shell
 - GREEN에서 `ClueInvestigationScreen`, `ComparisonScreen`, `components.css`, `redesign.css`, CSS 소유권 테스트를 최소 변경했다.
 - 2026-08-31 `UPDATE_HISTORY`에 실제 개선 날짜와 내역을 추가하고 최신 날짜·목록 개수 회귀를 갱신했다.
 - 전체 Vitest 149/149, lint, build, Chromium E2E 34/34, `git diff --check`를 통과했다.
-- VoiceOver·음성 구현/검증·커밋·푸시·배포·HVC 등록은 실행하지 않았다.
+- VoiceOver·음성 구현/검증·HVC 등록은 실행하지 않았다. 커밋·푸시·Pages 배포는 `be94aee` → `7323301`과 workflow `33348994248`로 완료했다.

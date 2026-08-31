@@ -47,4 +47,4 @@
 - `#clue-help`가 `목표 낱말은 빼고, 뜻을 알려 주는 말을 최대 두 개 골라요.`로 표시된다.
 - `#necessity-help`가 단서 가리기 전 목적을 설명하고, 해당 section의 accessible description으로 연결된다.
 - component test 37/37, 전체 Vitest 149/149, screen-reader DOM/axe·student-flow·responsive E2E가 통과했다.
-- 실제 초등학생·교사 대면 검수, VoiceOver, 공개 배포 후 확인은 수행하지 않았다.
+- 실제 초등학생·교사 대면 검수와 VoiceOver는 수행하지 않았다. 공개 배포 후 확인은 Pages workflow `33348994248` 및 공개 브라우저 점검으로 완료했다.
